@@ -1,1259 +1,450 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Unicorn Hire — Master Strategy for Principal UX Architect & Full-Stack Product Leader</title>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Bebas+Neue&family=Manrope:wght@300;400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-:root {
-  --bg: #08090C;
-  --bg-card: #0F1117;
-  --bg-card-hover: #161922;
-  --bg-elevated: #1A1D27;
-  --bg-glass: rgba(15,17,23,0.85);
-  --border: #1E2230;
-  --border-accent: #2D3348;
-  --border-gold: rgba(212,175,55,0.25);
-  --text: #F0F0F2;
-  --text-secondary: #A0A5B8;
-  --text-muted: #5C6178;
-  --gold: #D4AF37;
-  --gold-soft: rgba(212,175,55,0.10);
-  --gold-glow: rgba(212,175,55,0.06);
-  --copper: #C87941;
-  --copper-soft: rgba(200,121,65,0.10);
-  --ice: #7EB8DA;
-  --ice-soft: rgba(126,184,218,0.08);
-  --emerald: #50C878;
-  --emerald-soft: rgba(80,200,120,0.08);
-  --violet: #9B72CF;
-  --violet-soft: rgba(155,114,207,0.08);
-  --rose: #E8707E;
-  --rose-soft: rgba(232,112,126,0.08);
-  --slate: #7C8BA1;
-  --white-smoke: #E8E8EC;
-  --radius: 14px;
-  --radius-sm: 8px;
-  --radius-xs: 5px;
-  --shadow-deep: 0 12px 48px rgba(0,0,0,0.5);
-  --shadow-card: 0 4px 24px rgba(0,0,0,0.3);
-  --font-display: 'Bebas Neue', sans-serif;
-  --font-serif: 'Instrument Serif', serif;
-  --font-body: 'Manrope', sans-serif;
-  --font-mono: 'DM Mono', monospace;
-}
-
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-html { scroll-behavior: smooth; }
-
-body {
-  font-family: var(--font-body);
-  background: var(--bg);
-  color: var(--text);
-  line-height: 1.75;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
-}
-
-::selection { background: var(--gold); color: var(--bg); }
-::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: var(--border-accent); border-radius: 10px; }
-
-/* ========== SIDEBAR ========== */
-.sidebar {
-  position: fixed; top: 0; left: 0; width: 290px; height: 100vh;
-  background: var(--bg-card); border-right: 1px solid var(--border);
-  z-index: 100; overflow-y: auto; transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
-  display: flex; flex-direction: column;
-}
-.sidebar-brand {
-  padding: 28px 24px 20px; border-bottom: 1px solid var(--border);
-  flex-shrink: 0;
-}
-.sidebar-brand .brand-icon {
-  width: 40px; height: 40px; border-radius: 10px;
-  background: linear-gradient(135deg, var(--gold), var(--copper));
-  display: flex; align-items: center; justify-content: center;
-  font-size: 20px; margin-bottom: 12px;
-}
-.sidebar-brand h2 {
-  font-family: var(--font-display); font-size: 22px; letter-spacing: 2px;
-  color: var(--gold); line-height: 1.1;
-}
-.sidebar-brand p {
-  font-size: 10.5px; color: var(--text-muted); text-transform: uppercase;
-  letter-spacing: 2.5px; margin-top: 4px; font-weight: 600;
-}
-.nav-group { padding: 16px 14px 8px; }
-.nav-group-label {
-  font-size: 9.5px; font-weight: 700; text-transform: uppercase;
-  letter-spacing: 2.5px; color: var(--text-muted); padding: 0 10px 8px;
-}
-.nav-link {
-  display: flex; align-items: center; gap: 10px; padding: 9px 12px;
-  border-radius: var(--radius-sm); color: var(--text-secondary);
-  font-size: 13px; font-weight: 500; text-decoration: none;
-  transition: all 0.2s ease; cursor: pointer;
-}
-.nav-link:hover { background: var(--bg-elevated); color: var(--text); }
-.nav-link.active { background: var(--gold-soft); color: var(--gold); }
-.nav-link .nav-num {
-  font-family: var(--font-mono); font-size: 10px; color: var(--text-muted);
-  min-width: 22px; flex-shrink: 0;
-}
-.nav-link .nav-ico { font-size: 15px; width: 20px; text-align: center; flex-shrink: 0; }
-
-.mobile-menu {
-  display: none; position: fixed; top: 14px; left: 14px; z-index: 200;
-  background: var(--bg-card); border: 1px solid var(--border);
-  border-radius: var(--radius-sm); padding: 10px 13px;
-  color: var(--text); font-size: 18px; cursor: pointer; line-height: 1;
-}
-
-/* ========== MAIN ========== */
-.main { margin-left: 290px; min-height: 100vh; }
-
-/* ========== HERO ========== */
-.hero {
-  position: relative; padding: 120px 64px 90px; overflow: hidden;
-  background: linear-gradient(165deg, #08090C 0%, #111526 35%, #1A1230 55%, #12100E 80%, #08090C 100%);
-}
-.hero::before {
-  content: ''; position: absolute; top: -150px; right: -100px;
-  width: 700px; height: 700px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(212,175,55,0.06) 0%, transparent 65%);
-  pointer-events: none;
-}
-.hero::after {
-  content: ''; position: absolute; bottom: -200px; left: -150px;
-  width: 500px; height: 500px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(126,184,218,0.04) 0%, transparent 65%);
-  pointer-events: none;
-}
-.hero-inner { position: relative; z-index: 1; max-width: 860px; }
-.hero-eyebrow {
-  display: inline-flex; align-items: center; gap: 8px;
-  background: var(--gold-soft); border: 1px solid var(--border-gold);
-  border-radius: 100px; padding: 6px 18px; font-size: 11px;
-  color: var(--gold); font-weight: 700; text-transform: uppercase;
-  letter-spacing: 2px; margin-bottom: 28px;
-  animation: fadeDown 0.8s ease both;
-}
-@keyframes fadeDown { from { opacity:0; transform:translateY(-12px); } to { opacity:1; transform:translateY(0); } }
-
-.hero h1 {
-  font-family: var(--font-serif); font-size: 56px; font-weight: 400;
-  line-height: 1.12; letter-spacing: -0.5px; margin-bottom: 24px;
-  animation: fadeUp 0.8s 0.15s ease both;
-}
-.hero h1 em { font-style: italic; color: var(--gold); }
-.hero .hero-sub {
-  font-size: 17px; color: var(--text-secondary); max-width: 660px;
-  line-height: 1.85; animation: fadeUp 0.8s 0.3s ease both;
-}
-@keyframes fadeUp { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:translateY(0); } }
-
-.hero-stats-bar {
-  display: flex; gap: 48px; margin-top: 44px; padding-top: 32px;
-  border-top: 1px solid var(--border); animation: fadeUp 0.8s 0.45s ease both;
-}
-.hero-stat .s-val {
-  font-family: var(--font-display); font-size: 40px; color: var(--gold);
-  letter-spacing: 1px; line-height: 1;
-}
-.hero-stat .s-lbl {
-  font-size: 12px; color: var(--text-muted); margin-top: 4px;
-  text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600;
-}
-
-/* ========== SECTIONS ========== */
-.sect {
-  padding: 72px 64px; border-bottom: 1px solid var(--border);
-}
-.sect-head {
-  display: flex; align-items: center; gap: 16px; margin-bottom: 12px;
-}
-.sect-num {
-  font-family: var(--font-mono); font-size: 11px; color: var(--gold);
-  background: var(--gold-soft); padding: 4px 14px; border-radius: 100px;
-  font-weight: 500; letter-spacing: 0.5px;
-}
-.sect h2 {
-  font-family: var(--font-serif); font-size: 36px; font-weight: 400;
-  letter-spacing: -0.3px;
-}
-.sect .sect-intro {
-  font-size: 15.5px; color: var(--text-secondary); max-width: 740px;
-  line-height: 1.85; margin-bottom: 36px;
-}
-.sect h3 {
-  font-family: var(--font-body); font-size: 18px; font-weight: 700;
-  margin: 36px 0 16px; color: var(--text);
-  padding-bottom: 8px; border-bottom: 1px solid var(--border);
-}
-.sect h4 {
-  font-size: 13px; font-weight: 700; color: var(--gold);
-  text-transform: uppercase; letter-spacing: 1.5px; margin: 28px 0 12px;
-}
-.sect p, .sect li { font-size: 14.5px; color: var(--text-secondary); line-height: 1.85; }
-.sect ul { list-style: none; padding: 0; }
-.sect ul li { padding: 5px 0 5px 22px; position: relative; }
-.sect ul li::before {
-  content: ''; position: absolute; left: 6px; top: 14px;
-  width: 5px; height: 5px; border-radius: 50%; background: var(--gold);
-}
-.sect ol { padding-left: 20px; }
-.sect ol li { padding: 4px 0; }
-.sect ol li::marker { color: var(--gold); font-weight: 700; }
-
-/* ========== CEO QUOTE ========== */
-.ceo-quote {
-  background: var(--bg-card); border: 1px solid var(--border);
-  border-left: 3px solid var(--gold); border-radius: var(--radius);
-  padding: 24px 28px; margin: 20px 0; position: relative;
-}
-.ceo-quote::before {
-  content: '"'; position: absolute; top: 8px; left: 16px;
-  font-family: var(--font-serif); font-size: 48px; color: var(--gold);
-  opacity: 0.2; line-height: 1;
-}
-.ceo-quote p {
-  font-family: var(--font-serif); font-size: 16px; font-style: italic;
-  color: var(--text); line-height: 1.7; padding-left: 20px;
-}
-.ceo-quote .ceo-attr {
-  font-family: var(--font-body); font-size: 12px; font-style: normal;
-  color: var(--text-muted); margin-top: 10px; padding-left: 20px;
-  text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600;
-}
-
-/* ========== CARDS ========== */
-.grid { display: grid; gap: 18px; margin: 20px 0; }
-.grid-2 { grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); }
-.grid-3 { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
-.grid-4 { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
-
-.card {
-  background: var(--bg-card); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 24px; transition: all 0.25s ease;
-}
-.card:hover {
-  border-color: var(--border-accent); transform: translateY(-3px);
-  box-shadow: var(--shadow-card);
-}
-.card-ico { font-size: 28px; margin-bottom: 12px; display: block; }
-.card-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
-.card-sub { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 10px; }
-.card-body { font-size: 13.5px; color: var(--text-secondary); line-height: 1.75; }
-
-/* ========== TABLES ========== */
-.tbl-wrap {
-  overflow-x: auto; margin: 18px 0; border-radius: var(--radius);
-  border: 1px solid var(--border);
-}
-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-thead th {
-  background: var(--bg-elevated); color: var(--text); font-weight: 700;
-  text-align: left; padding: 13px 16px; border-bottom: 2px solid var(--border);
-  font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; white-space: nowrap;
-}
-tbody td {
-  padding: 11px 16px; border-bottom: 1px solid var(--border);
-  color: var(--text-secondary); vertical-align: top;
-}
-tbody tr:hover { background: var(--bg-card-hover); }
-tbody td:first-child { font-weight: 600; color: var(--text); }
-
-.tag {
-  display: inline-block; padding: 2px 10px; border-radius: 100px;
-  font-size: 11px; font-weight: 700; white-space: nowrap;
-}
-.tag-gold { background: var(--gold-soft); color: var(--gold); }
-.tag-ice { background: var(--ice-soft); color: var(--ice); }
-.tag-emerald { background: var(--emerald-soft); color: var(--emerald); }
-.tag-violet { background: var(--violet-soft); color: var(--violet); }
-.tag-rose { background: var(--rose-soft); color: var(--rose); }
-.tag-copper { background: var(--copper-soft); color: var(--copper); }
-
-/* ========== EXPANDABLE PANELS ========== */
-.panel {
-  background: var(--bg-card); border: 1px solid var(--border);
-  border-radius: var(--radius); overflow: hidden; margin: 16px 0;
-}
-.panel-head {
-  padding: 20px 24px; display: flex; align-items: center; gap: 14px;
-  cursor: pointer; user-select: none; transition: background 0.2s ease;
-}
-.panel-head:hover { background: var(--bg-card-hover); }
-.panel-head .p-ico { font-size: 28px; }
-.panel-head .p-info { flex: 1; }
-.panel-head .p-info h3 {
-  font-size: 17px; font-weight: 700; color: var(--text);
-  margin: 0; padding: 0; border: 0;
-}
-.panel-head .p-info .p-sub { font-size: 12.5px; color: var(--text-muted); margin-top: 2px; }
-.panel-toggle {
-  width: 30px; height: 30px; border-radius: 50%; background: var(--bg-elevated);
-  display: flex; align-items: center; justify-content: center;
-  color: var(--text-muted); font-size: 14px; transition: all 0.3s ease; flex-shrink: 0;
-}
-.panel.open .panel-toggle { transform: rotate(180deg); color: var(--gold); }
-.panel-body { max-height: 0; overflow: hidden; transition: max-height 0.5s cubic-bezier(0.4,0,0.2,1); }
-.panel.open .panel-body { max-height: 12000px; }
-.panel-inner { padding: 0 24px 24px; border-top: 1px solid var(--border); }
-
-/* ========== TIMELINE ========== */
-.timeline { position: relative; padding: 20px 0; }
-.timeline::before {
-  content: ''; position: absolute; left: 18px; top: 0; bottom: 0;
-  width: 2px; background: linear-gradient(to bottom, var(--gold), var(--ice), var(--emerald), var(--violet), var(--rose));
-}
-.tl-item { position: relative; padding: 0 0 28px 54px; }
-.tl-dot {
-  position: absolute; left: 10px; top: 4px; width: 18px; height: 18px;
-  border-radius: 50%; border: 3px solid var(--bg); z-index: 1;
-}
-.tl-item h4 {
-  font-family: var(--font-body); font-size: 15px; font-weight: 700;
-  color: var(--text); margin: 0 0 3px; text-transform: none; letter-spacing: 0;
-}
-.tl-item .tl-meta {
-  font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); margin-bottom: 6px;
-}
-.tl-item p { font-size: 13.5px; color: var(--text-secondary); line-height: 1.75; }
-
-/* ========== SCORE CARD ========== */
-.score-row {
-  display: flex; align-items: center; gap: 16px; padding: 12px 0;
-  border-bottom: 1px solid var(--border);
-}
-.score-label { flex: 1; font-size: 14px; font-weight: 600; color: var(--text); }
-.score-bar-outer {
-  width: 200px; height: 8px; background: var(--bg-elevated);
-  border-radius: 10px; overflow: hidden; flex-shrink: 0;
-}
-.score-bar-inner { height: 100%; border-radius: 10px; transition: width 0.8s ease; }
-.score-val { font-family: var(--font-mono); font-size: 13px; color: var(--gold); min-width: 40px; text-align: right; }
-
-/* ========== PILL CLUSTERS ========== */
-.pills { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
-.pill {
-  padding: 5px 14px; border-radius: 100px; font-size: 12px; font-weight: 600;
-  border: 1px solid var(--border); color: var(--text-secondary);
-  background: var(--bg-card); transition: all 0.2s ease;
-}
-.pill:hover { border-color: var(--gold); color: var(--gold); }
-
-/* ========== PHASE-BADGE ========== */
-.phase-badge {
-  display: inline-flex; align-items: center; gap: 6px;
-  padding: 4px 14px; border-radius: 100px; font-size: 11px;
-  font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
-}
-
-/* ========== METRIC CARDS ========== */
-.metric-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 14px; margin: 20px 0; }
-.metric {
-  background: var(--bg-card); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 20px; text-align: center;
-  transition: all 0.2s ease;
-}
-.metric:hover { border-color: var(--gold); transform: translateY(-2px); }
-.metric .m-val { font-family: var(--font-display); font-size: 38px; line-height: 1; }
-.metric .m-lbl { font-size: 12px; color: var(--text-muted); margin-top: 6px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
-
-/* ========== FOOTER ========== */
-.footer {
-  padding: 48px 64px; text-align: center; border-top: 1px solid var(--border);
-  color: var(--text-muted); font-size: 12.5px;
-}
-.footer .f-brand {
-  font-family: var(--font-display); font-size: 18px; color: var(--gold);
-  letter-spacing: 3px; margin-bottom: 6px;
-}
-
-/* ========== RESPONSIVE ========== */
-@media (max-width: 1024px) {
-  .sidebar { transform: translateX(-100%); }
-  .sidebar.open { transform: translateX(0); }
-  .mobile-menu { display: block; }
-  .main { margin-left: 0; }
-  .hero { padding: 90px 28px 70px; }
-  .hero h1 { font-size: 38px; }
-  .hero-stats-bar { flex-wrap: wrap; gap: 28px; }
-  .sect { padding: 48px 28px; }
-  .sect h2 { font-size: 28px; }
-  .grid-2, .grid-3 { grid-template-columns: 1fr; }
-  .score-bar-outer { width: 120px; }
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="The Principal UX Architect & Full-Stack Product Leader Career Operating System. Assess readiness, generate roadmaps, calibrate resumes, simulate interviews, and access executive mentorship.">
+  <title>The Principal UX Architect Master Blueprint — Career Operating System</title>
+  
+  <!-- Premium Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@300;400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+  <!-- Visual Stylesheet -->
+  <link rel="stylesheet" href="index.css">
 </head>
 <body>
 
-<button class="mobile-menu" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰</button>
+  <!-- Skip to main content for screen readers -->
+  <a href="#main-content-panel" class="btn" style="position:absolute; top:-100px; left:16px; z-index:10000; transition:top 0.2s;" onfocus="this.style.top='16px'" onblur="this.style.top='-100px'">Skip to main content</a>
 
-<!-- ========== SIDEBAR ========== -->
-<nav class="sidebar">
-  <div class="sidebar-brand">
-    <div class="brand-icon">👑</div>
-    <h2>THE UNICORN HIRE</h2>
-    <p>Master Strategy Playbook</p>
-  </div>
-  <div class="nav-group">
-    <div class="nav-group-label">Foundation</div>
-    <a class="nav-link active" href="#hero"><span class="nav-ico">🏛️</span> Home</a>
-    <a class="nav-link" href="#ceo-panel"><span class="nav-num">01</span> The CEO Panel</a>
-    <a class="nav-link" href="#why-this-role"><span class="nav-num">02</span> Why This Role Exists</a>
-  </div>
-  <div class="nav-group">
-    <div class="nav-group-label">The Role</div>
-    <a class="nav-link" href="#job-description"><span class="nav-num">03</span> Job Description</a>
-    <a class="nav-link" href="#skillset"><span class="nav-num">04</span> Skillset Architecture</a>
-    <a class="nav-link" href="#competency"><span class="nav-num">05</span> Competency Framework</a>
-  </div>
-  <div class="nav-group">
-    <div class="nav-group-label">The Candidate</div>
-    <a class="nav-link" href="#resume"><span class="nav-num">06</span> Resume Blueprint</a>
-    <a class="nav-link" href="#portfolio"><span class="nav-num">07</span> Portfolio Strategy</a>
-    <a class="nav-link" href="#differentiation"><span class="nav-num">08</span> What Makes Them Special</a>
-  </div>
-  <div class="nav-group">
-    <div class="nav-group-label">The Interview</div>
-    <a class="nav-link" href="#interview-process"><span class="nav-num">09</span> Interview Process</a>
-    <a class="nav-link" href="#interview-rounds"><span class="nav-num">10</span> Round-by-Round Guide</a>
-    <a class="nav-link" href="#crack-strategy"><span class="nav-num">11</span> Cracking Strategy</a>
-  </div>
-  <div class="nav-group">
-    <div class="nav-group-label">Mastery</div>
-    <a class="nav-link" href="#scoring"><span class="nav-num">12</span> Scoring Rubric</a>
-    <a class="nav-link" href="#anti-patterns"><span class="nav-num">13</span> Anti-Patterns</a>
-    <a class="nav-link" href="#30-60-90"><span class="nav-num">14</span> 30-60-90 Day Plan</a>
-    <a class="nav-link" href="#salary"><span class="nav-num">15</span> Compensation Intel</a>
-  </div>
-</nav>
-
-<!-- ========== MAIN ========== -->
-<div class="main">
-
-<!-- ===== HERO ===== -->
-<header class="hero" id="hero">
-  <div class="hero-inner">
-    <div class="hero-eyebrow">👑 CEO Council Master Strategy</div>
-    <h1>The <em>Unicorn Hire</em> — Principal UX Architect &amp; Full-Stack Product Leader</h1>
-    <p class="hero-sub">An end-to-end master playbook from the perspective of a panel of the world's top CEOs — defining the job description, required skillset, ideal resume, complete interview process, and the precise strategy to become the one-in-a-million candidate who gets hired.</p>
-    <div class="hero-stats-bar">
-      <div class="hero-stat"><div class="s-val">15</div><div class="s-lbl">Sections</div></div>
-      <div class="hero-stat"><div class="s-val">8</div><div class="s-lbl">Interview Rounds</div></div>
-      <div class="hero-stat"><div class="s-val">6</div><div class="s-lbl">Competency Pillars</div></div>
-      <div class="hero-stat"><div class="s-val">1</div><div class="s-lbl">Unicorn Hired</div></div>
-    </div>
-  </div>
-</header>
-
-<!-- ===== 01: CEO PANEL ===== -->
-<section class="sect" id="ceo-panel">
-  <div class="sect-head"><span class="sect-num">01</span><h2>The CEO Hiring Panel</h2></div>
-  <p class="sect-intro">This entire playbook is written from the collective mindset of the world's most discerning technology leaders — the kind of panel that would convene to hire a once-in-a-generation product-design-engineering leader.</p>
-
-  <div class="ceo-quote">
-    <p>We're not hiring a designer who codes, or a PM who sketches. We're hiring someone who thinks in systems, ships with craft, and leads with evidence. This person is the bridge between the boardroom and the build.</p>
-    <div class="ceo-attr">— The CEO Panel's Collective Mandate</div>
-  </div>
-
-  <h3>What the Panel Represents</h3>
-  <div class="grid grid-3">
-    <div class="card">
-      <span class="card-ico">🔵</span>
-      <div class="card-title">The Product Visionary</div>
-      <div class="card-sub">Google / Alphabet Mindset</div>
-      <div class="card-body">Data-driven product strategy. Scale-first thinking. AI-native workflows. OKRs as religion. The candidate must think in billions of users.</div>
-    </div>
-    <div class="card">
-      <span class="card-ico">⚪</span>
-      <div class="card-title">The Craft Perfectionist</div>
-      <div class="card-sub">Apple Mindset</div>
-      <div class="card-body">Pixel-perfect obsession. Hardware-software harmony. Emotional design. The candidate must make people feel something with every interaction.</div>
-    </div>
-    <div class="card">
-      <span class="card-ico">🟢</span>
-      <div class="card-title">The Platform Architect</div>
-      <div class="card-sub">Microsoft Mindset</div>
-      <div class="card-body">Enterprise-scale engineering. Developer experience. Cloud-native architecture. The candidate must build systems that serve millions of concurrent users.</div>
-    </div>
-    <div class="card">
-      <span class="card-ico">🟡</span>
-      <div class="card-title">The AI Futurist</div>
-      <div class="card-sub">NVIDIA / Anthropic Mindset</div>
-      <div class="card-body">AI as accelerator, humans as decision-makers. Spatial computing. Agentic workflows. The candidate must design for the AI-augmented future.</div>
-    </div>
-    <div class="card">
-      <span class="card-ico">🔴</span>
-      <div class="card-title">The Customer Obsessive</div>
-      <div class="card-sub">Salesforce / Amazon Mindset</div>
-      <div class="card-body">Customer-first everything. Metrics-driven empathy. Platform thinking. The candidate must translate user pain into product strategy.</div>
-    </div>
-    <div class="card">
-      <span class="card-ico">🟣</span>
-      <div class="card-title">The Transformation Leader</div>
-      <div class="card-sub">Enterprise / Healthcare Mindset</div>
-      <div class="card-body">Regulated industry mastery. WCAG/HIPAA compliance. Change management. The candidate must navigate complexity with grace.</div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== 02: WHY THIS ROLE EXISTS ===== -->
-<section class="sect" id="why-this-role">
-  <div class="sect-head"><span class="sect-num">02</span><h2>Why This Role Exists Now</h2></div>
-  <p class="sect-intro">The convergence of AI, design systems, and product-led growth has created a vacuum for a new kind of leader — one who can operate across the full product stack with architectural authority.</p>
-
-  <div class="grid grid-2">
-    <div class="card" style="border-left: 3px solid var(--gold);">
-      <div class="card-title">The Convergence Problem</div>
-      <div class="card-body">Traditional orgs silo Product Management, UX Design, and Engineering into separate kingdoms. This creates handoff friction, misaligned incentives, and slow iteration. Companies lose 40-60% of their cycle time to cross-functional translation.</div>
-    </div>
-    <div class="card" style="border-left: 3px solid var(--ice);">
-      <div class="card-title">The AI Disruption</div>
-      <div class="card-body">AI tools have made the boundaries between design and development porous. A leader who can leverage Claude, Figma AI, and code generation while maintaining strategic vision is exponentially more valuable than three siloed specialists.</div>
-    </div>
-    <div class="card" style="border-left: 3px solid var(--emerald);">
-      <div class="card-title">The Talent Scarcity</div>
-      <div class="card-body">Less than 0.1% of product professionals can credibly operate across PM, UX Research, UX/UI Design, Design Systems, and Front-End Development. This makes the role both extremely rare and extremely valuable.</div>
-    </div>
-    <div class="card" style="border-left: 3px solid var(--violet);">
-      <div class="card-title">The Business Case</div>
-      <div class="card-body">One full-stack product leader replaces the coordination cost of 3-4 functional leads, accelerates decision-making by 3x, reduces rework by 50%, and shortens time-to-market by 30-40%.</div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== 03: JOB DESCRIPTION ===== -->
-<section class="sect" id="job-description">
-  <div class="sect-head"><span class="sect-num">03</span><h2>The Job Description</h2></div>
-  <p class="sect-intro">This isn't a standard JD. This is what the CEO panel would write when they need the single most impactful product-design hire their company will ever make.</p>
-
-  <div class="ceo-quote">
-    <p>This role reports directly to the CPO or VP Product. It carries the authority to make design decisions that ship, product decisions that stick, and technical decisions that scale. There is no higher individual contributor design role in this company.</p>
-    <div class="ceo-attr">— Hiring Panel Directive</div>
-  </div>
-
-  <h3>Title & Positioning</h3>
-  <div class="tbl-wrap"><table>
-    <thead><tr><th>Attribute</th><th>Detail</th></tr></thead>
-    <tbody>
-      <tr><td>Title</td><td>Principal UX Architect & Full-Stack Product Design Leader</td></tr>
-      <tr><td>Alternate Titles</td><td>Associate Director, UX / Principal Product Designer / Staff Design Architect</td></tr>
-      <tr><td>Level</td><td>L7–L8 (IC) or M2 (People Leader) equivalent — Google/Meta calibrated</td></tr>
-      <tr><td>Reports To</td><td>VP Product Experience / Chief Product Officer / SVP Engineering</td></tr>
-      <tr><td>Direct Reports</td><td>4–8 (UX Designers, UI Designers, UX Researchers, Front-End Developers)</td></tr>
-      <tr><td>Scope</td><td>Multiple product lines, enterprise-grade platforms, 10M+ users</td></tr>
-      <tr><td>Location</td><td>Hybrid — Major tech hub or strategic global center</td></tr>
-      <tr><td>Compensation</td><td>$250K–$450K+ total comp (US) / ₹80L–₹1.5Cr+ (India, top-tier)</td></tr>
-    </tbody>
-  </table></div>
-
-  <h3>Mission Statement</h3>
-  <p>Lead the end-to-end product experience across multiple product lines — from discovery through production — by unifying product strategy, user experience architecture, visual systems, design operations, and front-end technical execution under a single point of accountability. Serve as the architectural authority for all user-facing decisions.</p>
-
-  <h3>Core Responsibilities</h3>
-
-  <h4>1. Product & UX Strategy (30%)</h4>
-  <ul>
-    <li>Define and own the UX vision and multi-year experience roadmap aligned to business OKRs</li>
-    <li>Partner with CPO/VP Product on product strategy, market opportunity assessment, and competitive differentiation</li>
-    <li>Lead discovery sprints: customer interviews, JTBD analysis, competitive UX audits, opportunity mapping</li>
-    <li>Translate business requirements into user-centered product specifications with measurable success criteria</li>
-    <li>Drive product metrics: NPS, SUS, task success rate, conversion funnels, engagement, and retention</li>
-    <li>Present experience strategy to C-suite, board members, and external stakeholders</li>
-  </ul>
-
-  <h4>2. Experience Architecture & Design (30%)</h4>
-  <ul>
-    <li>Architect information systems, navigation patterns, and interaction models for complex enterprise platforms</li>
-    <li>Lead design from concept sketches through high-fidelity prototypes to production-ready specifications</li>
-    <li>Own the design system: component architecture, design tokens, documentation, governance, and evolution</li>
-    <li>Ensure WCAG 2.2 AA compliance across all product surfaces with accessibility-first design practices</li>
-    <li>Define micro-interaction patterns, animation choreography, and responsive behavior specifications</li>
-    <li>Lead design reviews, critique sessions, and quality assurance for all design deliverables</li>
-  </ul>
-
-  <h4>3. Front-End Technical Leadership (20%)</h4>
-  <ul>
-    <li>Architect component libraries in React/Next.js with TypeScript, ensuring design-system-to-code fidelity</li>
-    <li>Define front-end architecture patterns: state management, routing, API integration, performance budgets</li>
-    <li>Code review front-end PRs for accessibility (ARIA), performance (Core Web Vitals), and design accuracy</li>
-    <li>Bridge design-to-development handoff with executable specifications and interactive documentation</li>
-    <li>Leverage AI tools (Claude Code, Figma Make, GitHub Copilot) to accelerate design-to-production pipeline</li>
-    <li>Own front-end quality: cross-browser testing, responsive validation, visual regression automation</li>
-  </ul>
-
-  <h4>4. Team Leadership & Design Operations (20%)</h4>
-  <ul>
-    <li>Lead and mentor a team of 4–8 designers, researchers, and front-end developers</li>
-    <li>Define hiring standards, interview processes, and career growth frameworks for the design org</li>
-    <li>Establish DesignOps: tooling standards, file organization, component governance, sprint rituals</li>
-    <li>Drive cross-functional collaboration with PM, Engineering, QA, Research, and Data Science</li>
-    <li>Build the culture of evidence-based design through research integration and metric tracking</li>
-    <li>Evangelize design excellence through internal talks, documentation, and organizational influence</li>
-  </ul>
-
-  <h3>Required Qualifications</h3>
-  <div class="tbl-wrap"><table>
-    <thead><tr><th>Category</th><th>Requirement</th></tr></thead>
-    <tbody>
-      <tr><td>Experience</td><td>12–18+ years in product design/UX, with 5+ years at principal/staff/director level</td></tr>
-      <tr><td>Education</td><td>Bachelor's or Master's in Design, HCI, CS, or related field; executive education in PM, AI/ML, or Digital Transformation preferred</td></tr>
-      <tr><td>Portfolio</td><td>End-to-end case studies showing 0→1 products AND large-scale optimization, including measurable business impact</td></tr>
-      <tr><td>Design Systems</td><td>Built or significantly evolved at least one enterprise-scale design system (1000+ components)</td></tr>
-      <tr><td>Front-End</td><td>Production-level React/TypeScript; can architect and code-review component libraries</td></tr>
-      <tr><td>Research</td><td>Can plan and execute usability studies, heuristic evaluations, and analytics-driven optimization</td></tr>
-      <tr><td>Accessibility</td><td>Deep WCAG 2.2 AA knowledge; led accessibility compliance programs</td></tr>
-      <tr><td>AI Fluency</td><td>Active user of AI design/dev tools; understands AI product design patterns (prompts, guardrails, feedback loops)</td></tr>
-      <tr><td>Domain</td><td>Enterprise SaaS, Healthcare, FinTech, or similarly complex regulated environments preferred</td></tr>
-      <tr><td>Leadership</td><td>Managed teams of 4+; mentored senior-level designers; influenced org-wide standards</td></tr>
-    </tbody>
-  </table></div>
-
-  <h3>Preferred (Differentiators)</h3>
-  <div class="pills">
-    <span class="pill">Product Management certification (Pragmatic, CSPO)</span>
-    <span class="pill">Published thought leadership</span>
-    <span class="pill">Conference speaker (Config, WWDC, An Event Apart)</span>
-    <span class="pill">Open-source design system contributor</span>
-    <span class="pill">Spatial computing / XR design</span>
-    <span class="pill">Healthcare / HIPAA experience</span>
-    <span class="pill">Multi-platform (Web, iOS, Android, Wearable)</span>
-    <span class="pill">Motion design proficiency</span>
-    <span class="pill">Data visualization expertise</span>
-    <span class="pill">Fluent in multiple AI tools (Claude, Figma AI, Copilot)</span>
-  </div>
-</section>
-
-<!-- ===== 04: SKILLSET ARCHITECTURE ===== -->
-<section class="sect" id="skillset">
-  <div class="sect-head"><span class="sect-num">04</span><h2>Skillset Architecture — The Six Pillars</h2></div>
-  <p class="sect-intro">The CEO panel evaluates candidates across six non-negotiable skill pillars. Mastery across all six is what separates a unicorn from a strong generalist.</p>
-
-  <div class="panel" id="pillar-1">
-    <div class="panel-head" onclick="this.parentElement.classList.toggle('open')">
-      <span class="p-ico">🧭</span>
-      <div class="p-info"><h3>Pillar 1: Product Strategy & Business Acumen</h3><div class="p-sub">Think like a CEO, prioritize like a PM, measure like a data scientist</div></div>
-      <div class="panel-toggle">▼</div>
-    </div>
-    <div class="panel-body"><div class="panel-inner">
-      <h4>Core Skills</h4>
-      <ul>
-        <li>Product vision and multi-year roadmap definition</li>
-        <li>OKR/KPI framework design and tracking</li>
-        <li>Market analysis, competitive intelligence, TAM/SAM/SOM sizing</li>
-        <li>RICE/ICE/WSJF prioritization frameworks</li>
-        <li>Business case development and stakeholder communication</li>
-        <li>Go-to-market strategy and launch orchestration</li>
-        <li>Unit economics: LTV, CAC, churn modeling, revenue impact estimation</li>
-      </ul>
-      <h4>Evidence of Mastery</h4>
-      <ul>
-        <li>Can present a product strategy to a board that results in funding</li>
-        <li>Has owned P&L or revenue metrics and moved them measurably</li>
-        <li>PRDs they write are the gold standard — engineers and designers fight to work on their features</li>
-      </ul>
-    </div></div>
-  </div>
-
-  <div class="panel" id="pillar-2">
-    <div class="panel-head" onclick="this.parentElement.classList.toggle('open')">
-      <span class="p-ico">🔬</span>
-      <div class="p-info"><h3>Pillar 2: UX Research & Evidence-Based Design</h3><div class="p-sub">Every design decision backed by evidence, never assumption</div></div>
-      <div class="panel-toggle">▼</div>
-    </div>
-    <div class="panel-body"><div class="panel-inner">
-      <h4>Core Skills</h4>
-      <ul>
-        <li>Qualitative research: contextual inquiry, interviews, diary studies, usability testing</li>
-        <li>Quantitative research: A/B testing, survey design, funnel analysis, SUS/CSAT/NPS scoring</li>
-        <li>Synthesis methods: affinity mapping, personas, journey maps, mental models, JTBD frameworks</li>
-        <li>Heuristic evaluation using Nielsen's heuristics, cognitive walkthroughs</li>
-        <li>Research operations: participant recruitment, repository management, insight democratization</li>
-        <li>Analytics platforms: Amplitude, Mixpanel, FullStory, Hotjar</li>
-      </ul>
-      <h4>Evidence of Mastery</h4>
-      <ul>
-        <li>Can design a research plan that uncovers the real problem, not the stated problem</li>
-        <li>Has a track record of research findings that changed product direction</li>
-        <li>Builds research culture — others start doing research because of this person's influence</li>
-      </ul>
-    </div></div>
-  </div>
-
-  <div class="panel" id="pillar-3">
-    <div class="panel-head" onclick="this.parentElement.classList.toggle('open')">
-      <span class="p-ico">✏️</span>
-      <div class="p-info"><h3>Pillar 3: UX & Interaction Design</h3><div class="p-sub">Information architecture to pixel-perfect prototypes</div></div>
-      <div class="panel-toggle">▼</div>
-    </div>
-    <div class="panel-body"><div class="panel-inner">
-      <h4>Core Skills</h4>
-      <ul>
-        <li>Information architecture: site maps, taxonomies, navigation models for complex systems</li>
-        <li>User flow and task flow design with edge cases, error states, and empty states</li>
-        <li>Wireframing from low-fidelity sketches to high-fidelity interactive prototypes</li>
-        <li>Micro-interaction design: transitions, animations, feedback patterns, gesture navigation</li>
-        <li>Multi-platform design: responsive web, iOS HIG, Android Material, wearables, spatial/XR</li>
-        <li>WCAG 2.2 AA accessibility: color contrast, keyboard navigation, screen reader, ARIA patterns</li>
-        <li>Tools mastery: Figma (advanced components, variables, auto-layout, prototyping), ProtoPie, Framer</li>
-      </ul>
-    </div></div>
-  </div>
-
-  <div class="panel" id="pillar-4">
-    <div class="panel-head" onclick="this.parentElement.classList.toggle('open')">
-      <span class="p-ico">🎨</span>
-      <div class="p-info"><h3>Pillar 4: Visual Design & Design Systems</h3><div class="p-sub">The visual grammar that makes products desirable, not just usable</div></div>
-      <div class="panel-toggle">▼</div>
-    </div>
-    <div class="panel-body"><div class="panel-inner">
-      <h4>Core Skills</h4>
-      <ul>
-        <li>Design system architecture: atomic design, tokens (color, spacing, type, elevation), multi-theme</li>
-        <li>Typography systems: type scales, variable fonts, responsive type, font pairing, readability</li>
-        <li>Color systems: semantic color, dynamic theming, dark/light mode, high-contrast accessibility</li>
-        <li>Motion design: easing curves, meaningful transitions, choreography, reduced-motion support</li>
-        <li>Iconography, illustration systems, data visualization design</li>
-        <li>Brand-to-product translation: applying brand guidelines to product UI at scale</li>
-        <li>Tools: Figma libraries, Storybook, ZeroHeight, After Effects, Lottie/Rive</li>
-      </ul>
-    </div></div>
-  </div>
-
-  <div class="panel" id="pillar-5">
-    <div class="panel-head" onclick="this.parentElement.classList.toggle('open')">
-      <span class="p-ico">💻</span>
-      <div class="p-info"><h3>Pillar 5: Front-End Engineering & Technical Fluency</h3><div class="p-sub">Can architect, code, review, and ship production front-end</div></div>
-      <div class="panel-toggle">▼</div>
-    </div>
-    <div class="panel-body"><div class="panel-inner">
-      <h4>Core Skills</h4>
-      <ul>
-        <li>React / Next.js component architecture with TypeScript</li>
-        <li>HTML5 semantic structure, CSS3/SCSS/Tailwind, CSS Grid/Flexbox mastery</li>
-        <li>Component library development: Storybook, Radix, shadcn/ui integration</li>
-        <li>State management patterns: Context API, Zustand, Redux Toolkit</li>
-        <li>Performance optimization: Core Web Vitals, code splitting, lazy loading, image optimization</li>
-        <li>Accessibility implementation: ARIA roles, keyboard handlers, screen reader testing</li>
-        <li>API integration: REST/GraphQL consumption, error handling, loading states</li>
-        <li>Testing: Jest, Playwright, visual regression (Chromatic), Storybook interaction tests</li>
-        <li>CI/CD awareness: GitHub Actions, automated linting, deployment pipelines</li>
-        <li>AI-augmented development: Claude Code, GitHub Copilot, Figma Make workflows</li>
-      </ul>
-    </div></div>
-  </div>
-
-  <div class="panel" id="pillar-6">
-    <div class="panel-head" onclick="this.parentElement.classList.toggle('open')">
-      <span class="p-ico">👥</span>
-      <div class="p-info"><h3>Pillar 6: Leadership, Influence & Communication</h3><div class="p-sub">Lead without authority, influence with evidence, communicate with clarity</div></div>
-      <div class="panel-toggle">▼</div>
-    </div>
-    <div class="panel-body"><div class="panel-inner">
-      <h4>Core Skills</h4>
-      <ul>
-        <li>Team leadership: hiring, mentoring, performance management, career development</li>
-        <li>Cross-functional collaboration: PM, Engineering, QA, Research, Data Science, Marketing</li>
-        <li>Executive communication: C-suite presentations, board materials, stakeholder alignment</li>
-        <li>Design evangelism: internal talks, design culture building, organizational design maturity</li>
-        <li>Change management: ADKAR, Kotter's 8-Step for design transformation programs</li>
-        <li>Conflict resolution: navigating design-engineering tension, scope negotiation, priority alignment</li>
-        <li>Thought leadership: conference speaking, publications, industry community contribution</li>
-      </ul>
-    </div></div>
-  </div>
-</section>
-
-<!-- ===== 05: COMPETENCY FRAMEWORK ===== -->
-<section class="sect" id="competency">
-  <div class="sect-head"><span class="sect-num">05</span><h2>Competency Scoring Framework</h2></div>
-  <p class="sect-intro">The panel scores candidates on a 1–5 scale across each pillar. A score of 4+ on all six pillars is the unicorn threshold. Most candidates peak at 4+ on two or three.</p>
-
-  <div class="tbl-wrap"><table>
-    <thead><tr><th>Score</th><th>Level</th><th>Description</th></tr></thead>
-    <tbody>
-      <tr><td>5</td><td><span class="tag tag-gold">World-Class</span></td><td>Industry-recognized authority. Could keynote a major conference on this pillar alone. Others learn from this person.</td></tr>
-      <tr><td>4</td><td><span class="tag tag-emerald">Expert</span></td><td>Operates independently at the highest level. Teaches others. Has shipped world-class work in this domain.</td></tr>
-      <tr><td>3</td><td><span class="tag tag-ice">Proficient</span></td><td>Strong practitioner. Can execute independently and lead others. Solid portfolio evidence.</td></tr>
-      <tr><td>2</td><td><span class="tag tag-violet">Developing</span></td><td>Has functional knowledge. Can contribute but not lead. Needs guidance for complex work.</td></tr>
-      <tr><td>1</td><td><span class="tag tag-rose">Awareness</span></td><td>Conceptual understanding only. Cannot execute at a professional level.</td></tr>
-    </tbody>
-  </table></div>
-
-  <h3>The Unicorn Profile (Minimum to Hire)</h3>
-  <div style="margin-top: 16px;">
-    <div class="score-row"><div class="score-label">Product Strategy & Business</div><div class="score-bar-outer"><div class="score-bar-inner" style="width:80%; background: linear-gradient(90deg, var(--gold), var(--copper));"></div></div><div class="score-val">4/5</div></div>
-    <div class="score-row"><div class="score-label">UX Research & Evidence</div><div class="score-bar-outer"><div class="score-bar-inner" style="width:80%; background: linear-gradient(90deg, var(--ice), var(--violet));"></div></div><div class="score-val">4/5</div></div>
-    <div class="score-row"><div class="score-label">UX & Interaction Design</div><div class="score-bar-outer"><div class="score-bar-inner" style="width:100%; background: linear-gradient(90deg, var(--emerald), var(--ice));"></div></div><div class="score-val">5/5</div></div>
-    <div class="score-row"><div class="score-label">Visual Design & Systems</div><div class="score-bar-outer"><div class="score-bar-inner" style="width:80%; background: linear-gradient(90deg, var(--violet), var(--rose));"></div></div><div class="score-val">4/5</div></div>
-    <div class="score-row"><div class="score-label">Front-End Engineering</div><div class="score-bar-outer"><div class="score-bar-inner" style="width:80%; background: linear-gradient(90deg, var(--emerald), var(--gold));"></div></div><div class="score-val">4/5</div></div>
-    <div class="score-row"><div class="score-label">Leadership & Influence</div><div class="score-bar-outer"><div class="score-bar-inner" style="width:80%; background: linear-gradient(90deg, var(--copper), var(--rose));"></div></div><div class="score-val">4/5</div></div>
-  </div>
-  <p style="margin-top: 16px; font-size: 13px; color: var(--text-muted);"><strong>Total Score Required:</strong> 25/30 minimum (average 4.17/5 across all pillars). Less than 4 on any single pillar is a no-hire signal.</p>
-</section>
-
-<!-- ===== 06: RESUME BLUEPRINT ===== -->
-<section class="sect" id="resume">
-  <div class="sect-head"><span class="sect-num">06</span><h2>The Ideal Resume Blueprint</h2></div>
-  <p class="sect-intro">What makes a resume stand out to this CEO panel isn't length — it's density of proof. Every line must demonstrate impact, not activity.</p>
-
-  <h3>Resume Architecture (2 Pages Max)</h3>
-
-  <h4>Section 1: Identity Header</h4>
-  <div class="card" style="border-left: 3px solid var(--gold); margin: 12px 0;">
-    <div class="card-body">
-      <strong>Name</strong> — Principal UX Architect & Full-Stack Product Design Leader<br>
-      <strong>Tagline:</strong> "Where product strategy meets design craft meets production code — I build the bridge."<br>
-      <strong>Contact:</strong> Email · LinkedIn · Portfolio URL · GitHub<br>
-      <strong>Location:</strong> City, Country · Open to [Remote/Hybrid/Relocation]
-    </div>
-  </div>
-
-  <h4>Section 2: "What Makes Me Different" (3–4 Bullets)</h4>
-  <p>This is the most critical section. It's the CEO's 10-second scan. Each bullet must be a proof point, not a claim.</p>
-  <ul>
-    <li><strong>Full-Stack Product Design:</strong> One of the rare professionals who spans product strategy, UX research, interaction design, visual systems, and production React — eliminating handoff friction and compressing cycle times by 40%</li>
-    <li><strong>Enterprise Healthcare @ Scale:</strong> Led design for [X] million-user platform, achieving [Y]% improvement in [metric] while maintaining WCAG 2.2 AA and HIPAA compliance</li>
-    <li><strong>Design System Architect:</strong> Built enterprise design system with [X]+ components, [Y] design tokens, adopted by [Z] product teams, reducing UI inconsistency by [N]%</li>
-    <li><strong>AI-Augmented Workflow Pioneer:</strong> Actively shipping with Claude AI, Figma Make, and AI-driven prototyping — demonstrating 3x productivity in design-to-code pipeline</li>
-  </ul>
-
-  <h4>Section 3: Experience (Reverse Chronological — 3 Most Recent Roles)</h4>
-  <p>Each role follows the ARCH framework: <strong>A</strong>ction → <strong>R</strong>esult → <strong>C</strong>ontext → <strong>H</strong>ow (methodology)</p>
-  <div class="card" style="margin: 12px 0;">
-    <div class="card-sub">Example Entry Format</div>
-    <div class="card-body">
-      <strong>Principal UX Designer</strong> — Company Name (Year–Present)<br>
-      <em>Scope: Enterprise healthcare platform, 5M+ users, team of X direct reports</em><br><br>
-      • Architected end-to-end patient scheduling redesign, reducing task completion time by 47% and support tickets by 32% (measured via Amplitude + UserTesting studies)<br>
-      • Built design system with 200+ components and token architecture; adoption across 4 product teams reduced design-to-dev handoff time by 60%<br>
-      • Led WCAG 2.2 AA compliance program across all product surfaces — passed third-party audit with zero critical findings<br>
-      • Introduced AI-augmented design workflow (Claude + Figma Make), compressing prototype-to-production cycle from 3 weeks to 4 days
-    </div>
-  </div>
-
-  <h4>Section 4: Skills Matrix (Visual Grid)</h4>
-  <div class="pills">
-    <span class="pill">Product Strategy</span><span class="pill">UX Research</span><span class="pill">Interaction Design</span>
-    <span class="pill">Design Systems</span><span class="pill">Visual Design</span><span class="pill">React / Next.js</span>
-    <span class="pill">TypeScript</span><span class="pill">WCAG 2.2 AA</span><span class="pill">Figma (Advanced)</span>
-    <span class="pill">Claude AI / Copilot</span><span class="pill">Healthcare / HIPAA</span><span class="pill">Agile / OKRs</span>
-  </div>
-
-  <h4>Section 5: Certifications & Education</h4>
-  <ul>
-    <li>Executive PG in AI/ML, Digital Transformation, Growth PM — [University]</li>
-    <li>CUA (Certified Usability Analyst) — HFI</li>
-    <li>IxDF Certifications (3) — Interaction Design Foundation</li>
-    <li>Design Thinking — IIT [Institution]</li>
-    <li>Bachelor's/Master's in [relevant field]</li>
-  </ul>
-
-  <h4>Section 6: Publications & Thought Leadership</h4>
-  <ul>
-    <li>Published books, articles, or conference talks</li>
-    <li>Open-source contributions or public design system documentation</li>
-    <li>Active content on LinkedIn/Medium demonstrating expertise</li>
-  </ul>
-</section>
-
-<!-- ===== 07: PORTFOLIO STRATEGY ===== -->
-<section class="sect" id="portfolio">
-  <div class="sect-head"><span class="sect-num">07</span><h2>Portfolio Strategy — The Proof</h2></div>
-  <p class="sect-intro">The portfolio is the interview before the interview. For this role, it must demonstrate breadth across all six pillars AND depth in at least three.</p>
-
-  <h3>Portfolio Architecture (7 Projects)</h3>
-  <div class="tbl-wrap"><table>
-    <thead><tr><th>#</th><th>Project Type</th><th>What It Proves</th><th>Pillar Coverage</th></tr></thead>
-    <tbody>
-      <tr><td>1</td><td>Enterprise Platform Redesign (Flagship)</td><td>End-to-end UX leadership at scale: research → design → metrics</td><td><span class="tag tag-gold">All 6 Pillars</span></td></tr>
-      <tr><td>2</td><td>Design System Case Study</td><td>Architectural thinking, token systems, governance, adoption metrics</td><td><span class="tag tag-violet">Pillars 3, 4, 5</span></td></tr>
-      <tr><td>3</td><td>0→1 Product Launch</td><td>Discovery, definition, MVP design, launch, iteration</td><td><span class="tag tag-ice">Pillars 1, 2, 3</span></td></tr>
-      <tr><td>4</td><td>Data-Driven Optimization</td><td>A/B testing, funnel optimization, metric-moving redesigns</td><td><span class="tag tag-emerald">Pillars 1, 2</span></td></tr>
-      <tr><td>5</td><td>Accessibility Compliance Program</td><td>WCAG leadership, audit process, remediation, culture change</td><td><span class="tag tag-rose">Pillars 3, 4, 6</span></td></tr>
-      <tr><td>6</td><td>Front-End / Code-Driven Project</td><td>Production code, component library, design-to-code bridge</td><td><span class="tag tag-copper">Pillar 5</span></td></tr>
-      <tr><td>7</td><td>AI-Augmented Workflow Showcase</td><td>How AI tools are integrated into the design-dev process</td><td><span class="tag tag-gold">Future Vision</span></td></tr>
-    </tbody>
-  </table></div>
-
-  <h3>Case Study Framework — IMPACT Method</h3>
-  <p>Each case study follows this structure:</p>
-  <ul>
-    <li><strong>I</strong> — Intent: What was the business problem and user need?</li>
-    <li><strong>M</strong> — Method: What research methods, design processes, and tools were used?</li>
-    <li><strong>P</strong> — Process: Show the journey from messy to polished (include failed iterations)</li>
-    <li><strong>A</strong> — Architecture: IA, flows, systems thinking, design system decisions</li>
-    <li><strong>C</strong> — Craft: High-fidelity screens, interactions, visual details, responsive states</li>
-    <li><strong>T</strong> — Transformation: Measurable outcomes (metrics before/after, business impact, user satisfaction)</li>
-  </ul>
-</section>
-
-<!-- ===== 08: DIFFERENTIATION ===== -->
-<section class="sect" id="differentiation">
-  <div class="sect-head"><span class="sect-num">08</span><h2>What Makes This Candidate One-in-a-Million</h2></div>
-  <p class="sect-intro">The CEO panel has seen 10,000 resumes. Here are the 12 signals that make them stop scrolling.</p>
-
-  <div class="grid grid-2">
-    <div class="card"><span class="card-ico">🧬</span><div class="card-title">1. True Full-Stack Proof</div><div class="card-body">Not "I understand code" — actual production React/TypeScript components in their GitHub. Not "I do PM" — actual PRDs that shipped. The proof is in the artifacts.</div></div>
-    <div class="card"><span class="card-ico">📊</span><div class="card-title">2. Metrics in Every Sentence</div><div class="card-body">Every resume bullet has a number. 47% faster. 32% fewer tickets. $2.3M revenue impact. The candidate speaks the language of business outcomes, not design deliverables.</div></div>
-    <div class="card"><span class="card-ico">🏥</span><div class="card-title">3. Regulated Industry Depth</div><div class="card-body">Healthcare, FinTech, or Gov experience with compliance mandates (HIPAA, SOC2, WCAG). This proves they can design under real constraints, not just blue-sky thinking.</div></div>
-    <div class="card"><span class="card-ico">🤖</span><div class="card-title">4. AI-Native, Not AI-Curious</div><div class="card-body">Actively shipping with Claude, Figma AI, code generation tools. Has documented workflows showing AI acceleration. Understands AI product design patterns.</div></div>
-    <div class="card"><span class="card-ico">📐</span><div class="card-title">5. Design System as Product</div><div class="card-body">Treats the design system as a product with adoption metrics, versioning, documentation, and governance. Not just a Figma file — a living, maintained ecosystem.</div></div>
-    <div class="card"><span class="card-ico">♿</span><div class="card-title">6. Accessibility as Identity</div><div class="card-body">WCAG 2.2 AA isn't a checkbox — it's a design philosophy. Led audits, trained teams, built accessible-first patterns. Can talk about screen readers with passion.</div></div>
-    <div class="card"><span class="card-ico">🎤</span><div class="card-title">7. Visible Thought Leadership</div><div class="card-body">Published work, conference talks, or a public learning resource that demonstrates expertise. A visible trail of intellectual contribution to the field.</div></div>
-    <div class="card"><span class="card-ico">🏗️</span><div class="card-title">8. Architectural Vocabulary</div><div class="card-body">Speaks in systems: information architecture, component architecture, token architecture, platform architecture. Sees patterns where others see pages.</div></div>
-    <div class="card"><span class="card-ico">🔀</span><div class="card-title">9. Cross-Functional Fluency</div><div class="card-body">Can sit in a PM meeting and add value. Can sit in an engineering standup and add value. Can sit in a research debrief and add value. Speaks every team's language.</div></div>
-    <div class="card"><span class="card-ico">📈</span><div class="card-title">10. Growth Trajectory</div><div class="card-body">Clear upward arc: from IC designer → senior → lead → principal. Evidence of increasing scope, complexity, and organizational influence at each level.</div></div>
-    <div class="card"><span class="card-ico">🌍</span><div class="card-title">11. Global/Enterprise Scale</div><div class="card-body">Has designed for millions of users across regions, platforms, and contexts. Understands i18n, RTL, localization, and the complexity of scale.</div></div>
-    <div class="card"><span class="card-ico">📚</span><div class="card-title">12. Continuous Learning Signal</div><div class="card-body">Multiple certifications, executive education, active in communities. The learning never stopped. Invests in themselves as aggressively as they invest in their work.</div></div>
-  </div>
-</section>
-
-<!-- ===== 09: INTERVIEW PROCESS ===== -->
-<section class="sect" id="interview-process">
-  <div class="sect-head"><span class="sect-num">09</span><h2>The Interview Process — 8 Rounds</h2></div>
-  <p class="sect-intro">This is the most rigorous interview process in the industry for this role. Eight rounds, each testing a different pillar. No candidate has ever passed all eight without preparation.</p>
-
-  <div class="timeline" style="margin-top: 28px;">
-    <div class="tl-item"><div class="tl-dot" style="background: var(--gold);"></div><h4>Round 1: Portfolio Deep Dive</h4><div class="tl-meta">90 min · Design Leadership Panel</div><p>Present 2 flagship case studies end-to-end. Panel challenges every decision: why this research method? Why this IA? Why not this alternative? Show the messy process, not just the polished output.</p></div>
-    <div class="tl-item"><div class="tl-dot" style="background: var(--ice);"></div><h4>Round 2: Product Strategy Challenge</h4><div class="tl-meta">60 min · CPO / VP Product</div><p>Given a real business problem: define the product strategy, user segments, success metrics, MVP scope, and roadmap. You have 30 min to prepare, 15 min to present, 15 min Q&A. This tests Pillar 1.</p></div>
-    <div class="tl-item"><div class="tl-dot" style="background: var(--emerald);"></div><h4>Round 3: Design Challenge (Live)</h4><div class="tl-meta">120 min · Take-Home + Live Session</div><p>Design a complex feature from scratch: IA, user flows, wireframes, and one hi-fi screen. Take-home (2 hours), then 60-min live session where you walk through your work and iterate based on feedback.</p></div>
-    <div class="tl-item"><div class="tl-dot" style="background: var(--violet);"></div><h4>Round 4: Design System Architecture</h4><div class="tl-meta">60 min · Design Systems Lead + Front-End Lead</div><p>Whiteboard a design system from scratch: token structure, component hierarchy, governance model, versioning strategy. Then discuss how you'd implement it in React with Storybook.</p></div>
-    <div class="tl-item"><div class="tl-dot" style="background: var(--copper);"></div><h4>Round 5: Technical Code Review</h4><div class="tl-meta">60 min · Senior Front-End Engineers</div><p>Review a React component codebase. Identify accessibility issues, performance problems, and design-system violations. Then pair-program a fix for one critical issue.</p></div>
-    <div class="tl-item"><div class="tl-dot" style="background: var(--rose);"></div><h4>Round 6: Research & Analytics</h4><div class="tl-meta">45 min · UX Research Lead + Data Science</div><p>Given a product dashboard with declining metrics: design a research plan to diagnose the problem. Which methods? Which sample? What hypotheses? How will you analyze? Timeline?</p></div>
-    <div class="tl-item"><div class="tl-dot" style="background: var(--ice);"></div><h4>Round 7: Leadership & Cross-Functional</h4><div class="tl-meta">60 min · VP Engineering + VP Product</div><p>Behavioral deep dive: conflict with engineering, design debt negotiation, hiring decisions, mentoring stories, organizational influence. STAR-A format expected.</p></div>
-    <div class="tl-item"><div class="tl-dot" style="background: var(--gold);"></div><h4>Round 8: CEO / Founder Bar-Raiser</h4><div class="tl-meta">45 min · CTO, CPO, or CEO</div><p>The big-picture conversation: Where is product design headed in 5 years? How does AI change the design process? What's your design philosophy? Why this company? This tests vision, culture fit, and executive presence.</p></div>
-  </div>
-</section>
-
-<!-- ===== 10: ROUND BY ROUND GUIDE ===== -->
-<section class="sect" id="interview-rounds">
-  <div class="sect-head"><span class="sect-num">10</span><h2>Round-by-Round Preparation Guide</h2></div>
-  <p class="sect-intro">Detailed preparation playbook for each interview round — what they're really testing, how to prepare, and the exact frameworks to use.</p>
-
-  <div class="panel">
-    <div class="panel-head" onclick="this.parentElement.classList.toggle('open')">
-      <span class="p-ico">🎯</span>
-      <div class="p-info"><h3>Round 1: Portfolio Deep Dive — Preparation Guide</h3><div class="p-sub">The most decisive round — 60% of hiring decisions are made here</div></div>
-      <div class="panel-toggle">▼</div>
-    </div>
-    <div class="panel-body"><div class="panel-inner">
-      <h4>What They're Really Testing</h4>
-      <ul>
-        <li>Can you tell a coherent story from problem to solution to impact?</li>
-        <li>Do you take credit appropriately — what was YOUR contribution vs. the team's?</li>
-        <li>Can you handle pushback? When they challenge a decision, do you crumble or engage?</li>
-        <li>Is there evidence of growing complexity and scope across your career?</li>
-      </ul>
-      <h4>How to Prepare</h4>
-      <ul>
-        <li>Select 2 projects: one enterprise-scale redesign and one 0→1 product launch</li>
-        <li>Structure each with the IMPACT framework (Intent, Method, Process, Architecture, Craft, Transformation)</li>
-        <li>For each design decision, prepare the "why" and the "alternative considered"</li>
-        <li>Prepare metric stories: what moved, by how much, and how you measured it</li>
-        <li>Practice the presentation at exactly 20 minutes per project</li>
-        <li>Prepare for hostile questions: "Why didn't you do X instead?" — have 3 ready answers per project</li>
-      </ul>
-      <h4>Killer Phrases</h4>
-      <ul>
-        <li>"The research told us X, but the business needed Y — here's how I bridged that gap..."</li>
-        <li>"I originally designed it this way, but after usability testing with N users, I pivoted because..."</li>
-        <li>"The metric we moved was Z, which translated to $X in annual revenue impact..."</li>
-      </ul>
-    </div></div>
-  </div>
-
-  <div class="panel">
-    <div class="panel-head" onclick="this.parentElement.classList.toggle('open')">
-      <span class="p-ico">🧠</span>
-      <div class="p-info"><h3>Round 2: Product Strategy — Preparation Guide</h3><div class="p-sub">Think like a CEO in 30 minutes</div></div>
-      <div class="panel-toggle">▼</div>
-    </div>
-    <div class="panel-body"><div class="panel-inner">
-      <h4>Framework to Use: SPADE</h4>
-      <ul>
-        <li><strong>S</strong>ituation: Define the market, users, and business context (2 min)</li>
-        <li><strong>P</strong>roblem: Identify the core user pain and business opportunity (3 min)</li>
-        <li><strong>A</strong>pproach: Propose 2–3 strategic options with trade-offs (5 min)</li>
-        <li><strong>D</strong>ecision: Recommend one option with rationale and success criteria (3 min)</li>
-        <li><strong>E</strong>xecution: MVP scope, roadmap phases, team structure, timeline (2 min)</li>
-      </ul>
-      <h4>Preparation Tactics</h4>
-      <ul>
-        <li>Practice 5 product strategy cases from different domains (healthcare, fintech, B2B SaaS, consumer, marketplace)</li>
-        <li>Always start with the user — who is the user, what is their job-to-be-done?</li>
-        <li>Include metrics: how will you measure success? (OKRs with specific numbers)</li>
-        <li>Address technical feasibility — shows your engineering fluency</li>
-        <li>End with a "Phase 2 vision" — shows you think beyond MVP</li>
-      </ul>
-    </div></div>
-  </div>
-
-  <div class="panel">
-    <div class="panel-head" onclick="this.parentElement.classList.toggle('open')">
-      <span class="p-ico">✏️</span>
-      <div class="p-info"><h3>Round 3: Design Challenge — Preparation Guide</h3><div class="p-sub">Show your process, not just your output</div></div>
-      <div class="panel-toggle">▼</div>
-    </div>
-    <div class="panel-body"><div class="panel-inner">
-      <h4>The Winning Structure (2-Hour Take-Home)</h4>
-      <ol>
-        <li><strong>First 20 min:</strong> Problem framing, user assumptions, constraints identification</li>
-        <li><strong>Next 15 min:</strong> Rough user flow and IA sketch (photograph it — they want to see messy thinking)</li>
-        <li><strong>Next 40 min:</strong> Low-fi wireframes for key screens (breadth over depth)</li>
-        <li><strong>Next 30 min:</strong> One hi-fi screen with full visual treatment, all states</li>
-        <li><strong>Final 15 min:</strong> Write-up of design decisions, accessibility considerations, and "what I'd do next"</li>
-      </ol>
-      <h4>What Separates Great from Good</h4>
-      <ul>
-        <li>Include edge cases and error states — shows systems thinking</li>
-        <li>Call out accessibility decisions explicitly</li>
-        <li>Show the flow for the complete journey, not just the happy path</li>
-        <li>Include a "technical considerations" note — shows your engineering awareness</li>
-        <li>In the live session, accept feedback gracefully and iterate visibly</li>
-      </ul>
-    </div></div>
-  </div>
-
-  <div class="panel">
-    <div class="panel-head" onclick="this.parentElement.classList.toggle('open')">
-      <span class="p-ico">💻</span>
-      <div class="p-info"><h3>Round 5: Technical Code Review — Preparation Guide</h3><div class="p-sub">You don't need to be the best coder — you need to be the best reviewer</div></div>
-      <div class="panel-toggle">▼</div>
-    </div>
-    <div class="panel-body"><div class="panel-inner">
-      <h4>What to Look For (Priority Order)</h4>
-      <ol>
-        <li><strong>Accessibility:</strong> Missing ARIA labels, keyboard traps, color contrast, focus management</li>
-        <li><strong>Design System Violations:</strong> Hardcoded values that should be tokens, inconsistent spacing/colors</li>
-        <li><strong>Performance:</strong> Unnecessary re-renders, missing memoization, bundle bloat</li>
-        <li><strong>Semantic HTML:</strong> Div soup vs. proper landmarks, heading hierarchy</li>
-        <li><strong>Responsive Issues:</strong> Missing breakpoints, overflow, touch targets too small</li>
-        <li><strong>State Management:</strong> Over-fetching, missing loading/error states</li>
-      </ol>
-      <h4>Preparation</h4>
-      <ul>
-        <li>Review 10 open-source React component libraries on GitHub — practice finding issues</li>
-        <li>Know WCAG 2.2 AA success criteria by heart (at least the top 20)</li>
-        <li>Understand Core Web Vitals: LCP, FID/INP, CLS — what causes failures and how to fix</li>
-        <li>Practice pair programming in VS Code — narrate your thought process as you code</li>
-      </ul>
-    </div></div>
-  </div>
-</section>
-
-<!-- ===== 11: CRACKING STRATEGY ===== -->
-<section class="sect" id="crack-strategy">
-  <div class="sect-head"><span class="sect-num">11</span><h2>The Master Interview Cracking Strategy</h2></div>
-  <p class="sect-intro">A 12-week preparation program designed to transform a strong senior designer into an unstoppable principal-level candidate.</p>
-
-  <h3>Phase 1: Foundation (Weeks 1–4)</h3>
-  <div class="grid grid-2">
-    <div class="card" style="border-top: 3px solid var(--gold);">
-      <div class="card-title">Week 1–2: Portfolio Rebuild</div>
-      <div class="card-body">Rebuild 3–4 case studies using the IMPACT framework. Each case must show: research → design → metrics. Photograph your messy sketches. Record before/after metrics. Build the narrative arc.</div>
-    </div>
-    <div class="card" style="border-top: 3px solid var(--ice);">
-      <div class="card-title">Week 3–4: Design System Deep Dive</div>
-      <div class="card-body">Document your design system work as a standalone case study. Create a token architecture diagram. Show governance model. Prepare adoption metrics. Practice whiteboarding component hierarchies.</div>
-    </div>
-  </div>
-
-  <h3>Phase 2: Skill Sharpening (Weeks 5–8)</h3>
-  <div class="grid grid-2">
-    <div class="card" style="border-top: 3px solid var(--emerald);">
-      <div class="card-title">Week 5–6: Product Strategy Practice</div>
-      <div class="card-body">Do 2 product strategy exercises per day. Use SPADE framework. Time yourself: 30 min prep, 15 min presentation. Practice with a peer who plays the skeptical CPO.</div>
-    </div>
-    <div class="card" style="border-top: 3px solid var(--violet);">
-      <div class="card-title">Week 7–8: Technical & Code Readiness</div>
-      <div class="card-body">Review 5 React codebases weekly for accessibility/performance issues. Build one component from scratch in React + TypeScript + Storybook. Practice pair-programming out loud.</div>
-    </div>
-  </div>
-
-  <h3>Phase 3: Performance Mode (Weeks 9–12)</h3>
-  <div class="grid grid-2">
-    <div class="card" style="border-top: 3px solid var(--rose);">
-      <div class="card-title">Week 9–10: Mock Interviews</div>
-      <div class="card-body">Do 8 mock interviews — one for each round type. Record yourself. Watch the recordings. Fix your tics, filler words, and rambling. Get to crisp, confident, structured responses.</div>
-    </div>
-    <div class="card" style="border-top: 3px solid var(--copper);">
-      <div class="card-title">Week 11–12: Final Preparation</div>
-      <div class="card-body">Polish portfolio site. Prepare 15 STAR-A stories covering: leadership, conflict, failure, innovation, influence, mentoring. Research every company you're interviewing with deeply. Prepare 5 questions for every interviewer.</div>
-    </div>
-  </div>
-
-  <h3>The 7 Golden Rules of Interview Execution</h3>
-  <div class="grid grid-3" style="margin-top: 16px;">
-    <div class="card"><div class="card-title">Rule 1: Lead with Impact</div><div class="card-body">Start every answer with the outcome, then explain how you got there. "We improved task completion by 47% — here's how..."</div></div>
-    <div class="card"><div class="card-title">Rule 2: Show the Mess</div><div class="card-body">Perfect portfolios are suspicious. Show iterations, failed experiments, pivots. The CEO panel trusts process more than polish.</div></div>
-    <div class="card"><div class="card-title">Rule 3: Quantify Everything</div><div class="card-body">Replace adjectives with numbers. Not "significantly improved" — "improved by 32% over 6 weeks measured via Amplitude."</div></div>
-    <div class="card"><div class="card-title">Rule 4: Speak Every Language</div><div class="card-body">With PMs: metrics and strategy. With engineers: architecture and trade-offs. With designers: craft and systems. Adapt in real-time.</div></div>
-    <div class="card"><div class="card-title">Rule 5: Own Your Gaps</div><div class="card-body">"I'm not the strongest in X, but here's how I compensate..." is 10x more trustworthy than pretending you're perfect at everything.</div></div>
-    <div class="card"><div class="card-title">Rule 6: Demonstrate AI Fluency</div><div class="card-body">Mention specific AI tools and workflows naturally. "I used Claude to generate the initial component specs, then refined..." — not theoretical, practical.</div></div>
-    <div class="card"><div class="card-title">Rule 7: Ask Architectural Questions</div><div class="card-body">Your questions reveal your level. Ask about design system governance, engineering-design collaboration model, accessibility program maturity, AI tool strategy.</div></div>
-  </div>
-</section>
-
-<!-- ===== 12: SCORING RUBRIC ===== -->
-<section class="sect" id="scoring">
-  <div class="sect-head"><span class="sect-num">12</span><h2>CEO Panel Scoring Rubric</h2></div>
-  <p class="sect-intro">How the panel scores each round. Understanding this lets you optimize your performance for exactly what they're measuring.</p>
-
-  <div class="tbl-wrap"><table>
-    <thead><tr><th>Round</th><th>Primary Score</th><th>Secondary Score</th><th>Red Flag</th><th>Green Flag</th></tr></thead>
-    <tbody>
-      <tr><td>1. Portfolio</td><td>Impact storytelling (40%)</td><td>Process rigor (30%)</td><td>No metrics, no research evidence</td><td>Before/after metrics with methodology</td></tr>
-      <tr><td>2. Strategy</td><td>Structured thinking (35%)</td><td>User empathy (25%)</td><td>Jumps to solutions without problem framing</td><td>Starts with user, backs into business case</td></tr>
-      <tr><td>3. Design</td><td>Systems thinking (35%)</td><td>Craft quality (30%)</td><td>Only happy path, no edge cases</td><td>Full state coverage, accessibility noted</td></tr>
-      <tr><td>4. Design System</td><td>Architecture depth (40%)</td><td>Governance model (25%)</td><td>Token structure is flat/unscalable</td><td>Multi-theme, multi-brand token architecture</td></tr>
-      <tr><td>5. Code Review</td><td>A11y identification (40%)</td><td>Performance awareness (25%)</td><td>Can't identify WCAG violations</td><td>Spots ARIA issues + proposes React fix</td></tr>
-      <tr><td>6. Research</td><td>Method selection (35%)</td><td>Analysis plan (25%)</td><td>Only suggests surveys</td><td>Mixed methods with triangulation strategy</td></tr>
-      <tr><td>7. Leadership</td><td>Influence stories (35%)</td><td>Growth evidence (30%)</td><td>Takes all credit, no team mention</td><td>Specific mentoring outcomes with names</td></tr>
-      <tr><td>8. Bar Raiser</td><td>Vision articulation (40%)</td><td>Culture alignment (30%)</td><td>No opinion on AI/future of design</td><td>Clear, differentiated design philosophy</td></tr>
-    </tbody>
-  </table></div>
-</section>
-
-<!-- ===== 13: ANTI-PATTERNS ===== -->
-<section class="sect" id="anti-patterns">
-  <div class="sect-head"><span class="sect-num">13</span><h2>Anti-Patterns — Instant No-Hire Signals</h2></div>
-  <p class="sect-intro">The CEO panel has seen every mistake. These are the behaviors that end candidacies immediately.</p>
-
-  <div class="grid grid-2">
-    <div class="card" style="border-left: 3px solid var(--rose);">
-      <div class="card-title">❌ "I designed it, they built it"</div>
-      <div class="card-body">Treating engineering as a service team. This role requires deep respect for engineering constraints and active collaboration. "Over the wall" designers don't survive here.</div>
-    </div>
-    <div class="card" style="border-left: 3px solid var(--rose);">
-      <div class="card-title">❌ No Numbers, No Evidence</div>
-      <div class="card-body">Portfolio full of beautiful screens with zero metrics, no research evidence, and no business context. Decoration ≠ design. Impact or nothing.</div>
-    </div>
-    <div class="card" style="border-left: 3px solid var(--rose);">
-      <div class="card-title">❌ Accessibility as Afterthought</div>
-      <div class="card-body">"We did an accessibility pass at the end." Wrong. Accessibility-first or no-hire. If your designs don't account for keyboard navigation from the start, you're not principal-level.</div>
-    </div>
-    <div class="card" style="border-left: 3px solid var(--rose);">
-      <div class="card-title">❌ Can't Handle Pushback</div>
-      <div class="card-body">When the panel challenges a design decision and the candidate becomes defensive or flustered rather than engaging in productive dialogue. Conviction with flexibility is the signal.</div>
-    </div>
-    <div class="card" style="border-left: 3px solid var(--rose);">
-      <div class="card-title">❌ Talks Tools, Not Thinking</div>
-      <div class="card-body">"I used Figma and then I used Miro and then I used Notion..." Tool fluency without strategic thinking. We're hiring a thinker, not a tool operator.</div>
-    </div>
-    <div class="card" style="border-left: 3px solid var(--rose);">
-      <div class="card-title">❌ AI Ignorance or Fear</div>
-      <div class="card-body">"I don't really use AI tools" in 2026 is equivalent to "I don't use the internet" in 2005. The role demands AI fluency — not optional, foundational.</div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== 14: 30-60-90 ===== -->
-<section class="sect" id="30-60-90">
-  <div class="sect-head"><span class="sect-num">14</span><h2>30-60-90 Day Plan — Post-Hire Impact</h2></div>
-  <p class="sect-intro">The most impressive candidates bring a 30-60-90 plan to the final interview. It shows strategic thinking and immediate value creation.</p>
-
-  <div class="grid grid-3">
-    <div class="card" style="border-top: 3px solid var(--gold);">
-      <div class="card-title">Days 1–30: Listen & Learn</div>
-      <div class="card-sub">Foundation Phase</div>
-      <div class="card-body">
-        Conduct stakeholder interviews with every PM, engineering lead, and researcher. Audit the current design system — document gaps, inconsistencies, and debt. Review the last 6 months of user research and product analytics. Map the current PDLC process and identify bottleneck points. Ship one quick win to build credibility.
+  <div class="app-container">
+    
+    <!-- LEFT SIDEBAR NAVIGATION -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-brand">
+          <div class="logo-icon">👑</div>
+          <h2>
+            The Unicorn Hire
+            <span>Career Operating System</span>
+          </h2>
+        </div>
       </div>
-    </div>
-    <div class="card" style="border-top: 3px solid var(--ice);">
-      <div class="card-title">Days 31–60: Define & Align</div>
-      <div class="card-sub">Strategy Phase</div>
-      <div class="card-body">
-        Present a UX Vision document with 6-12 month experience roadmap. Propose design system evolution plan with token architecture upgrades. Establish design critique rituals and quality review processes. Launch one research initiative to address the biggest user pain point. Begin mentoring team members with personalized growth plans.
+      
+      <nav class="sidebar-nav" aria-label="Main Navigation">
+        <div class="nav-label">Overview</div>
+        <button class="nav-item active" data-tab="dashboard" type="button">
+          <span class="nav-icon">🏛️</span> Dashboard
+        </button>
+        
+        <div class="nav-label">Analyze & Plan</div>
+        <button class="nav-item" data-tab="skills" type="button">
+          <span class="nav-icon">🛡️</span> Skill Assessment
+        </button>
+        <button class="nav-item" data-tab="roadmap" type="button">
+          <span class="nav-icon">📋</span> Custom Roadmap
+        </button>
+        <button class="nav-item" data-tab="evaluators" type="button">
+          <span class="nav-icon">🔍</span> Resume & Portfolio
+        </button>
+        
+        <div class="nav-label">Prepare & Practice</div>
+        <button class="nav-item" data-tab="simulator" type="button">
+          <span class="nav-icon">🎯</span> Interview Simulator
+        </button>
+        <button class="nav-item" data-tab="coach" type="button">
+          <span class="nav-icon">💬</span> AI Career Coach
+        </button>
+        
+        <div class="nav-label">Resources</div>
+        <button class="nav-item" data-tab="lead" type="button">
+          <span class="nav-icon">📚</span> Strategy Playbook
+        </button>
+        <button class="nav-item" data-tab="market" type="button">
+          <span class="nav-icon">💼</span> Salary & Brand
+        </button>
+      </nav>
+      
+      <div class="sidebar-footer">
+        <button class="btn btn-accent" id="theme-toggle" type="button">🌙 Dark Mode</button>
+        <p style="font-size:10px; color:var(--text-muted); text-align:center;">Calibrated for L7/L8 Experience Levels · 2026</p>
       </div>
-    </div>
-    <div class="card" style="border-top: 3px solid var(--emerald);">
-      <div class="card-title">Days 61–90: Execute & Lead</div>
-      <div class="card-sub">Impact Phase</div>
-      <div class="card-body">
-        Ship the first major design initiative with measurable metrics. Present UX impact report to leadership with before/after data. Introduce AI-augmented design workflows to the team. Establish cross-functional collaboration model with engineering. Publish first internal thought leadership piece to establish design authority.
+    </aside>
+
+    <!-- MAIN INTERACTIVE SECTION -->
+    <main class="main-content" id="main-content-panel">
+      
+      <!-- Top Sticky Navigation Header -->
+      <header class="top-header">
+        <button class="menu-toggle" type="button" aria-label="Toggle Navigation Menu">☰</button>
+        <div class="top-header-title">
+          <h3 id="view-header-title">Executive Readiness Dashboard</h3>
+        </div>
+        <div class="header-controls">
+          <button class="btn" onclick="window.print()" type="button">⎙ Export PDF</button>
+        </div>
+      </header>
+
+      <!-- View Panel Switcher -->
+      <div class="view-panel">
+        
+        <!-- 1. DASHBOARD VIEW -->
+        <section class="tab-view active" id="dashboard-view">
+          <div class="card welcome-hero highlight-gold">
+            <div class="badge badge-gold" style="margin-bottom: 12px;">CEO Panel Playbook</div>
+            <h1 style="margin-bottom: 12px;">The <em>0.01% Experience Leader</em> CEOs Fight to Hire</h1>
+            <p style="font-size: 15.5px; max-width: 780px;">Welcome to the Career Operating System for Principal UX Architects & Full-Stack Product Leaders. This dashboard integrates competency models, custom checklists, automated text checks, and simulated coach dialogs to align your profile with the elite standards of global hiring panels.</p>
+          </div>
+
+          <div class="grid grid-2" style="margin-bottom: 24px;">
+            <!-- Readiness Circle Summary Card -->
+            <div class="card" style="display: flex; align-items: center; gap: 24px;">
+              <div class="readiness-ring-container">
+                <svg width="160" height="160" class="progress-ring">
+                  <circle cx="80" cy="80" r="70" stroke-width="10" fill="transparent" class="progress-ring-circle" />
+                  <circle cx="80" cy="80" r="70" stroke-width="10" fill="transparent" stroke-linecap="round" class="progress-ring-circle-fill" id="dash-circle-fill" stroke="var(--gold)" />
+                  <text x="80" y="90" text-anchor="middle" class="readiness-score-text" id="dash-score-number">50%</text>
+                </svg>
+              </div>
+              <div>
+                <span class="card-meta">Readiness Score</span>
+                <h3 style="font-family: var(--font-serif); font-size: 28px; font-weight: 400; margin-bottom: 6px;">Evaluation Rating</h3>
+                <div id="dash-band-label" style="margin-bottom: 8px;"></div>
+                <p style="font-size:12.5px; max-width:240px; color:var(--text-muted);">Calculated from your skill ratings across the 6 competency pillars.</p>
+              </div>
+            </div>
+
+            <!-- Pillar Progress Indicators -->
+            <div class="card">
+              <span class="card-meta">Pillar Performance</span>
+              <h3 style="font-family: var(--font-serif); font-size: 24px; font-weight: 400; margin-bottom: 16px;">Skills Overview</h3>
+              <div id="dash-pillar-bars">
+                <!-- Injected via app.js -->
+              </div>
+            </div>
+          </div>
+
+          <div class="grid grid-3">
+            <div class="card highlight-teal">
+              <span class="card-icon">🎯</span>
+              <h3 class="card-title">Interview Simulator</h3>
+              <p style="margin-bottom:12px;">Test your knowledge in mock executive rounds, covering recruiter screenings to CEO panels.</p>
+              <button class="btn btn-accent" onclick="document.querySelector('[data-tab=simulator]').click()" style="width:100%;">Practice Simulator</button>
+            </div>
+            <div class="card highlight-coral">
+              <span class="card-icon">🔍</span>
+              <h3 class="card-title">Resume Evaluator</h3>
+              <p style="margin-bottom:12px;">Paste your resume points to calibrate them against the active verification standards of the board.</p>
+              <button class="btn btn-accent" onclick="document.querySelector('[data-tab=evaluators]').click()" style="width:100%;">Evaluate Resume</button>
+            </div>
+            <div class="card highlight-emerald">
+              <span class="card-icon">💬</span>
+              <h3 class="card-title">Consult the AI Coach</h3>
+              <p style="margin-bottom:12px;">Ask targeted questions regarding salary negotiation, design system structures, or 2030 skill strategies.</p>
+              <button class="btn btn-accent" onclick="document.querySelector('[data-tab=coach]').click()" style="width:100%;">Open Coach</button>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top:24px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:12px; margin-bottom:16px;">
+              <h3 style="font-family:var(--font-serif); font-size:24px; font-weight:400;">Immediate Recommendations</h3>
+              <span class="badge badge-gold">Action Items</span>
+            </div>
+            <div id="dash-actions-list">
+              <!-- Injected dynamically by app.js -->
+            </div>
+          </div>
+        </section>
+
+        <!-- 2. SKILL ASSESSMENT VIEW -->
+        <section class="tab-view" id="skills-view">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:28px; gap: 20px; flex-wrap: wrap;">
+            <div>
+              <h2 style="margin-bottom:6px;">Competency Radar & Ratings</h2>
+              <p>Self-assess your skill levels across the 6 core pillars. The chart will update in real-time to highlight gaps.</p>
+            </div>
+            <div class="card" style="padding:12px 20px; display:flex; align-items:center; gap:16px;">
+              <div style="text-align:right;">
+                <span class="card-meta" style="margin-bottom:0;">Core Average</span>
+                <strong style="font-size:24px; color:var(--gold); display:block;" id="skills-score-val">50%</strong>
+              </div>
+              <div id="skills-band-badge"></div>
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns: 1fr 380px; gap:24px; align-items:start;" class="playbook-layout">
+            <!-- Left: Sliders Injected by app.js -->
+            <div id="assessment-sliders" class="skill-sliders-list">
+              <!-- Sliders will render here -->
+            </div>
+            <!-- Right: Interactive SVG Radar Graph -->
+            <div class="radar-chart-container" style="position:sticky; top:96px;">
+              <svg width="340" height="340" id="radar-svg" class="radar-chart">
+                <!-- Rendered dynamically by app.js -->
+              </svg>
+            </div>
+          </div>
+        </section>
+
+        <!-- 3. CUSTOM ROADMAP VIEW -->
+        <section class="tab-view" id="roadmap-view">
+          <div style="margin-bottom:28px;">
+            <h2>Customized 90-365 Day Preparation Planner</h2>
+            <p>Select your starting parameters to configure a concrete checklist for building portfolios, credentials, and brand presence.</p>
+          </div>
+
+          <div class="card" style="margin-bottom:24px; padding:20px;">
+            <div class="grid grid-3">
+              <div class="form-group">
+                <label for="roadmap-level">Current Target Level</label>
+                <select class="form-select" id="roadmap-level">
+                  <option value="senior">Senior Architect (Figma to component coding focus)</option>
+                  <option value="lead">Lead Product Architect (Operations & discovery focus)</option>
+                  <option value="principal">Principal Leader / Associate Director (Strategy & board alignment)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="roadmap-market">Target Market Geography</label>
+                <select class="form-select" id="roadmap-market">
+                  <option value="US">United States (Equity/SaaS focus)</option>
+                  <option value="India">India (Startups/GCC Hubs focus)</option>
+                  <option value="Europe">Europe / London (Corporate scale focus)</option>
+                  <option value="Singapore">Singapore / SE Asia (Fintech focus)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="roadmap-time">Preparation Timeline</label>
+                <select class="form-select" id="roadmap-time">
+                  <option value="30">30-Day Sprint (Immediate transition)</option>
+                  <option value="90">90-Day Standard (Balanced build & search)</option>
+                  <option value="180">180-Day Comprehensive (Skills + Branding)</option>
+                </select>
+              </div>
+            </div>
+            <button class="btn btn-primary" id="btn-generate-roadmap" style="margin-top:16px; width:100%;" type="button">Generate Plan & Milestones</button>
+          </div>
+
+          <!-- Dynamic Output area -->
+          <div id="roadmap-output-timeline">
+            <!-- Timeline checkboxes injected here -->
+          </div>
+        </section>
+
+        <!-- 4. RESUME & PORTFOLIO EVALUATORS -->
+        <section class="tab-view" id="evaluators-view">
+          <div style="margin-bottom:28px;">
+            <h2>ARCH & IMPACT Calibration Tools</h2>
+            <p>Compare your text directly with calibrated benchmarks. Use the input checkers to verify you include quantitative proofs.</p>
+          </div>
+
+          <div class="grid grid-2" style="margin-bottom:32px;">
+            <!-- Resume Evaluator Panel -->
+            <div class="card highlight-gold">
+              <div class="badge badge-gold" style="margin-bottom:12px;">Resume check</div>
+              <h3 style="margin-bottom:8px;">ARCH Bullet Evaluator</h3>
+              <p style="margin-bottom:16px; font-size:12.5px; color:var(--text-muted);">Enter a resume bullet point. We'll search for active verbs, metrics, and parameters.</p>
+              
+              <textarea class="text-area-input" id="eval-resume-input" placeholder="Example: Responsible for designing patient scheduler portal interfaces and adding styles to Figma button files."></textarea>
+              <button class="btn btn-primary" id="btn-eval-resume" style="margin-top:12px; width:100%;" type="button">Check Resume Bullet</button>
+              
+              <div class="eval-results-panel" id="eval-resume-output" style="margin-top:20px;">
+                <p style="font-size:13px; color:var(--text-muted); text-align:center; padding-top:40px;">Results will print here after analysis...</p>
+              </div>
+            </div>
+
+            <!-- Portfolio Case Study Evaluator -->
+            <div class="card highlight-teal">
+              <div class="badge badge-teal" style="margin-bottom:12px;">Portfolio check</div>
+              <h3 style="margin-bottom:8px;">IMPACT Structure Evaluator</h3>
+              <p style="margin-bottom:16px; font-size:12.5px; color:var(--text-muted);">Paste your case study introduction/metadata. We'll check for the six phases of the IMPACT framework.</p>
+              
+              <textarea class="text-area-input" id="eval-portfolio-input" placeholder="Example: Redesigned patient scheduling flow. I did user interviews, drew sketches, built a Figma library, and engineers shipped it."></textarea>
+              <button class="btn btn-primary" id="btn-eval-portfolio" style="margin-top:12px; width:100%;" type="button">Grade Case Study Structure</button>
+              
+              <div class="eval-results-panel" id="eval-portfolio-output" style="margin-top:20px;">
+                <p style="font-size:13px; color:var(--text-muted); text-align:center; padding-top:40px;">Results will print here after analysis...</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Calibration Table and Guidelines -->
+          <div class="card">
+            <h3 style="font-family:var(--font-serif); font-size:24px; font-weight:400; margin-bottom:16px;">Resume Performance Calibration</h3>
+            <div id="eval-resume-calibration">
+              <!-- Calibrations list loaded from strategy_data.js -->
+            </div>
+          </div>
+        </section>
+
+        <!-- 5. INTERVIEW SIMULATOR -->
+        <section class="tab-view" id="simulator-view">
+          <div style="margin-bottom:28px;">
+            <h2>CEO Panel Interview Simulator</h2>
+            <p>Go round-by-round through the hiring process. Make choices and observe board feedback regarding red flags and metrics prioritization.</p>
+          </div>
+
+          <div class="card highlight-gold" style="min-height:360px; padding:32px; display:flex; flex-direction:column; justify-content:center;">
+            <div id="sim-gameplay-area">
+              <!-- Game states loaded dynamically -->
+            </div>
+          </div>
+        </section>
+
+        <!-- 6. AI CAREER COACH -->
+        <section class="tab-view" id="coach-view">
+          <div style="margin-bottom:20px;">
+            <h2>Simulated Executive Coach Chat</h2>
+            <p>Ground your preparation questions in the strategy playbook. Type custom questions or click quick-topic chips below.</p>
+          </div>
+
+          <div class="chat-container">
+            <div class="chat-history" id="chat-history-box">
+              <!-- Chat history logs -->
+            </div>
+            
+            <div class="chat-suggestions" id="chat-chips-container">
+              <!-- Suggestion chips injected by app.js -->
+            </div>
+
+            <div class="chat-input-bar">
+              <input type="text" class="chat-input-field" id="chat-message-input" placeholder="Ask a question (e.g., How do I negotiate my L7 equity compensation?)..." aria-label="Chat input query">
+              <button class="btn btn-primary" id="btn-send-chat" type="button" style="padding: 10px 24px;">Send</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- 7. STRATEGY PLAYBOOK VIEW -->
+        <section class="tab-view" id="lead-view">
+          <div style="margin-bottom:28px;">
+            <h2>The Principal UX Architect Master Strategy Playbook</h2>
+            <p>Read the executive-level consulting findings that define the job requirements, competencies, and interview guidelines.</p>
+          </div>
+
+          <div class="playbook-layout">
+            <!-- TOC Sidebar -->
+            <nav class="playbook-toc" id="playbook-topics-list" aria-label="Playbook Chapters">
+              <!-- TOC Links dynamically created -->
+            </nav>
+            <!-- Chapter content pane -->
+            <div class="playbook-content-pane" id="playbook-content-body" aria-live="polite">
+              <!-- Playbook text prints here -->
+            </div>
+          </div>
+        </section>
+
+        <!-- 8. SALARY & BRAND TRACKER HUB -->
+        <section class="tab-view" id="market-view">
+          <div style="margin-bottom:28px;">
+            <h2>Salary Benchmark & Brand Influence Tracker</h2>
+            <p>Compare executive salary scales and manage your external personal authority checkpoints.</p>
+          </div>
+
+          <div class="grid grid-2" style="margin-bottom:24px;">
+            <!-- Salary Estimator -->
+            <div class="card highlight-gold">
+              <div class="badge badge-gold" style="margin-bottom:12px;">Compensation Calculator</div>
+              <h3 style="margin-bottom:12px;">Salary Benchmark Engine</h3>
+              
+              <div class="form-group">
+                <label for="calc-market">Target Market Region</label>
+                <select class="form-select" id="calc-market">
+                  <option value="US">United States (USD)</option>
+                  <option value="India">India (INR)</option>
+                  <option value="Europe">Europe / London (GBP/EUR)</option>
+                </select>
+              </div>
+
+              <div class="form-group" style="margin-top:16px;">
+                <div style="display:flex; justify-content:space-between; font-size:12.5px; font-weight:700;">
+                  <label for="calc-seniority">Seniority Level</label>
+                  <span id="calc-level-lbl" style="color:var(--gold);">Scroll to select</span>
+                </div>
+                <input type="range" class="slider-control" id="calc-seniority" min="1" max="4" value="2" style="margin-top:8px;">
+                <div style="display:flex; justify-content:space-between; font-size:10px; color:var(--text-muted); margin-top:4px;">
+                  <span>L6 Staff</span>
+                  <span>L7 Principal</span>
+                  <span>L8 Director</span>
+                  <span>L9 VP/CXO</span>
+                </div>
+              </div>
+
+              <div style="margin-top:24px; padding:16px; background:rgba(0,0,0,0.15); border-radius:var(--radius-sm);">
+                <div style="display:flex; justify-content:space-between; margin-bottom:8px; font-size:13.5px;">
+                  <span>Base Salary Estimate:</span>
+                  <strong id="calc-base-text" style="color:var(--ink);">$0</strong>
+                </div>
+                <div style="display:flex; justify-content:space-between; font-size:13.5px;">
+                  <span>Total Comp (Inc. Equity):</span>
+                  <strong id="calc-total-text" style="color:var(--gold);">$0</strong>
+                </div>
+              </div>
+            </div>
+
+            <!-- Brand Tracker -->
+            <div class="card highlight-teal">
+              <div class="badge badge-teal" style="margin-bottom:12px;">Authority tracker</div>
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
+                <h3>Personal Brand Authority</h3>
+                <strong id="brand-authority-score" style="font-size:20px; color:var(--teal); font-family:var(--font-serif);">10/100</strong>
+              </div>
+              
+              <div class="checklist-container">
+                <label style="display:flex; align-items:center; gap:10px; font-size:13px; color:var(--text-secondary); cursor:pointer;">
+                  <input type="checkbox" id="brand-li-post" style="accent-color:var(--gold);"> 
+                  <span>Weekly LinkedIn Insight Postings (+20)</span>
+                </label>
+                <label style="display:flex; align-items:center; gap:10px; font-size:13px; color:var(--text-secondary); cursor:pointer; margin-top:8px;">
+                  <input type="checkbox" id="brand-essay" style="accent-color:var(--gold);"> 
+                  <span>Published Medium/Substack Essay (+20)</span>
+                </label>
+                <label style="display:flex; align-items:center; gap:10px; font-size:13px; color:var(--text-secondary); cursor:pointer; margin-top:8px;">
+                  <input type="checkbox" id="brand-speak" style="accent-color:var(--gold);"> 
+                  <span>Conference Speaking Slot Confirmed (+30)</span>
+                </label>
+                <label style="display:flex; align-items:center; gap:10px; font-size:13px; color:var(--text-secondary); cursor:pointer; margin-top:8px;">
+                  <input type="checkbox" id="brand-oss" style="accent-color:var(--gold);"> 
+                  <span>Contributed Component to Open Source (+20)</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mentorship Matching Container -->
+          <div class="card" style="margin-bottom:24px;">
+            <h3 style="font-family:var(--font-serif); font-size:24px; font-weight:400; margin-bottom:16px; border-bottom:1px solid var(--border); padding-bottom:8px;">Executive Mentorship Matching</h3>
+            <div class="grid grid-2" id="brand-mentors-list">
+              <!-- Injected dynamically by app.js -->
+            </div>
+          </div>
+
+          <!-- Learning Tracker Container -->
+          <div class="card">
+            <h3 style="font-family:var(--font-serif); font-size:24px; font-weight:400; margin-bottom:16px; border-bottom:1px solid var(--border); padding-bottom:8px;">Reading List & Course Tracker</h3>
+            <div id="brand-learning-list">
+              <!-- Checklist populated by app.js -->
+            </div>
+          </div>
+        </section>
+
       </div>
+    </main>
+
+  </div>
+
+  <!-- MODALS CONTAINER -->
+  <div class="modal" id="match-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-content">
+      <button class="modal-close-btn" data-close-modal aria-label="Close modal">×</button>
+      <h3 id="modal-title" style="font-family:var(--font-serif); font-size:24px; font-weight:400; margin-bottom:12px; color:var(--gold);">Mentorship Connection Request</h3>
+      <div id="match-modal-body">
+        <!-- Message filled dynamically -->
+      </div>
+      <button class="btn btn-primary" data-close-modal style="margin-top:20px; width:100%;" type="button">Acknowledge</button>
     </div>
   </div>
-</section>
 
-<!-- ===== 15: COMPENSATION ===== -->
-<section class="sect" id="salary">
-  <div class="sect-head"><span class="sect-num">15</span><h2>Compensation Intelligence</h2></div>
-  <p class="sect-intro">Market compensation benchmarks for this role across major markets as of 2026. Use for negotiation preparation.</p>
-
-  <div class="tbl-wrap"><table>
-    <thead><tr><th>Market</th><th>Base Salary</th><th>Total Comp (with equity/bonus)</th><th>Level Equivalent</th></tr></thead>
-    <tbody>
-      <tr><td>San Francisco / Bay Area</td><td>$200K–$280K</td><td>$350K–$550K+</td><td>L7–L8 (Google/Meta)</td></tr>
-      <tr><td>Seattle</td><td>$190K–$260K</td><td>$320K–$480K+</td><td>Principal (Amazon/MSFT)</td></tr>
-      <tr><td>New York</td><td>$185K–$265K</td><td>$300K–$450K+</td><td>Staff+ Design</td></tr>
-      <tr><td>Austin / Denver / Remote US</td><td>$170K–$240K</td><td>$280K–$400K</td><td>Director-level IC</td></tr>
-      <tr><td>London</td><td>£120K–£170K</td><td>£180K–£280K+</td><td>Principal/Assoc. Director</td></tr>
-      <tr><td>India (Top-Tier: Hyderabad/Bangalore)</td><td>₹50L–₹80L</td><td>₹75L–₹1.5Cr+</td><td>Associate Director+</td></tr>
-      <tr><td>Singapore / Sydney</td><td>S$180K–$250K / A$180K–$250K</td><td>$240K–$380K+</td><td>Principal Design</td></tr>
-    </tbody>
-  </table></div>
-
-  <h3>Negotiation Leverage Points</h3>
-  <ul>
-    <li><strong>Scarcity:</strong> Remind them this is a 0.1% role — full-stack product design leaders who can code are unicorns</li>
-    <li><strong>Impact Metrics:</strong> Frame your compensation ask against the business value you'll create (revenue impact, cost reduction, speed improvement)</li>
-    <li><strong>Competing Offers:</strong> Having 2+ offers transforms negotiation dynamics — always be interviewing in parallel</li>
-    <li><strong>Equity vs. Base:</strong> At this level, negotiate equity/RSUs aggressively — they compound over 4 years</li>
-    <li><strong>Title Parity:</strong> If the company won't match comp, negotiate title (Associate Director vs. Principal) for future leverage</li>
-  </ul>
-</section>
-
-<!-- ===== FOOTER ===== -->
-<footer class="footer">
-  <div class="f-brand">THE UNICORN HIRE</div>
-  <p>Master Strategy Playbook — Principal UX Architect & Full-Stack Product Leader</p>
-  <p style="margin-top: 8px;">Built with Claude Opus 4.6 · June 2026</p>
-</footer>
-
-</div>
-
-<script>
-// Active nav on scroll
-const sects = document.querySelectorAll('.sect, .hero');
-const navLinks = document.querySelectorAll('.nav-link');
-const obs = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      navLinks.forEach(l => l.classList.remove('active'));
-      const t = document.querySelector(`.nav-link[href="#${entry.target.id}"]`);
-      if (t) t.classList.add('active');
-    }
-  });
-}, { rootMargin: '-20% 0px -70% 0px' });
-sects.forEach(s => obs.observe(s));
-
-// Smooth scroll
-document.querySelectorAll('.nav-link').forEach(link => {
-  link.addEventListener('click', (e) => {
-    e.preventDefault();
-    const target = document.querySelector(link.getAttribute('href'));
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      document.querySelector('.sidebar').classList.remove('open');
-    }
-  });
-});
-
-// Auto-open first two panels
-setTimeout(() => {
-  document.querySelector('#pillar-1')?.classList.add('open');
-}, 600);
-</script>
+  <!-- Core Scripts -->
+  <script src="strategy_data.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
