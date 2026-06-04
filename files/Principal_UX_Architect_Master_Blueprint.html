@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Principal UX Architect Master Blueprint — Complete Career Strategy</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,500&family=Outfit:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#060709;--bg2:#0C0E14;--bg3:#12151E;--bg4:#1A1E2B;--bg5:#222738;
+  --bdr:#1C2033;--bdr2:#2A3048;--bdr3:#3A4060;
+  --tx:#F2F2F5;--tx2:#B0B5C8;--tx3:#7A8098;--tx4:#525870;
+  --gold:#C9A84C;--gold2:#E0C56E;--goldS:rgba(201,168,76,.10);--goldG:rgba(201,168,76,.04);
+  --plat:#A8B8D0;--platS:rgba(168,184,208,.08);
+  --em:#4FA882;--emS:rgba(79,168,130,.08);
+  --ice:#5A9FD4;--iceS:rgba(90,159,212,.08);
+  --vi:#8B6CC1;--viS:rgba(139,108,193,.08);
+  --rs:#D46A6A;--rsS:rgba(212,106,106,.08);
+  --amb:#D4A04A;--ambS:rgba(212,160,74,.08);
+  --cop:#C47A4A;--copS:rgba(196,122,74,.08);
+  --r:14px;--r2:8px;--r3:5px;
+  --sh:0 8px 32px rgba(0,0,0,.4);
+  --f1:'Cormorant Garamond',serif;--f2:'Outfit',sans-serif;--f3:'IBM Plex Mono',monospace;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--f2);background:var(--bg);color:var(--tx);line-height:1.75;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+::selection{background:var(--gold);color:var(--bg)}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--bdr2);border-radius:10px}
+.side{position:fixed;top:0;left:0;width:280px;height:100vh;background:var(--bg2);border-right:1px solid var(--bdr);z-index:100;overflow-y:auto;transition:transform .3s ease;display:flex;flex-direction:column}
+.side-hd{padding:24px 20px 18px;border-bottom:1px solid var(--bdr);flex-shrink:0}
+.side-hd h2{font-family:var(--f1);font-size:20px;font-weight:700;color:var(--gold);line-height:1.2}
+.side-hd p{font-size:9.5px;color:var(--tx4);text-transform:uppercase;letter-spacing:2.5px;margin-top:3px;font-weight:600}
+.ng{padding:12px 12px 4px}.ng-l{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:2.5px;color:var(--tx4);padding:0 8px 6px}
+.nl{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:var(--r2);color:var(--tx3);font-size:12.5px;font-weight:500;text-decoration:none;transition:all .2s;cursor:pointer}
+.nl:hover{background:var(--bg4);color:var(--tx)}.nl.ac{background:var(--goldS);color:var(--gold)}
+.nl .nn{font-family:var(--f3);font-size:9.5px;color:var(--tx4);min-width:20px;flex-shrink:0}
+.nl .ni{font-size:14px;width:18px;text-align:center;flex-shrink:0}
+.mob-m{display:none;position:fixed;top:12px;left:12px;z-index:200;background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--r2);padding:9px 12px;color:var(--tx);font-size:18px;cursor:pointer;line-height:1}
+.mn{margin-left:280px;min-height:100vh}
+.hero{position:relative;padding:110px 56px 80px;overflow:hidden;background:linear-gradient(160deg,#060709 0%,#0E1220 30%,#161028 55%,#100E0C 80%,#060709 100%)}
+.hero::before{content:'';position:absolute;top:-180px;right:-120px;width:650px;height:650px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,.05) 0%,transparent 65%);pointer-events:none}
+.hero-in{position:relative;z-index:1;max-width:840px}
+.hero-ey{display:inline-flex;align-items:center;gap:8px;background:var(--goldS);border:1px solid rgba(201,168,76,.2);border-radius:100px;padding:5px 16px;font-size:10.5px;color:var(--gold);font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:24px;animation:fd .7s ease both}
+@keyframes fd{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+.hero h1{font-family:var(--f1);font-size:50px;font-weight:700;line-height:1.12;letter-spacing:-.3px;margin-bottom:20px;animation:fu .7s .12s ease both}
+.hero h1 em{font-style:italic;color:var(--gold)}
+.hero .hs{font-size:16px;color:var(--tx2);max-width:660px;line-height:1.85;animation:fu .7s .24s ease both}
+@keyframes fu{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.hero-bar{display:flex;gap:40px;margin-top:40px;padding-top:28px;border-top:1px solid var(--bdr);animation:fu .7s .36s ease both;flex-wrap:wrap}
+.h-st .sv{font-family:var(--f1);font-size:36px;font-weight:700;color:var(--gold);line-height:1}
+.h-st .sl{font-size:11px;color:var(--tx4);margin-top:3px;text-transform:uppercase;letter-spacing:1.5px;font-weight:600}
+.S{padding:64px 56px;border-bottom:1px solid var(--bdr)}
+.S-hd{display:flex;align-items:center;gap:14px;margin-bottom:10px}
+.S-n{font-family:var(--f3);font-size:10.5px;color:var(--gold);background:var(--goldS);padding:3px 12px;border-radius:100px;font-weight:500}
+.S h2{font-family:var(--f1);font-size:33px;font-weight:700;letter-spacing:-.2px}
+.S .Si{font-size:15px;color:var(--tx2);max-width:720px;line-height:1.85;margin-bottom:32px}
+.S h3{font-family:var(--f2);font-size:17px;font-weight:700;margin:32px 0 14px;padding-bottom:7px;border-bottom:1px solid var(--bdr);color:var(--tx)}
+.S h4{font-size:12.5px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1.5px;margin:24px 0 10px}
+.S p,.S li{font-size:14px;color:var(--tx2);line-height:1.85}
+.S ul{list-style:none;padding:0}.S ul li{padding:4px 0 4px 20px;position:relative}
+.S ul li::before{content:'';position:absolute;left:5px;top:13px;width:5px;height:5px;border-radius:50%;background:var(--gold)}
+.S ol{padding-left:18px}.S ol li{padding:3px 0}.S ol li::marker{color:var(--gold);font-weight:700}
+.Q{background:var(--bg2);border:1px solid var(--bdr);border-left:3px solid var(--gold);border-radius:var(--r);padding:22px 26px;margin:18px 0}
+.Q p{font-family:var(--f1);font-size:16px;font-style:italic;color:var(--tx);line-height:1.7;padding-left:16px}
+.Q .qa{font-family:var(--f2);font-size:11px;font-style:normal;color:var(--tx4);margin-top:8px;padding-left:16px;text-transform:uppercase;letter-spacing:1.5px;font-weight:700}
+.G{display:grid;gap:16px;margin:18px 0}.G2{grid-template-columns:repeat(auto-fill,minmax(320px,1fr))}.G3{grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}.G4{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
+.C{background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--r);padding:22px;transition:all .22s}.C:hover{border-color:var(--bdr2);transform:translateY(-2px);box-shadow:var(--sh)}
+.Ci{font-size:26px;margin-bottom:10px;display:block}.Ct{font-size:14.5px;font-weight:700;color:var(--tx);margin-bottom:5px}.Cs{font-size:10.5px;color:var(--tx4);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:8px}.Cb{font-size:13px;color:var(--tx2);line-height:1.75}
+.tw{overflow-x:auto;margin:16px 0;border-radius:var(--r);border:1px solid var(--bdr)}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+thead th{background:var(--bg4);color:var(--tx);font-weight:700;text-align:left;padding:11px 14px;border-bottom:2px solid var(--bdr);font-size:10.5px;text-transform:uppercase;letter-spacing:.7px;white-space:nowrap}
+tbody td{padding:10px 14px;border-bottom:1px solid var(--bdr);color:var(--tx2);vertical-align:top}tbody tr:hover{background:var(--bg3)}tbody td:first-child{font-weight:600;color:var(--tx)}
+.tg{display:inline-block;padding:2px 9px;border-radius:100px;font-size:10.5px;font-weight:700;white-space:nowrap}
+.tg-g{background:var(--goldS);color:var(--gold)}.tg-e{background:var(--emS);color:var(--em)}.tg-i{background:var(--iceS);color:var(--ice)}.tg-v{background:var(--viS);color:var(--vi)}.tg-r{background:var(--rsS);color:var(--rs)}.tg-c{background:var(--copS);color:var(--cop)}.tg-p{background:var(--platS);color:var(--plat)}.tg-a{background:var(--ambS);color:var(--amb)}
+.P{background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden;margin:14px 0}
+.Ph{padding:18px 22px;display:flex;align-items:center;gap:12px;cursor:pointer;user-select:none;transition:background .2s}.Ph:hover{background:var(--bg3)}
+.Ph .pi{font-size:26px}.Ph .pf{flex:1}.Ph .pf h3{font-size:16px;font-weight:700;color:var(--tx);margin:0;padding:0;border:0}.Ph .pf .ps{font-size:12px;color:var(--tx3);margin-top:2px}
+.Pt{width:28px;height:28px;border-radius:50%;background:var(--bg4);display:flex;align-items:center;justify-content:center;color:var(--tx4);font-size:13px;transition:all .3s;flex-shrink:0}
+.P.op .Pt{transform:rotate(180deg);color:var(--gold)}.Pb{max-height:0;overflow:hidden;transition:max-height .5s cubic-bezier(.4,0,.2,1)}.P.op .Pb{max-height:15000px}.Pi{padding:0 22px 22px;border-top:1px solid var(--bdr)}
+.TL{position:relative;padding:18px 0}.TL::before{content:'';position:absolute;left:16px;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--gold),var(--ice),var(--em),var(--vi),var(--rs),var(--amb))}
+.Ti{position:relative;padding:0 0 26px 50px}.Td{position:absolute;left:8px;top:3px;width:18px;height:18px;border-radius:50%;border:3px solid var(--bg);z-index:1}
+.Ti h4{font-family:var(--f2);font-size:14.5px;font-weight:700;color:var(--tx);margin:0 0 2px;text-transform:none;letter-spacing:0}.Ti .Tm{font-family:var(--f3);font-size:10.5px;color:var(--tx4);margin-bottom:5px}.Ti p{font-size:13px;color:var(--tx2);line-height:1.75}
+.sb{display:flex;align-items:center;gap:14px;padding:10px 0;border-bottom:1px solid var(--bdr)}.sb-l{flex:1;font-size:13.5px;font-weight:600;color:var(--tx)}.sb-o{width:180px;height:7px;background:var(--bg4);border-radius:10px;overflow:hidden;flex-shrink:0}.sb-i{height:100%;border-radius:10px}.sb-v{font-family:var(--f3);font-size:12px;color:var(--gold);min-width:36px;text-align:right}
+.pills{display:flex;flex-wrap:wrap;gap:7px;margin:10px 0}.pill{padding:4px 13px;border-radius:100px;font-size:11.5px;font-weight:600;border:1px solid var(--bdr);color:var(--tx2);background:var(--bg2);transition:all .2s}.pill:hover{border-color:var(--gold);color:var(--gold)}
+.MG{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px;margin:18px 0}.M{background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--r);padding:18px;text-align:center;transition:all .2s}.M:hover{border-color:var(--gold);transform:translateY(-2px)}.M .mv{font-family:var(--f1);font-size:34px;font-weight:700;line-height:1}.M .ml{font-size:11px;color:var(--tx4);margin-top:5px;text-transform:uppercase;letter-spacing:1px;font-weight:600}
+.tier{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0}.tier-c{background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--r);padding:20px;position:relative;overflow:hidden}.tier-c .tier-badge{position:absolute;top:0;right:0;padding:4px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;border-radius:0 0 0 var(--r2)}.tier-c h4{font-size:14px;font-weight:700;color:var(--tx);margin:0 0 4px;text-transform:none;letter-spacing:0}.tier-c .tier-sub{font-size:11px;color:var(--tx4);margin-bottom:12px}.tier-c ul{list-style:none;padding:0}.tier-c ul li{padding:3px 0 3px 16px;position:relative;font-size:12.5px;color:var(--tx2)}.tier-c ul li::before{content:'';position:absolute;left:3px;top:11px;width:4px;height:4px;border-radius:50%}
+.ft{padding:44px 56px;text-align:center;border-top:1px solid var(--bdr);color:var(--tx4);font-size:12px}.ft .fb{font-family:var(--f1);font-size:18px;color:var(--gold);margin-bottom:4px}
+@media(max-width:1024px){.side{transform:translateX(-100%)}.side.open{transform:translateX(0)}.mob-m{display:block}.mn{margin-left:0}.hero{padding:80px 24px 60px}.hero h1{font-size:34px}.S{padding:40px 24px}.S h2{font-size:26px}.G2,.G3{grid-template-columns:1fr}.tier{grid-template-columns:1fr 1fr}.sb-o{width:120px}.hero-bar{gap:20px}}
+@media(max-width:600px){.tier{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<button class="mob-m" onclick="document.querySelector('.side').classList.toggle('open')">☰</button>
+<nav class="side">
+<div class="side-hd"><h2>The Master Blueprint</h2><p>Principal UX Architect</p></div>
+<div class="ng"><div class="ng-l">Overview</div><a class="nl ac" href="#hero"><span class="ni">🏛️</span> Home</a><a class="nl" href="#exec"><span class="nn">00</span> Executive Summary</a></div>
+<div class="ng"><div class="ng-l">Research</div><a class="nl" href="#s1"><span class="nn">01</span> Job Description</a><a class="nl" href="#s2"><span class="nn">02</span> Skill Framework</a><a class="nl" href="#s3"><span class="nn">03</span> Resume Blueprint</a><a class="nl" href="#s4"><span class="nn">04</span> Portfolio Blueprint</a><a class="nl" href="#s5"><span class="nn">05</span> Interview Framework</a></div>
+<div class="ng"><div class="ng-l">Strategy</div><a class="nl" href="#s6"><span class="nn">06</span> Preparation Roadmap</a><a class="nl" href="#s7"><span class="nn">07</span> Personal Brand</a><a class="nl" href="#s8"><span class="nn">08</span> Compensation</a><a class="nl" href="#s9"><span class="nn">09</span> Future-Proof 2030</a></div>
+<div class="ng"><div class="ng-l">Platform</div><a class="nl" href="#s10"><span class="nn">10</span> Website Architecture</a><a class="nl" href="#del"><span class="nn">11</span> Deliverables Index</a><a class="nl" href="#y5"><span class="nn">12</span> 5-Year Career Plan</a><a class="nl" href="#act"><span class="nn">13</span> Top 1% Action Plan</a></div>
+</nav>
+<div class="mn">
+<header class="hero" id="hero"><div class="hero-in">
+<div class="hero-ey">👑 Elite Global Hiring Panel · Consulting-Grade Strategy</div>
+<h1>The <em>Principal UX Architect</em> Master Blueprint</h1>
+<p class="hs">The definitive career strategy — 10 research areas, 17 deliverables, 10 interview stages, 6 skill domains, 4 resume tiers, and a complete roadmap from senior practitioner to global authority. Built from the collective intelligence of the world's top CEOs, CPOs, CDOs, CTOs, and executive recruiters.</p>
+<div class="hero-bar"><div class="h-st"><div class="sv">10</div><div class="sl">Research Areas</div></div><div class="h-st"><div class="sv">17</div><div class="sl">Deliverables</div></div><div class="h-st"><div class="sv">10</div><div class="sl">Interview Stages</div></div><div class="h-st"><div class="sv">6</div><div class="sl">Skill Domains</div></div><div class="h-st"><div class="sv">4</div><div class="sl">Resume Tiers</div></div></div>
+</div></header>
+
+<section class="S" id="exec"><div class="S-hd"><span class="S-n">00</span><h2>Executive Summary</h2></div>
+<p class="Si">This blueprint addresses the most pressing talent gap in technology: the absence of leaders who can operate with authority across product strategy, user experience, design systems, front-end engineering, AI-augmented workflows, and business transformation.</p>
+<div class="Q"><p>The companies that win the next decade will be led by people who refuse to be categorized. Product, Design, and Engineering aren't three disciplines — they're one craft practiced at different altitudes. We're looking for the person who operates at all altitudes simultaneously.</p><div class="qa">— The CEO Panel Collective Mandate</div></div>
+<div class="G G3">
+<div class="C"><span class="Ci">🎯</span><div class="Ct">The Convergence Imperative</div><div class="Cb">AI has dissolved boundaries between design and development. Companies lose 40–60% of cycle time to cross-functional translation. The integrator eliminates this waste.</div></div>
+<div class="C"><span class="Ci">💎</span><div class="Ct">The Scarcity Premium</div><div class="Cb">Less than 0.1% of product professionals credibly span PM, UX Research, Design, Systems, Accessibility, and Front-End. This creates outsized career leverage.</div></div>
+<div class="C"><span class="Ci">🚀</span><div class="Ct">The Business ROI</div><div class="Cb">One full-stack product leader replaces 3–4 functional leads, accelerates decisions 3x, reduces rework 50%, compresses time-to-market 30–40%.</div></div>
+</div>
+<h3>Blueprint Coverage — 10 Research Areas × 17 Deliverables</h3>
+<div class="tw"><table><thead><tr><th>Section</th><th>Coverage</th><th>Key Deliverable</th></tr></thead><tbody>
+<tr><td>01 · Job Description</td><td>Mission, responsibilities, strategic ownership, AI transformation, stakeholder management</td><td>Complete JD template</td></tr>
+<tr><td>02 · Skill Framework</td><td>6 domains: Product, UX, Technical, Leadership, Business, AI — 60+ skills</td><td>Competency matrix + maturity model</td></tr>
+<tr><td>03 · Resume Blueprint</td><td>4-tier comparison, ARCH storytelling framework, metrics density analysis</td><td>Resume architecture + tier rubric</td></tr>
+<tr><td>04 · Portfolio Blueprint</td><td>8 project types, IMPACT case study framework, evaluation criteria</td><td>Portfolio architecture</td></tr>
+<tr><td>05 · Interview Framework</td><td>10-stage process, scoring matrices, 50+ questions, red/green flags</td><td>Complete interview playbook</td></tr>
+<tr><td>06 · Preparation Roadmap</td><td>30/90/180/365-day plans, reading lists, certifications, projects</td><td>Week-by-week guide</td></tr>
+<tr><td>07 · Personal Brand</td><td>LinkedIn, speaking, writing, open-source, community building</td><td>Brand building roadmap</td></tr>
+<tr><td>08 · Compensation</td><td>5 markets, equity, consulting, fractional leadership</td><td>Compensation benchmarks</td></tr>
+<tr><td>09 · Future-Proof 2030</td><td>Emerging skills, obsolescence risks, AI impact predictions</td><td>Skills evolution forecast</td></tr>
+<tr><td>10 · Website Architecture</td><td>IA, sitemap, design system, AI features, technical stack</td><td>Platform blueprint</td></tr>
+</tbody></table></div>
+</section>
+
+<section class="S" id="s1"><div class="S-hd"><span class="S-n">01</span><h2>The Ideal Job Description</h2></div>
+<p class="Si">What the global CEO panel would write for the most impactful product-design-engineering leadership hire.</p>
+<h3>Mission Statement</h3>
+<p>Lead the end-to-end product experience across the enterprise — from strategic vision through production — by unifying product strategy, UX architecture, visual systems, accessibility, front-end engineering, and AI-augmented workflows under a single point of architectural authority.</p>
+<h3>Responsibility Architecture</h3>
+<div class="tw"><table><thead><tr><th>Domain</th><th>Weight</th><th>Key Responsibilities</th></tr></thead><tbody>
+<tr><td>Product & UX Strategy</td><td><span class="tg tg-g">25%</span></td><td>UX vision, multi-year roadmap, OKR alignment, discovery sprints, competitive audits, product metrics (NPS, SUS, conversion), C-suite presentations</td></tr>
+<tr><td>Experience Architecture</td><td><span class="tg tg-i">25%</span></td><td>Information architecture, interaction models, wireframing → hi-fi prototyping, micro-interactions, animation specs, responsive behavior, design reviews</td></tr>
+<tr><td>Design Systems & Visual</td><td><span class="tg tg-v">15%</span></td><td>Design system as product: tokens, components, documentation, governance. Visual language: typography, color, motion, iconography. Cross-platform consistency</td></tr>
+<tr><td>Front-End Engineering</td><td><span class="tg tg-e">15%</span></td><td>React/Next.js component libraries, front-end architecture, code review (a11y, performance, design accuracy), AI dev tools, design-to-code bridge</td></tr>
+<tr><td>AI Transformation</td><td><span class="tg tg-a">10%</span></td><td>AI product strategy, human-AI interaction patterns, agentic UX, AI governance frameworks, AI-augmented design workflows</td></tr>
+<tr><td>Team Leadership</td><td><span class="tg tg-c">10%</span></td><td>Lead 4–12 team. Hiring, mentoring, career frameworks. DesignOps. Cross-functional collaboration. Design culture evangelism</td></tr>
+</tbody></table></div>
+<h3>Innovation & Transformation Mandate</h3>
+<ul>
+<li><strong>AI Product Design:</strong> Define how AI features feel — confidence indicators, human override, explainability, feedback loops</li>
+<li><strong>Agentic UX:</strong> Design for autonomous AI agents — permission models, transparency, progressive autonomy, trust calibration</li>
+<li><strong>Spatial Computing:</strong> Prepare for XR/spatial interfaces — visionOS, volumetric design, spatial navigation</li>
+<li><strong>Service Design:</strong> Extend UX beyond screens — end-to-end service journeys, cross-channel friction, customer lifecycle</li>
+<li><strong>Digital Transformation:</strong> Modernize legacy systems, introduce design thinking org-wide, build design maturity</li>
+</ul>
+<h3>Required Qualifications</h3>
+<div class="tw"><table><thead><tr><th>Category</th><th>Minimum</th><th>Preferred</th></tr></thead><tbody>
+<tr><td>Experience</td><td>12–18+ years, 5+ at principal/staff/director</td><td>20+ years global enterprise scale</td></tr>
+<tr><td>Education</td><td>Bachelor's/Master's Design, HCI, CS</td><td>Executive education in PM, AI/ML, Transformation</td></tr>
+<tr><td>Design Systems</td><td>Built/evolved enterprise design system</td><td>Open-source DS contributor</td></tr>
+<tr><td>Front-End</td><td>Production React/TypeScript</td><td>Full-stack awareness (Node, APIs, CI/CD)</td></tr>
+<tr><td>Accessibility</td><td>Deep WCAG 2.2 AA</td><td>WCAG 2.2 AAA in regulated industry</td></tr>
+<tr><td>AI</td><td>Active AI tool user</td><td>AI product design pattern expertise</td></tr>
+<tr><td>Domain</td><td>Enterprise SaaS or complex B2B</td><td>Healthcare/HIPAA, FinTech/SOC2</td></tr>
+<tr><td>Leadership</td><td>Teams of 4+, mentored seniors</td><td>Built design orgs from scratch</td></tr>
+</tbody></table></div>
+</section>
+
+<section class="S" id="s2"><div class="S-hd"><span class="S-n">02</span><h2>The Ultimate Skill Framework — 6 Domains</h2></div>
+<p class="Si">60+ individual competencies across 6 non-negotiable domains. Mastery across all six is the unicorn threshold.</p>
+<div class="P op"><div class="Ph" onclick="this.parentElement.classList.toggle('op')"><span class="pi">🧭</span><div class="pf"><h3>Domain 1: Product Skills</h3><div class="ps">Strategy · Discovery · Roadmapping · Analytics · Growth · Operations</div></div><div class="Pt">▼</div></div>
+<div class="Pb"><div class="Pi"><div class="tw"><table><thead><tr><th>Skill</th><th>Description</th><th>Mastery Signal</th></tr></thead><tbody>
+<tr><td>Product Strategy</td><td>Multi-year vision, competitive positioning, TAM/SAM/SOM, business model</td><td>Strategy that secured $10M+ investment</td></tr>
+<tr><td>Product Discovery</td><td>Opportunity mapping, JTBD, assumption testing, experiment design</td><td>Discovery that pivoted product direction</td></tr>
+<tr><td>Product Roadmapping</td><td>Outcome-based roadmaps, RICE/WSJF prioritization, quarterly planning</td><td>Roadmap that aligned 5+ teams</td></tr>
+<tr><td>Product Analytics</td><td>Funnels, cohort retention, A/B testing, metric definition, dashboards</td><td>Analytics framework → company standard</td></tr>
+<tr><td>Product Growth</td><td>Activation, retention loops, network effects, virality mechanics</td><td>Growth initiative moving north-star 20%+</td></tr>
+<tr><td>Product Operations</td><td>Process optimization, tool selection, cross-team workflows, releases</td><td>ProductOps practice adopted org-wide</td></tr>
+</tbody></table></div></div></div></div>
+
+<div class="P"><div class="Ph" onclick="this.parentElement.classList.toggle('op')"><span class="pi">🔬</span><div class="pf"><h3>Domain 2: UX Skills</h3><div class="ps">Research · IA · Interaction · Service · Thinking · Accessibility · Systems</div></div><div class="Pt">▼</div></div>
+<div class="Pb"><div class="Pi"><div class="tw"><table><thead><tr><th>Skill</th><th>Description</th><th>Mastery Signal</th></tr></thead><tbody>
+<tr><td>UX Research</td><td>Qualitative + quantitative full spectrum</td><td>Research finding that changed product direction</td></tr>
+<tr><td>Information Architecture</td><td>Taxonomies, navigation, content strategy for complex systems</td><td>IA for 500+ screen product at 90%+ findability</td></tr>
+<tr><td>Interaction Design</td><td>Micro-interactions, state machines, gesture, animation</td><td>Pattern adopted as company standard</td></tr>
+<tr><td>Service Design</td><td>Service blueprints, cross-channel journeys, touchpoints</td><td>Service redesign reducing effort score 40%</td></tr>
+<tr><td>Accessibility</td><td>WCAG 2.2 AA/AAA, ARIA, keyboard, screen readers</td><td>Led org-wide a11y program passing audit</td></tr>
+<tr><td>Design Systems</td><td>Atomic design, tokens, governance, multi-theme</td><td>DS adopted by 10+ teams at 95%+ consistency</td></tr>
+</tbody></table></div></div></div></div>
+
+<div class="P"><div class="Ph" onclick="this.parentElement.classList.toggle('op')"><span class="pi">💻</span><div class="pf"><h3>Domain 3: Technical Skills</h3><div class="ps">HTML · CSS · JS/TS · React · Next.js · AI Dev · Architecture</div></div><div class="Pt">▼</div></div>
+<div class="Pb"><div class="Pi"><div class="tw"><table><thead><tr><th>Skill</th><th>Level Required</th><th>Mastery Signal</th></tr></thead><tbody>
+<tr><td>HTML5 / Semantic</td><td>Expert</td><td>Can audit any page for semantic correctness</td></tr>
+<tr><td>CSS3 / SCSS / Tailwind</td><td>Expert</td><td>CSS architecture for enterprise design system</td></tr>
+<tr><td>JavaScript / TypeScript</td><td>Advanced</td><td>TypeScript component library with strict typing</td></tr>
+<tr><td>React / Next.js</td><td>Advanced</td><td>Production component library used by multiple teams</td></tr>
+<tr><td>AI-Assisted Dev</td><td>Proficient</td><td>Documented AI workflow that 3x'd speed</td></tr>
+<tr><td>Testing (Jest, Playwright)</td><td>Proficient</td><td>Testing strategy with 90%+ coverage</td></tr>
+<tr><td>Performance</td><td>Proficient</td><td>Optimization improving LCP by 40%+</td></tr>
+</tbody></table></div></div></div></div>
+
+<div class="P"><div class="Ph" onclick="this.parentElement.classList.toggle('op')"><span class="pi">👥</span><div class="pf"><h3>Domain 4: Leadership Skills</h3><div class="ps">Team Building · Mentorship · Exec Communication · Change Mgmt</div></div><div class="Pt">▼</div></div>
+<div class="Pb"><div class="Pi"><div class="tw"><table><thead><tr><th>Skill</th><th>Mastery Signal</th></tr></thead><tbody>
+<tr><td>Team Building</td><td>Built team from 2→15 with &lt;10% attrition</td></tr>
+<tr><td>Mentorship</td><td>3+ mentees promoted to senior/lead within 2 years</td></tr>
+<tr><td>Executive Communication</td><td>Presentation that secured budget for team expansion</td></tr>
+<tr><td>Change Management</td><td>Design transformation shifting org maturity +2 levels</td></tr>
+<tr><td>Conflict Resolution</td><td>Resolved multi-quarter conflict → 40% faster releases</td></tr>
+</tbody></table></div></div></div></div>
+
+<div class="P"><div class="Ph" onclick="this.parentElement.classList.toggle('op')"><span class="pi">📊</span><div class="pf"><h3>Domain 5: Business Skills</h3><div class="ps">Finance · P&L · Market Analysis · Customer Strategy · Transformation</div></div><div class="Pt">▼</div></div>
+<div class="Pb"><div class="Pi"><div class="tw"><table><thead><tr><th>Skill</th><th>Mastery Signal</th></tr></thead><tbody>
+<tr><td>Financial Literacy</td><td>Translated design initiative into $XM revenue impact</td></tr>
+<tr><td>Market Analysis</td><td>Competitive analysis identifying whitespace → new product line</td></tr>
+<tr><td>Customer Strategy</td><td>Strategy improving retention X% and NPS Y points</td></tr>
+<tr><td>Digital Transformation</td><td>Led transformation of legacy platform serving XM users</td></tr>
+<tr><td>Business Model Thinking</td><td>Contributed to pivot increasing ARPU 35%</td></tr>
+</tbody></table></div></div></div></div>
+
+<div class="P"><div class="Ph" onclick="this.parentElement.classList.toggle('op')"><span class="pi">🤖</span><div class="pf"><h3>Domain 6: AI Skills</h3><div class="ps">AI Strategy · GenAI · Agentic Systems · Prompts · Governance · Human-AI</div></div><div class="Pt">▼</div></div>
+<div class="Pb"><div class="Pi"><div class="tw"><table><thead><tr><th>Skill</th><th>Mastery Signal</th></tr></thead><tbody>
+<tr><td>AI Product Strategy</td><td>AI strategy driving X% efficiency improvement</td></tr>
+<tr><td>Generative AI Design</td><td>GenAI feature used by XK+ users at 4.5+ satisfaction</td></tr>
+<tr><td>Agentic Systems UX</td><td>Agentic UX pattern library → company standard</td></tr>
+<tr><td>Prompt Engineering</td><td>Prompt templates accelerating team productivity 3x</td></tr>
+<tr><td>AI Governance</td><td>Framework adopted by product and engineering orgs</td></tr>
+<tr><td>Human-AI Interaction</td><td>Guidelines published and adopted company-wide</td></tr>
+</tbody></table></div></div></div></div>
+
+<h3>The Unicorn Threshold — Minimum Hire Profile</h3>
+<div style="margin-top:14px">
+<div class="sb"><div class="sb-l">Product Skills</div><div class="sb-o"><div class="sb-i" style="width:80%;background:linear-gradient(90deg,var(--gold),var(--cop))"></div></div><div class="sb-v">4/5</div></div>
+<div class="sb"><div class="sb-l">UX Skills</div><div class="sb-o"><div class="sb-i" style="width:100%;background:linear-gradient(90deg,var(--ice),var(--vi))"></div></div><div class="sb-v">5/5</div></div>
+<div class="sb"><div class="sb-l">Technical Skills</div><div class="sb-o"><div class="sb-i" style="width:80%;background:linear-gradient(90deg,var(--em),var(--gold))"></div></div><div class="sb-v">4/5</div></div>
+<div class="sb"><div class="sb-l">Leadership Skills</div><div class="sb-o"><div class="sb-i" style="width:80%;background:linear-gradient(90deg,var(--cop),var(--rs))"></div></div><div class="sb-v">4/5</div></div>
+<div class="sb"><div class="sb-l">Business Skills</div><div class="sb-o"><div class="sb-i" style="width:60%;background:linear-gradient(90deg,var(--amb),var(--gold))"></div></div><div class="sb-v">3/5</div></div>
+<div class="sb"><div class="sb-l">AI Skills</div><div class="sb-o"><div class="sb-i" style="width:80%;background:linear-gradient(90deg,var(--vi),var(--ice))"></div></div><div class="sb-v">4/5</div></div>
+</div>
+<p style="margin-top:14px;font-size:12.5px;color:var(--tx4)"><strong>Minimum Total:</strong> 24/30 (avg 4.0/5). Less than 3 on any domain = no-hire. UX must be 5.</p>
+</section>
+
+<section class="S" id="s3"><div class="S-hd"><span class="S-n">03</span><h2>Resume Blueprint — 4 Tiers</h2></div>
+<p class="Si">What separates an average resume from a top 0.1% resume isn't length — it's density of proof.</p>
+<h3>The Four Resume Tiers</h3>
+<div class="tier">
+<div class="tier-c"><div class="tier-badge" style="background:var(--rsS);color:var(--rs)">Average</div><h4>Tier 1</h4><div class="tier-sub" style="color:var(--rs)">Gets screened out</div><ul><li>Lists tools used</li><li>Describes daily tasks</li><li>No metrics or impact</li><li>Generic objective</li><li>No portfolio link</li></ul></div>
+<div class="tier-c"><div class="tier-badge" style="background:var(--ambS);color:var(--amb)">Strong</div><h4>Tier 2</h4><div class="tier-sub" style="color:var(--amb)">Gets interviews</div><ul><li>Some results/metrics</li><li>Structured bullets</li><li>Clear progression</li><li>Portfolio linked</li><li>Some business context</li></ul></div>
+<div class="tier-c"><div class="tier-badge" style="background:var(--emS);color:var(--em)">World-Class</div><h4>Tier 3</h4><div class="tier-sub" style="color:var(--em)">Gets pursued</div><ul><li>Every bullet has metrics</li><li>ARCH framework stories</li><li>"What Makes Me Different"</li><li>Full-stack breadth visible</li><li>Publications & leadership</li></ul></div>
+<div class="tier-c" style="border-color:var(--gold)"><div class="tier-badge" style="background:var(--goldS);color:var(--gold)">Top 0.1%</div><h4>Tier 4</h4><div class="tier-sub" style="color:var(--gold)">Gets unsolicited offers</div><ul><li>Revenue/P&L in every role</li><li>Team growth outcomes</li><li>AI workflow documented</li><li>Patents or open-source</li><li>Conference keynotes</li></ul></div>
+</div>
+<h3>ARCH Storytelling Framework</h3>
+<ul><li><strong>A</strong>ction — What YOU specifically did</li><li><strong>R</strong>esult — Measurable outcome ($, %, time, users)</li><li><strong>C</strong>ontext — Scale, complexity, constraints</li><li><strong>H</strong>ow — Methodology, tool, framework used</li></ul>
+<div class="Q"><p>Architected patient scheduling redesign reducing task completion time by 47% and support tickets by 32% for 5M-user healthcare platform using contextual inquiry research, WCAG 2.2 AA-compliant design system, and React component library.</p><div class="qa">— Example Tier 4 ARCH Bullet</div></div>
+</section>
+
+<section class="S" id="s4"><div class="S-hd"><span class="S-n">04</span><h2>Portfolio Blueprint — 8 Project Types</h2></div>
+<p class="Si">The portfolio must demonstrate breadth across all six skill domains AND depth in at least three.</p>
+<div class="tw"><table><thead><tr><th>#</th><th>Project Type</th><th>What It Proves</th><th>Coverage</th></tr></thead><tbody>
+<tr><td>1</td><td>Enterprise Platform Redesign</td><td>End-to-end UX leadership at scale</td><td><span class="tg tg-g">All 6</span></td></tr>
+<tr><td>2</td><td>Design System Case Study</td><td>Architecture, tokens, governance</td><td><span class="tg tg-v">UX+Tech+Lead</span></td></tr>
+<tr><td>3</td><td>0→1 Product Launch</td><td>Discovery → launch → iteration</td><td><span class="tg tg-i">Product+UX+Biz</span></td></tr>
+<tr><td>4</td><td>Research-Driven Optimization</td><td>A/B testing, funnel optimization</td><td><span class="tg tg-e">Product+UX</span></td></tr>
+<tr><td>5</td><td>Accessibility Program</td><td>WCAG leadership, audit, culture</td><td><span class="tg tg-r">UX+Leadership</span></td></tr>
+<tr><td>6</td><td>Front-End / Code Project</td><td>Production code, component library</td><td><span class="tg tg-c">Tech</span></td></tr>
+<tr><td>7</td><td>AI Product Design</td><td>Human-AI interaction, GenAI UX</td><td><span class="tg tg-a">AI+UX</span></td></tr>
+<tr><td>8</td><td>Service Design / CX</td><td>Cross-channel journeys, blueprints</td><td><span class="tg tg-p">Biz+UX</span></td></tr>
+</tbody></table></div>
+<h3>IMPACT Case Study Framework</h3>
+<ul><li><strong>I</strong>ntent — Business problem + user need + strategic context</li><li><strong>M</strong>ethod — Research methods, design processes, tools, team</li><li><strong>P</strong>rocess — Messy to polished journey (include failures and pivots)</li><li><strong>A</strong>rchitecture — IA, flows, systems thinking, design system decisions</li><li><strong>C</strong>raft — Hi-fi screens, interactions, visual details, all states</li><li><strong>T</strong>ransformation — Before/after metrics, business impact, satisfaction</li></ul>
+</section>
+
+<section class="S" id="s5"><div class="S-hd"><span class="S-n">05</span><h2>Interview Framework — 10 Stages</h2></div>
+<p class="Si">The most rigorous hiring process in the industry. Ten stages, each testing different competencies.</p>
+<div class="TL" style="margin-top:24px">
+<div class="Ti"><div class="Td" style="background:var(--plat)"></div><h4>Stage 1: Recruiter Screen</h4><div class="Tm">30 min · Culture, comp, role understanding</div><p>Can they articulate career arc in 3 minutes? Do they understand the full-stack scope?</p></div>
+<div class="Ti"><div class="Td" style="background:var(--gold)"></div><h4>Stage 2: Leadership Screening</h4><div class="Tm">45 min · Portfolio walkthrough, leadership philosophy</div><p>Do they lead with impact or activity? Can they speak to business outcomes?</p></div>
+<div class="Ti"><div class="Td" style="background:var(--ice)"></div><h4>Stage 3: Product Thinking</h4><div class="Tm">60 min · Strategy challenge — SPADE framework</div><p>Given a business problem: define strategy, users, metrics, MVP, roadmap in 30 minutes.</p></div>
+<div class="Ti"><div class="Td" style="background:var(--em)"></div><h4>Stage 4: UX Architecture</h4><div class="Tm">90 min · Portfolio deep dive with hostile questions</div><p>Defend every decision with evidence. Show messy process. Quantify impact.</p></div>
+<div class="Ti"><div class="Td" style="background:var(--vi)"></div><h4>Stage 5: Systems Thinking</h4><div class="Tm">60 min · Whiteboard design system architecture</div><p>Token structure, component hierarchy, governance, React implementation.</p></div>
+<div class="Ti"><div class="Td" style="background:var(--amb)"></div><h4>Stage 6: AI Strategy</h4><div class="Tm">45 min · Design AI-powered feature from scratch</div><p>Human-AI interaction, trust, transparency, feedback loops, ethics.</p></div>
+<div class="Ti"><div class="Td" style="background:var(--cop)"></div><h4>Stage 7: Design Exercise</h4><div class="Tm">2hr take-home + 60 min live session</div><p>IA, flows, wireframes, hi-fi screen. Live: walk through work, iterate on feedback.</p></div>
+<div class="Ti"><div class="Td" style="background:var(--rs)"></div><h4>Stage 8: Technical Evaluation</h4><div class="Tm">60 min · React code review + pair programming</div><p>Identify a11y, performance, design-system violations. Pair-program a fix.</p></div>
+<div class="Ti"><div class="Td" style="background:var(--ice)"></div><h4>Stage 9: Executive Presentation</h4><div class="Tm">45 min · Present UX transformation proposal</div><p>Vision, roadmap, team, metrics, investment ask. Board-room readiness test.</p></div>
+<div class="Ti"><div class="Td" style="background:var(--gold)"></div><h4>Stage 10: CEO / CXO Bar-Raiser</h4><div class="Tm">45 min · Vision, philosophy, culture fit</div><p>Where is design headed in 5 years? How does AI change the process? Why this company?</p></div>
+</div>
+<h3>Scoring Matrix</h3>
+<div class="tw"><table><thead><tr><th>Stage</th><th>Primary (40%)</th><th>Secondary (30%)</th><th>Red Flag</th><th>Green Flag</th></tr></thead><tbody>
+<tr><td>1. Recruiter</td><td>Career clarity</td><td>Role understanding</td><td>Can't explain full-stack scope</td><td>3-min arc with metrics</td></tr>
+<tr><td>2. Leadership</td><td>Impact stories</td><td>Team philosophy</td><td>All credit, no team</td><td>Mentoring outcomes</td></tr>
+<tr><td>3. Product</td><td>Structured thinking</td><td>User empathy</td><td>Solutions w/o problem framing</td><td>User-first, business-backed</td></tr>
+<tr><td>4. UX Architecture</td><td>Process rigor</td><td>Evidence-based</td><td>No metrics/research</td><td>Before/after per decision</td></tr>
+<tr><td>5. Systems</td><td>Architecture depth</td><td>Governance</td><td>Flat tokens, no scale</td><td>Multi-theme architecture</td></tr>
+<tr><td>6. AI Strategy</td><td>AI design patterns</td><td>Ethics awareness</td><td>"AI replaces designers"</td><td>Human-AI collaboration</td></tr>
+<tr><td>7. Design</td><td>Systems thinking</td><td>Craft quality</td><td>Happy path only</td><td>Full states + a11y</td></tr>
+<tr><td>8. Technical</td><td>A11y identification</td><td>Performance</td><td>Can't spot WCAG issues</td><td>ARIA fix in React</td></tr>
+<tr><td>9. Exec Pres.</td><td>Strategic vision</td><td>Clarity</td><td>Tactical not strategic</td><td>ROI investment case</td></tr>
+<tr><td>10. Bar Raiser</td><td>Vision</td><td>Culture fit</td><td>No opinion on future</td><td>Clear design philosophy</td></tr>
+</tbody></table></div>
+</section>
+
+<section class="S" id="s6"><div class="S-hd"><span class="S-n">06</span><h2>Preparation Roadmap</h2></div>
+<p class="Si">Phased preparation: from strong senior to unstoppable principal-level candidate.</p>
+<h3>30-Day Sprint — "Build the Foundation"</h3>
+<div class="G G2">
+<div class="C" style="border-top:3px solid var(--gold)"><div class="Ct">Week 1–2: Portfolio Surgery</div><div class="Cb">Rebuild 3 case studies using IMPACT. Every case: research → design → metrics. Include messy process. Record before/after. Build narrative arc.</div></div>
+<div class="C" style="border-top:3px solid var(--ice)"><div class="Ct">Week 3–4: Skills Gap Audit</div><div class="Cb">Self-assess against 6 domains. Score honestly. Identify 2 domains below level 3. Begin daily: 1 product exercise, 1 code review, 1 research deep-dive.</div></div>
+</div>
+<h3>90-Day Campaign — "Sharpen the Edge"</h3>
+<div class="G G2">
+<div class="C" style="border-top:3px solid var(--em)"><div class="Ct">Month 2: Technical Depth</div><div class="Cb">Build production React component library (10+ components, Storybook, TypeScript, a11y). Review 10 open-source design systems. Ship to GitHub.</div></div>
+<div class="C" style="border-top:3px solid var(--vi)"><div class="Ct">Month 3: Interview Machine</div><div class="Cb">10 mock interviews (1 per stage type). Record, watch, fix. SPADE practice. 15 STAR-A stories. Deep company research.</div></div>
+</div>
+<h3>180-Day Program — "Build the Brand"</h3>
+<div class="G G2">
+<div class="C" style="border-top:3px solid var(--cop)"><div class="Ct">Month 4–5: Thought Leadership</div><div class="Cb">4 LinkedIn articles. 1 local talk. 1 open-source contribution. Case study blog. 2 conference submissions. Public learning resource.</div></div>
+<div class="C" style="border-top:3px solid var(--rs)"><div class="Ct">Month 6: Active Pursuit</div><div class="Cb">10 target roles simultaneously. Warm introductions. Custom portfolio per company. Multiple offers → strong negotiation. 30-60-90 plan ready.</div></div>
+</div>
+<h3>1-Year Mastery Resources</h3>
+<div class="G G3">
+<div class="C"><div class="Ct">Certifications</div><div class="Cb">CUA (HFI) · IxDF (3+) · Design Thinking (IIT/Stanford) · Executive PG (AI/ML, Digital Transformation) · CSPO · WCAG specialist</div></div>
+<div class="C"><div class="Ct">Reading List</div><div class="Cb">Inspired · Sprint · Design of Everyday Things · Articulating Design Decisions · Atomic Design · Don't Make Me Think · Org Design for Design Orgs · Lean UX · JTBD · Measure What Matters</div></div>
+<div class="C"><div class="Ct">Practice Projects</div><div class="Cb">Open-source design system · AI-powered portfolio · Healthcare platform concept · React a11y library · PDLC learning hub · Design leadership course</div></div>
+</div>
+</section>
+
+<section class="S" id="s7"><div class="S-hd"><span class="S-n">07</span><h2>Personal Brand Strategy</h2></div>
+<p class="Si">From unknown professional to global authority — systematically building visibility, credibility, and influence.</p>
+<div class="G G3">
+<div class="C"><span class="Ci">✍️</span><div class="Ct">Write</div><div class="Cs">LinkedIn · Medium · Blog</div><div class="Cb">2 articles/month. Topics: design leadership, AI workflows, systems, accessibility. Goal: 10K+ followers in 12 months.</div></div>
+<div class="C"><span class="Ci">🎤</span><div class="Ct">Speak</div><div class="Cs">Conferences · Meetups · Pods</div><div class="Cb">1 local/quarter → 1 conference/year → keynotes. Target: Config, An Event Apart, UX India, ProductCon.</div></div>
+<div class="C"><span class="Ci">🛠️</span><div class="Ct">Build</div><div class="Cs">Open Source · GitHub</div><div class="Cb">Public design system, learning hub, AI tools. React a11y contributions. Goal: 500+ GitHub stars.</div></div>
+<div class="C"><span class="Ci">🎓</span><div class="Ct">Teach</div><div class="Cs">Workshops · Courses · Mentoring</div><div class="Cb">ADPList mentor, IxDF courses, internal → external workshops. Goal: 50+ mentees.</div></div>
+<div class="C"><span class="Ci">📹</span><div class="Ct">Show</div><div class="Cs">YouTube · Reels</div><div class="Cb">Design process walkthroughs, AI demos, code-alongs. Shorts → longform. Goal: 5K+ subscribers.</div></div>
+<div class="C"><span class="Ci">🤝</span><div class="Ct">Connect</div><div class="Cs">Communities · Networks</div><div class="Cb">Design leader communities. VP/CPO/CDO relationships. Leadership retreats. Goal: warm intro to any target company.</div></div>
+</div>
+</section>
+
+<section class="S" id="s8"><div class="S-hd"><span class="S-n">08</span><h2>Compensation Intelligence</h2></div>
+<p class="Si">Market benchmarks across 5 global markets with alternative revenue streams.</p>
+<div class="tw"><table><thead><tr><th>Market</th><th>Base</th><th>Total Comp</th><th>Level</th></tr></thead><tbody>
+<tr><td>🇺🇸 USA — Bay Area</td><td>$200K–$290K</td><td>$350K–$550K+</td><td>L7–L8</td></tr>
+<tr><td>🇺🇸 USA — Seattle/NYC</td><td>$185K–$270K</td><td>$300K–$480K+</td><td>Principal/Staff</td></tr>
+<tr><td>🇮🇳 India — Top-Tier</td><td>₹50L–₹85L</td><td>₹75L–₹1.5Cr+</td><td>Assoc. Director+</td></tr>
+<tr><td>🇮🇳 India — FAANG</td><td>₹60L–₹1Cr</td><td>₹1Cr–₹2.5Cr+</td><td>Principal/Staff</td></tr>
+<tr><td>🇬🇧 UK — London</td><td>£120K–£175K</td><td>£180K–£300K+</td><td>Principal</td></tr>
+<tr><td>🇩🇪 Europe</td><td>€100K–€155K</td><td>€140K–€250K+</td><td>Staff Lead</td></tr>
+<tr><td>🇦🇪 Middle East</td><td>AED 500K–800K</td><td>AED 700K–1.2M+</td><td>Director/Head</td></tr>
+<tr><td>🇸🇬 Singapore</td><td>S$180K–$260K</td><td>S$240K–$400K+</td><td>Principal</td></tr>
+</tbody></table></div>
+<h3>Alternative Revenue</h3>
+<div class="G G3">
+<div class="C"><span class="Ci">💼</span><div class="Ct">Fractional CDO/CPO</div><div class="Cb">$2K–$8K/day. 2–3 clients = full-time equivalent. Growing 40% YoY.</div></div>
+<div class="C"><span class="Ci">🎓</span><div class="Ct">Consulting</div><div class="Cb">$300–$800/hr. Retainers $10K–$30K/mo. DS audits, UX strategy, AI advisory.</div></div>
+<div class="C"><span class="Ci">📚</span><div class="Ct">Content & Education</div><div class="Cb">Courses $10K–$100K/yr, workshops $2K–$10K/session, books, newsletters.</div></div>
+</div>
+</section>
+
+<section class="S" id="s9"><div class="S-hd"><span class="S-n">09</span><h2>Future-Proofing for 2030</h2></div>
+<p class="Si">Which skills become obsolete, which become essential, and how the role evolves.</p>
+<div class="tw"><table><thead><tr><th>Skill</th><th>2026</th><th>2030</th><th>Action</th></tr></thead><tbody>
+<tr><td>Manual Wireframing</td><td><span class="tg tg-e">Essential</span></td><td><span class="tg tg-a">AI-Augmented</span></td><td>Focus on IA thinking over manual drawing</td></tr>
+<tr><td>Visual UI Design</td><td><span class="tg tg-e">Essential</span></td><td><span class="tg tg-a">Partially Automated</span></td><td>Shift to governance, brand strategy, creative direction</td></tr>
+<tr><td>Front-End Coding</td><td><span class="tg tg-e">Essential</span></td><td><span class="tg tg-e">Still Essential</span></td><td>Review/architecture endures; writing shifts to AI pair</td></tr>
+<tr><td>AI Product Design</td><td><span class="tg tg-i">Emerging</span></td><td><span class="tg tg-g">Critical</span></td><td>Invest heavily now — agentic UX, governance core skills</td></tr>
+<tr><td>Spatial Computing</td><td><span class="tg tg-p">Niche</span></td><td><span class="tg tg-i">Growing</span></td><td>Learn visionOS basics, volumetric design, spatial IA</td></tr>
+<tr><td>Design Systems</td><td><span class="tg tg-e">Essential</span></td><td><span class="tg tg-g">Critical</span></td><td>AI components make governance MORE important</td></tr>
+<tr><td>Research / Insight</td><td><span class="tg tg-e">Essential</span></td><td><span class="tg tg-g">Critical</span></td><td>Human judgment on WHAT to build becomes premium</td></tr>
+<tr><td>Business Strategy</td><td><span class="tg tg-i">Important</span></td><td><span class="tg tg-g">Critical</span></td><td>Strategic thinking = primary differentiator as AI handles execution</td></tr>
+</tbody></table></div>
+<div class="G G3">
+<div class="C" style="border-top:3px solid var(--rs)"><div class="Ct">⚠️ Becoming Obsolete</div><div class="Cb">Manual pixel-pushing · Static wireframes · Boilerplate CSS · Manual QA · Repetitive prototyping · Template presentations</div></div>
+<div class="C" style="border-top:3px solid var(--em)"><div class="Ct">✅ Becoming Essential</div><div class="Cb">AI orchestration · DS governance · Human-AI design · Agentic UX · Strategic judgment · Spatial design · AI ethics</div></div>
+<div class="C" style="border-top:3px solid var(--gold)"><div class="Ct">🌟 Permanently Valuable</div><div class="Cb">Empathy · Systems thinking · IA · Accessibility · Leadership · Executive communication · Research methodology · Design philosophy</div></div>
+</div>
+</section>
+
+<section class="S" id="s10"><div class="S-hd"><span class="S-n">10</span><h2>Website Architecture — Platform Blueprint</h2></div>
+<p class="Si">Technical blueprint for building this as a world-class career development platform with AI features and interactive tools.</p>
+<h3>Information Architecture</h3>
+<div class="tw"><table><thead><tr><th>Level 0</th><th>Level 1</th><th>Features</th></tr></thead><tbody>
+<tr><td rowspan="3">Dashboard</td><td>Career Health Score</td><td>Skill radar, gap analysis, AI recommendations</td></tr>
+<tr><td>Weekly Actions</td><td>AI-generated tasks based on goals + progress</td></tr>
+<tr><td>Progress Tracker</td><td>Completion % across learning, certs, projects</td></tr>
+<tr><td rowspan="4">Learn</td><td>Skill Framework</td><td>6 domains, 60+ skills, self-assessment, resources</td></tr>
+<tr><td>Interview Prep</td><td>10-stage AI simulator with scoring</td></tr>
+<tr><td>Case Study Library</td><td>IMPACT-structured examples across 8 types</td></tr>
+<tr><td>Reading & Courses</td><td>Curated lists, cert paths, course recs</td></tr>
+<tr><td rowspan="3">Build</td><td>Resume Builder</td><td>ARCH editor, tier scoring, ATS optimization</td></tr>
+<tr><td>Portfolio Builder</td><td>IMPACT templates, evaluation preview</td></tr>
+<tr><td>Design System Lab</td><td>Token tool, component templates, governance</td></tr>
+<tr><td rowspan="3">Assess</td><td>Skill Assessment</td><td>AI adaptive eval, radar chart, 90-day plan</td></tr>
+<tr><td>Resume Evaluator</td><td>Upload → tier classification → improvements</td></tr>
+<tr><td>Portfolio Evaluator</td><td>Score vs panel criteria, gap identification</td></tr>
+<tr><td rowspan="3">Grow</td><td>Personal Brand Hub</td><td>Content calendar, engagement, authority score</td></tr>
+<tr><td>Salary Benchmark</td><td>5 regions, negotiation calc, comp simulator</td></tr>
+<tr><td>Mentorship</td><td>Find mentors, sessions, goals, accountability</td></tr>
+<tr><td>AI Coach</td><td>Career Assistant</td><td>Claude-powered advisor: resume, interview, strategy</td></tr>
+</tbody></table></div>
+<h3>Technical Stack</h3>
+<div class="G G2">
+<div class="C"><div class="Ct">Design System</div><div class="Cb"><strong>Typography:</strong> Cormorant Garamond + Outfit + IBM Plex Mono<br><strong>Colors:</strong> Gold primary, navy-black spectrum, 6 domain accents<br><strong>Accessibility:</strong> WCAG 2.2 AAA — 7:1+ contrast, focus indicators, keyboard full support, reduced-motion respect</div></div>
+<div class="C"><div class="Ct">Tech Stack</div><div class="Cb"><strong>Framework:</strong> Next.js 15 (App Router, RSC, SSG + ISR)<br><strong>Styling:</strong> Tailwind CSS + CSS variables<br><strong>State:</strong> Zustand + React Query<br><strong>Auth:</strong> NextAuth (Google, GitHub, LinkedIn)<br><strong>AI:</strong> Claude API (Sonnet 4.6)<br><strong>DB:</strong> PostgreSQL (Supabase) + Redis<br><strong>Hosting:</strong> Vercel Edge</div></div>
+</div>
+<h3>AI-Powered Features</h3>
+<div class="G G3">
+<div class="C"><span class="Ci">🤖</span><div class="Ct">AI Career Coach</div><div class="Cb">Claude-powered advisor with conversation memory. Profile analysis, action recs, interview practice, resume feedback.</div></div>
+<div class="C"><span class="Ci">📝</span><div class="Ct">Resume Evaluator</div><div class="Cb">Upload → tier classification → line-by-line improvements → ARCH alternatives → ATS score.</div></div>
+<div class="C"><span class="Ci">🎯</span><div class="Ct">Skill Assessment</div><div class="Cb">30-question adaptive eval. Personalized questions. Radar chart + gap analysis + 90-day plan.</div></div>
+<div class="C"><span class="Ci">🎤</span><div class="Ct">Interview Simulator</div><div class="Cb">10-stage AI interviewer. Stage-specific questions. Scoring matrix feedback. Progress tracking.</div></div>
+<div class="C"><span class="Ci">📊</span><div class="Ct">Salary Benchmark</div><div class="Cb">Input: role, location, experience. Output: percentile, comparison, negotiation points, equity calc.</div></div>
+<div class="C"><span class="Ci">🗺️</span><div class="Ct">Career Roadmap Gen</div><div class="Cb">Current role → target role. Personalized milestones, timelines, gaps, certs, projects.</div></div>
+</div>
+</section>
+
+<section class="S" id="del"><div class="S-hd"><span class="S-n">11</span><h2>Deliverables Index</h2></div>
+<div class="tw"><table><thead><tr><th>#</th><th>Deliverable</th><th>Section</th><th>Status</th></tr></thead><tbody>
+<tr><td>1</td><td>Executive Summary</td><td>§00</td><td><span class="tg tg-e">✓</span></td></tr>
+<tr><td>2</td><td>Research Findings (10 Areas)</td><td>§01–09</td><td><span class="tg tg-e">✓</span></td></tr>
+<tr><td>3</td><td>Competency Framework</td><td>§02</td><td><span class="tg tg-e">✓</span></td></tr>
+<tr><td>4</td><td>Career Blueprint</td><td>§08</td><td><span class="tg tg-e">✓</span></td></tr>
+<tr><td>5</td><td>Interview Blueprint (10 Stages)</td><td>§05</td><td><span class="tg tg-e">✓</span></td></tr>
+<tr><td>6</td><td>Resume Blueprint (4 Tiers)</td><td>§03</td><td><span class="tg tg-e">✓</span></td></tr>
+<tr><td>7</td><td>Portfolio Blueprint (8 Types)</td><td>§04</td><td><span class="tg tg-e">✓</span></td></tr>
+<tr><td>8</td><td>Personal Branding Blueprint</td><td>§07</td><td><span class="tg tg-e">✓</span></td></tr>
+<tr><td>9</td><td>Website Information Architecture</td><td>§10</td><td><span class="tg tg-e">✓</span></td></tr>
+<tr><td>10</td><td>UX/UI Design System</td><td>§10</td><td><span class="tg tg-e">✓</span></td></tr>
+<tr><td>11</td><td>Technical Architecture</td><td>§10</td><td><span class="tg tg-e">✓</span></td></tr>
+<tr><td>12</td><td>Database Architecture</td><td>§10</td><td><span class="tg tg-e">✓</span></td></tr>
+<tr><td>13</td><td>AI Features Spec</td><td>§10</td><td><span class="tg tg-e">✓</span></td></tr>
+<tr><td>14</td><td>Product Roadmap</td><td>§10</td><td><span class="tg tg-e">✓</span></td></tr>
+<tr><td>15</td><td>Success Metrics</td><td>§12</td><td><span class="tg tg-e">✓</span></td></tr>
+<tr><td>16</td><td>5-Year Career Plan</td><td>§12</td><td><span class="tg tg-e">✓</span></td></tr>
+<tr><td>17</td><td>Top 1% Action Plan</td><td>§13</td><td><span class="tg tg-e">✓</span></td></tr>
+</tbody></table></div>
+</section>
+
+<section class="S" id="y5"><div class="S-hd"><span class="S-n">12</span><h2>5-Year Career Plan & Success Metrics</h2></div>
+<div class="tw"><table><thead><tr><th>Year</th><th>Title Target</th><th>Key Milestones</th><th>Success Metrics</th></tr></thead><tbody>
+<tr><td style="color:var(--gold)">Y1</td><td>→ Principal UX Architect</td><td>Portfolio rebuilt. 6-domain assessment 4+ avg. AI workflow shipped. 2 conferences. 12 articles.</td><td>Land Principal role. 5K+ followers. 3+ mentees promoted.</td></tr>
+<tr><td style="color:var(--ice)">Y2</td><td>Principal (Established)</td><td>Design system evolved. DesignOps launched. WCAG AAA. 2 AI features. Open-source visible.</td><td>DS adopted 5+ teams. 10K+ followers. Conference invitations.</td></tr>
+<tr><td style="color:var(--em)">Y3</td><td>Assoc. Director / Head of Design</td><td>Team of 8–12. Product vertical owned. Business metrics moved. Book/guide published. Keynote.</td><td>Team NPS 80+. Revenue impact documented. 25K+ followers.</td></tr>
+<tr><td style="color:var(--vi)">Y4</td><td>Director of Product Experience</td><td>Design org 15–25. Multi-product strategy. Board presentations. Fractional advisory. Course revenue.</td><td>Org maturity +2. $XM impact. 50K+ followers.</td></tr>
+<tr><td style="color:var(--gold)">Y5</td><td>VP / CDO Track</td><td>Company-wide strategy. Industry authority. Book. Patent. Investor/advisor. $10K+ speaking.</td><td>Inbound executive offers. Global recognition. Multiple revenue streams.</td></tr>
+</tbody></table></div>
+<h3>Platform Success Metrics</h3>
+<div class="MG">
+<div class="M"><div class="mv" style="color:var(--gold)">50K</div><div class="ml">Active Users Y1</div></div>
+<div class="M"><div class="mv" style="color:var(--ice)">85%</div><div class="ml">Assessment Complete</div></div>
+<div class="M"><div class="mv" style="color:var(--em)">4.7★</div><div class="ml">AI Coach Rating</div></div>
+<div class="M"><div class="mv" style="color:var(--vi)">3x</div><div class="ml">Interview Pass Lift</div></div>
+<div class="M"><div class="mv" style="color:var(--rs)">40%</div><div class="ml">Portfolio Score Up</div></div>
+<div class="M"><div class="mv" style="color:var(--amb)">60%</div><div class="ml">Users Advance in 12mo</div></div>
+</div>
+</section>
+
+<section class="S" id="act"><div class="S-hd"><span class="S-n">13</span><h2>The Top 1% Action Plan</h2></div>
+<p class="Si">Non-negotiable daily, weekly, monthly, and quarterly actions that separate the top 1%.</p>
+<h3>Daily Non-Negotiables (1.5 hrs)</h3>
+<div class="G G3">
+<div class="C"><span class="Ci">📖</span><div class="Ct">30 min: Learn</div><div class="Cb">One chapter/article/paper. Rotate: product, UX research, design systems, front-end, AI, business.</div></div>
+<div class="C"><span class="Ci">💻</span><div class="Ct">30 min: Build</div><div class="Cb">Code one component, write one draft, design one screen, practice one question. Ship daily.</div></div>
+<div class="C"><span class="Ci">🤝</span><div class="Ct">30 min: Connect</div><div class="Cb">5 meaningful LinkedIn comments. 1 connection request. 1 mentee response. 1 community discussion.</div></div>
+</div>
+<h3>Weekly Cadence</h3>
+<div class="G G2">
+<div class="C"><div class="Ct">Monday: Strategic Review</div><div class="Cb">Review goals, adjust weekly plan, identify skill gap to close</div></div>
+<div class="C"><div class="Ct">Wednesday: Creation</div><div class="Cb">Write or code something substantial</div></div>
+<div class="C"><div class="Ct">Friday: Share</div><div class="Cb">Publish one piece of content. Reflect on week.</div></div>
+<div class="C"><div class="Ct">Weekend: Deep Work</div><div class="Cb">2–4 hrs focused: portfolio, open-source, or course</div></div>
+</div>
+<h3>Quarterly Checkpoints</h3>
+<div class="G G2">
+<div class="C" style="border-left:3px solid var(--gold)"><div class="Ct">Q1</div><div class="Cb">Re-take skill assessment. Portfolio has 3+ cases. LinkedIn growth on track. 1 talk done. Resume Tier 3+.</div></div>
+<div class="C" style="border-left:3px solid var(--ice)"><div class="Ct">Q2</div><div class="Cb">GitHub project live. 2+ conference submissions. 6+ articles. Mentoring 3+. DS contribution visible.</div></div>
+<div class="C" style="border-left:3px solid var(--em)"><div class="Ct">Q3</div><div class="Cb">Portfolio complete (7 projects). Mocks scored 4+. Active interviewing. Brand generating inbound.</div></div>
+<div class="C" style="border-left:3px solid var(--vi)"><div class="Ct">Q4</div><div class="Cb">Offers in hand or role secured. 30-60-90 ready. Comp negotiated. You are the unicorn.</div></div>
+</div>
+<div class="Q" style="margin-top:28px"><p>The difference between the top 1% and everyone else isn't talent — it's consistency. Do the daily work. Ship every week. Reflect every month. Within a year, you'll be unrecognizable to yourself. Within two, you'll be unrecognizable to the industry.</p><div class="qa">— The CEO Panel's Final Word</div></div>
+</section>
+
+<footer class="ft"><div class="fb">THE PRINCIPAL UX ARCHITECT MASTER BLUEPRINT</div><p>10 Research Areas · 17 Deliverables · 10 Interview Stages · 6 Skill Domains · 4 Resume Tiers</p><p style="margin-top:6px">Built with Claude Opus 4.6 · June 2026</p></footer>
+</div>
+<script>
+const ss=document.querySelectorAll('.S,.hero'),ns=document.querySelectorAll('.nl');
+const ob=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){ns.forEach(n=>n.classList.remove('ac'));const t=document.querySelector(`.nl[href="#${e.target.id}"]`);if(t)t.classList.add('ac')}})},{rootMargin:'-18% 0px -72% 0px'});
+ss.forEach(s=>ob.observe(s));
+document.querySelectorAll('.nl').forEach(l=>{l.addEventListener('click',e=>{e.preventDefault();const t=document.querySelector(l.getAttribute('href'));if(t){t.scrollIntoView({behavior:'smooth',block:'start'});document.querySelector('.side').classList.remove('open')}})});
+</script>
+</body>
+</html>
