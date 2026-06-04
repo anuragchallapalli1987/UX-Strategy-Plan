@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anurag Challapalli — Principal UX Architect Interview Mastery Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #07090E;
+      --bg-card: #0F121C;
+      --bg-el: #161A26;
+      --border: #232B3D;
+      --border-accent: #C9A44C;
+      --text: #E6E9F0;
+      --text-sec: #9AA4B8;
+      --text-muted: #64708A;
+      --gold: #C9A44C;
+      --gold-soft: rgba(201,164,76,0.1);
+      --emerald: #34D399;
+      --emerald-soft: rgba(52,211,153,0.08);
+      --blue: #5B8DEF;
+      --blue-soft: rgba(91, 141, 239, 0.08);
+      --radius: 12px;
+      --transition: all 0.25s ease;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    header {
+      padding: 40px 24px 20px;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(180deg, #07090E 0%, #0F121C 100%);
+      position: relative;
+    }
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--gold-soft);
+      border: 1px solid rgba(201, 164, 76, 0.2);
+      border-radius: 100px;
+      padding: 5px 12px;
+      font-size: 11px;
+      color: var(--gold);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+    }
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 38px;
+      font-weight: 700;
+      line-height: 1.1;
+    }
+    h1 em { font-style: italic; color: var(--gold); }
+    .subtitle {
+      font-size: 14px;
+      color: var(--text-sec);
+      margin-top: 4px;
+    }
+    .main-layout {
+      max-width: 1200px;
+      margin: 30px auto;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 30px;
+    }
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .nav-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 16px;
+      background-color: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-sec);
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-weight: 500;
+      font-size: 13.5px;
+      text-align: left;
+      transition: var(--transition);
+    }
+    .nav-btn:hover, .nav-btn.active {
+      color: var(--text);
+      border-color: var(--border-accent);
+      background-color: var(--bg-el);
+    }
+    .nav-btn.active {
+      background-color: var(--gold-soft);
+      color: var(--gold);
+    }
+    .content-area {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+      min-height: 600px;
+    }
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+    }
+    h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: var(--gold);
+    }
+    .overall-progress {
+      background-color: var(--bg-el);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 30px;
+    }
+    .progress-bar-container {
+      width: 100%;
+      height: 8px;
+      background-color: var(--bg);
+      border-radius: 100px;
+      overflow: hidden;
+      margin: 12px 0 6px;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background-color: var(--gold);
+      width: 0%;
+      transition: width 0.5s ease;
+    }
+    .progress-stats {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--text-sec);
+      font-family: 'JetBrains Mono', monospace;
+    }
+    /* Checklist styles */
+    .checklist-week {
+      margin-bottom: 28px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 20px;
+    }
+    .checklist-week:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+    .week-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .week-number {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      background-color: var(--bg-el);
+      padding: 2px 8px;
+      border-radius: 100px;
+      color: var(--gold);
+    }
+    .check-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 8px 12px;
+      border-radius: 6px;
+      transition: var(--transition);
+      cursor: pointer;
+    }
+    .check-item:hover {
+      background-color: var(--bg-el);
+    }
+    .check-item input {
+      margin-top: 5px;
+      accent-color: var(--gold);
+      cursor: pointer;
+    }
+    .check-item.completed span {
+      text-decoration: line-through;
+      color: var(--text-muted);
+    }
+    .check-text {
+      font-size: 13.5px;
+      color: var(--text-sec);
+    }
+    /* Question bank styles */
+    .filter-bar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+    .q-filter-btn {
+      background-color: var(--bg-el);
+      border: 1px solid var(--border);
+      color: var(--text-sec);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 100px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .q-filter-btn:hover, .q-filter-btn.active {
+      color: var(--text);
+      border-color: var(--border-accent);
+      background-color: var(--gold-soft);
+    }
+    .q-filter-btn.active {
+      color: var(--gold);
+    }
+    .cards-container {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .question-card {
+      background-color: var(--bg-el);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      transition: var(--transition);
+    }
+    .question-card.active-card {
+      border-color: var(--border-accent);
+    }
+    .card-head {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+    .question-text {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .reveal-btn {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--text-sec);
+      padding: 6px 12px;
+      font-size: 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: var(--transition);
+    }
+    .reveal-btn:hover {
+      background-color: var(--bg-hover);
+      color: var(--text);
+      border-color: var(--text-sec);
+    }
+    .ans-guide {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      font-size: 13px;
+      color: var(--text-sec);
+      border-top: 1px solid var(--border);
+      margin-top: 12px;
+      padding-top: 12px;
+    }
+    .ans-guide.open {
+      max-height: 800px;
+    }
+    .ans-guide ul {
+      margin-left: 20px;
+      margin-top: 8px;
+    }
+    .notes-box {
+      margin-top: 12px;
+    }
+    .notes-box textarea {
+      width: 100%;
+      height: 80px;
+      background-color: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      padding: 8px 12px;
+      font-family: inherit;
+      font-size: 13px;
+      resize: vertical;
+    }
+    .notes-box textarea:focus {
+      outline: none;
+      border-color: var(--border-accent);
+    }
+    @media (max-width: 900px) {
+      .main-layout { grid-template-columns: 1fr; }
+      .sidebar { flex-direction: row; overflow-x: auto; padding-bottom: 8px; }
+      .nav-btn { flex-shrink: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-content">
+      <div>
+        <div class="badge">Interview Mastery Suite</div>
+        <h1>Principal UX Architect <em>Prep Dashboard</em></h1>
+        <p class="subtitle">Personalized Study Roadmap, Interactive Checklists, and Mock Interview Simulator for Anurag Challapalli</p>
+      </div>
+    </div>
+  </header>
+
+  <div class="main-layout">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <button class="nav-btn active" onclick="switchTab('roadmap')">🗺️ 12-Week Roadmap</button>
+      <button class="nav-btn" onclick="switchTab('checklist')">✅ Weekly Checklist</button>
+      <button class="nav-btn" onclick="switchTab('mock')">❓ Flashcard Simulator</button>
+      <button class="nav-btn" onclick="switchTab('links')">📚 External Resources</button>
+    </aside>
+
+    <!-- Main Content Box -->
+    <main class="content-area">
+
+      <!-- TAB: Roadmap Overview -->
+      <section id="roadmap" class="tab-content active">
+        <h2>12-Week Master Curriculum Roadmap</h2>
+        <div class="overall-progress">
+          <h3>Prep Plan Completion Status</h3>
+          <div class="progress-bar-container">
+            <div id="roadmap-progress-fill" class="progress-bar-fill"></div>
+          </div>
+          <div class="progress-stats">
+            <span id="roadmap-completed-txt">0 / 0 Tasks Completed</span>
+            <span id="roadmap-pct-txt">0%</span>
+          </div>
+        </div>
+
+        <div class="cards-container">
+          <div class="question-card">
+            <div class="card-head"><span>PHASE 1</span><span>WEEKS 1 - 3</span></div>
+            <div class="question-text" style="color: var(--gold)">Architectural Foundations</div>
+            <p style="font-size: 13.5px; color: var(--text-sec)">Close the technical design gap. Master micro-frontends, component API structures, DTCG design tokens, and web performance engineering (Core Web Vitals).</p>
+          </div>
+          <div class="question-card">
+            <div class="card-head"><span>PHASE 2</span><span>WEEKS 4 - 6</span></div>
+            <div class="question-text" style="color: var(--emerald)">Enterprise Systems Mastery</div>
+            <p style="font-size: 13.5px; color: var(--text-sec)">Build deep scale expertise. Multi-brand system setups, unified cross-platform UX ecosystems (web, mobile, voice), and systemic accessibility automation pipelines.</p>
+          </div>
+          <div class="question-card">
+            <div class="card-head"><span>PHASE 3</span><span>WEEKS 7 - 9</span></div>
+            <div class="question-text" style="color: var(--blue)">Strategic &amp; AI Leadership</div>
+            <p style="font-size: 13.5px; color: var(--text-sec)">Set executive direction. Write 3-year UX architecture vision roadmaps, configure AI-native UX models, and formulate business alignment cases.</p>
+          </div>
+          <div class="question-card">
+            <div class="card-head"><span>PHASE 4</span><span>WEEKS 10 - 12</span></div>
+            <div class="question-text" style="color: #A78BFA">Interview Mastery Simulation</div>
+            <p style="font-size: 13.5px; color: var(--text-sec)">Intensive practice loops. STAR-A structured case study drills, whiteboard architectural challenge models, and final panel dress rehearsals.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB: Weekly checklists -->
+      <section id="checklist" class="tab-content">
+        <h2>Weekly Checklists</h2>
+        <p style="font-size: 13.5px; color: var(--text-sec); margin-bottom: 24px">Track your weekly learning goals. Your completions are automatically saved locally.</p>
+        
+        <div id="checklist-wrapper">
+          <!-- Dynamically generated checklists will load here -->
+        </div>
+      </section>
+
+      <!-- TAB: Question simulator -->
+      <section id="mock" class="tab-content">
+        <h2>Interactive Mock Interview Simulator</h2>
+        <p style="font-size: 13.5px; color: var(--text-sec); margin-bottom: 24px">Practice responding to realistic Principal UX Architect board-level questions. Revealing suggestions displays core talking points.</p>
+
+        <!-- Category Filters -->
+        <div class="filter-bar">
+          <button class="q-filter-btn active" onclick="filterQuestions('all')">All Questions</button>
+          <button class="q-filter-btn" onclick="filterQuestions('architecture')">Systems &amp; Architecture</button>
+          <button class="q-filter-btn" onclick="filterQuestions('leadership')">Strategic &amp; Leadership</button>
+          <button class="q-filter-btn" onclick="filterQuestions('emerging')">AI &amp; Emerging Tech</button>
+        </div>
+
+        <div id="questions-wrapper" class="cards-container">
+          <!-- Dynamically populated questions -->
+        </div>
+      </section>
+
+      <!-- TAB: Resources Links -->
+      <section id="links" class="tab-content">
+        <h2>Strategic Learning Assets</h2>
+        <p style="font-size: 13.5px; color: var(--text-sec); margin-bottom: 24px">Quick references to critical files generated to support your preparation:</p>
+        
+        <div class="cards-container">
+          <div class="question-card">
+            <div class="question-text" style="margin-bottom: 4px">1. Complete Interactive Portfolio Website</div>
+            <p style="font-size: 13px; color: var(--text-sec); margin-bottom: 12px">Your full-scale professional portfolio, complete with high-fidelity case placeholders in the ARCH system and your print-optimized resume.</p>
+            <a href="portfolio/index.html" class="reveal-btn" style="text-decoration: none; display: inline-block" target="_blank">Open Portfolio Website →</a>
+          </div>
+          <div class="question-card">
+            <div class="question-text" style="margin-bottom: 4px">2. Principal UX Architect Study Guide</div>
+            <p style="font-size: 13px; color: var(--text-sec); margin-bottom: 12px">An extensive study manual detailing design token schemas, micro-frontend mechanics, Core Web Vitals optimizations, WCAG accessibility standards, and custom STAR-A question guides.</p>
+            <a href="Interview_Learning_Material.html" class="reveal-btn" style="text-decoration: none; display: inline-block" target="_blank">Open Study Guide →</a>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script>
+    // Tab switching
+    function switchTab(tabId) {
+      document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+      
+      const activeBtn = Array.from(document.querySelectorAll('.nav-btn')).find(btn => btn.textContent.includes(tabId === 'roadmap' ? 'Roadmap' : tabId === 'checklist' ? 'Checklist' : tabId === 'mock' ? 'Flashcard' : 'Resources'));
+      if(activeBtn) activeBtn.classList.add('active');
+      
+      const content = document.getElementById(tabId);
+      if(content) content.classList.add('active');
+    }
+
+    // Comprehensive Checklist Data
+    const checklistData = [
+      {
+        week: 1,
+        title: "Platform & System Architecture for UX",
+        tasks: [
+          "Study Martin Fowler's Micro-Frontend guidelines and write down architectural UX debt impacts.",
+          "Identify and map how a design token registry distributes across micro-frontend boundaries at Providence.",
+          "Review API-first design principles (Chapters 1-4 of Jin's Designing Web APIs)."
+        ]
+      },
+      {
+        week: 2,
+        title: "Component Architecture & API Contracts",
+        tasks: [
+          "Review the DTCG Token Format specifications and outline semantic naming trees.",
+          "Write a prototype props contract model for 5 key UI system atoms (Button, Input, Alert, Select, Modal).",
+          "Read Brad Frost's Atomic Design (focusing on Section 5 maintenance routines)."
+        ]
+      },
+      {
+        week: 3,
+        title: "Performance Architecture & Core Web Vitals",
+        tasks: [
+          "Complete Deque or web.dev Core Web Vitals learning units.",
+          "Establish a standard UX Performance Budget document template containing payload bounds.",
+          "Audit a legacy page visual transition in a mockup, identifying layout shifts (CLS) root causes."
+        ]
+      },
+      {
+        week: 4,
+        title: "Design System Architecture at Enterprise Scale",
+        tasks: [
+          "Compare Centralized, Federated, and Hybrid design team contribution models.",
+          "Formulate an organizational scaling pitch aligning system governance to speed metrics."
+        ]
+      },
+      {
+        week: 5,
+        title: "Cross-Platform UX Architecture",
+        tasks: [
+          "Review Apple Human Interface guidelines, focusing on spatial navigation paradigms (visionOS).",
+          "Draft an omni-channel interaction map detailing standard desktop, tablet, and voice sequences."
+        ]
+      },
+      {
+        week: 6,
+        title: "Accessibility Architecture & Automation",
+        tasks: [
+          "Audit WCAG 3.0 draft specs and formulate comparative scoring summaries.",
+          "Draft an enterprise accessibility testing script employing automated axe-core packages."
+        ]
+      },
+      {
+        week: 7,
+        title: "UX Architecture Vision & Strategy",
+        tasks: [
+          "Draw a custom Wardley Map of Providence internal design system evolution axes.",
+          "Author a formal Architecture Decision Record (ADR) detailing a standard typography scale refactor."
+        ]
+      },
+      {
+        week: 8,
+        title: "AI-Native UX Architecture",
+        tasks: [
+          "Complete Google's People + AI guidebook modules.",
+          "Map dynamic layout degradation parameters when AI outputs deliver low confidence bounds."
+        ]
+      },
+      {
+        week: 9,
+        title: "Executive Communication & Org Design",
+        tasks: [
+          "Draft a 1-page financial ROI spreadsheet proving design token efficiency returns.",
+          "Practice pitch presentation sequences detailing system structural shifts in front of a mirror."
+        ]
+      },
+      {
+        week: 10,
+        title: "Case Study Drills",
+        tasks: [
+          "Draft 3 highly descriptive architecture briefs using the strict ARCH framework.",
+          "Record a 15-minute presentation loop, noting verbal clarity and posture metrics."
+        ]
+      },
+      {
+        week: 11,
+        title: "Mock Interview Rounds",
+        tasks: [
+          "Rehearse STAR-A formatted talking configurations for 20 high-yield board questions."
+        ]
+      },
+      {
+        week: 12,
+        title: "Portfolio & Narrative Polish",
+        tasks: [
+          "Publish a modernized personal portfolio profile detailing architect accomplishments.",
+          "Deliver a mock panel defense loop under simulated executive board constraints."
+        ]
+      }
+    ];
+
+    // Comprehensive Questions Bank
+    const questionsData = [
+      {
+        id: 1,
+        category: "architecture",
+        title: "How do you architect a multi-brand theming design system?",
+        guide: "Talk about a 3-tier token system (Global -> Alias -> Component). Explain how semantic tokens alias core values, and components consume only semantic aliases. Describe leveraging automated build packages like Style Dictionary to generate JSON files compiling into CSS variables, Sass files, iOS XML, and Android formats in under a minute.",
+        notesId: "notes_q1"
+      },
+      {
+        id: 2,
+        category: "architecture",
+        title: "How do you ensure UX consistency in a micro-frontend setup?",
+        guide: "Discuss maintaining shared NPM component libraries and strictly decoupled state routines. Detail how teams establish strict design API contracts. Highlight the use of custom elements/web components to achieve cross-framework layout bindings.",
+        notesId: "notes_q2"
+      },
+      {
+        id: 3,
+        category: "architecture",
+        title: "Describe your approach to defining a component API contract.",
+        guide: "Detail props definitions, standard states (hover, focus, disabled), custom slots for layout rendering, and standardized custom event outputs. Explain how aligning designer Figma properties exactly to engineer props reduces handoff latency by 30%.",
+        notesId: "notes_q3"
+      },
+      {
+        id: 4,
+        category: "architecture",
+        title: "How do you architect accessibility as a system layer?",
+        guide: "Explain moving away from post-development checks. Detail embedding accessibility directly into design tokens (automatic contrast calculations, relative layout padding), defining ARIA contracts inside Figma specs, and installing automated axe-core tests in dev pipelines.",
+        notesId: "notes_q4"
+      },
+      {
+        id: 5,
+        category: "leadership",
+        title: "How do you pitch design systems ROI to a skeptical CFO?",
+        guide: "Translate design metrics into business variables. Avoid aesthetic arguments. Quantify time savings: e.g., 'A unified token registry saves an average of 4 engineering hours per component build. Scale that across 20 designers and 50 engineers, and it reduces time-to-market by 30%, saving $120k annually in redundant development costs.'",
+        notesId: "notes_q5"
+      },
+      {
+        id: 6,
+        category: "leadership",
+        title: "Describe how you lead design governance across 15+ product teams.",
+        guide: "Present the Federated Governance model. Explain that a single centralized team causes bottlenecks. Instead, create a Design System Guild with reps from each squad. Use structured RFC processes where teams propose extensions, keeping the system flexible yet standard.",
+        notesId: "notes_q6"
+      },
+      {
+        id: 7,
+        category: "emerging",
+        title: "How do you architect interfaces for non-deterministic AI outputs?",
+        guide: "Discuss cognitive engineering for AI uncertainty. Explain using dynamic confidence metrics, explanatory layout states, user override mechanisms, and graceful interface fallback frameworks when LLM confidence intervals drop below set thresholds.",
+        notesId: "notes_q7"
+      },
+      {
+        id: 8,
+        category: "architecture",
+        title: "What is your approach to mitigating Cumulative Layout Shift (CLS)?",
+        guide: "Explain that architects own layout loading paradigms. Discuss reserving container heights for dynamically injected elements, utilizing CSS aspect-ratio configurations, prioritizing font downloads to prevent flash-of-unstyled-text, and minimizing structural animations during paint phases.",
+        notesId: "notes_q8"
+      }
+    ];
+
+    // Load Checklists
+    function renderChecklists() {
+      const wrapper = document.getElementById('checklist-wrapper');
+      wrapper.innerHTML = '';
+
+      checklistData.forEach(w => {
+        const weekDiv = document.createElement('div');
+        weekDiv.className = 'checklist-week';
+        
+        const title = document.createElement('div');
+        title.className = 'week-title';
+        title.innerHTML = `<span class="week-number">Week ${w.week}</span> ${w.title}`;
+        weekDiv.appendChild(title);
+
+        w.tasks.forEach((t, i) => {
+          const taskId = `task_w${w.week}_t${i}`;
+          const isDone = localStorage.getItem(taskId) === 'true';
+
+          const item = document.createElement('label');
+          item.className = `check-item ${isDone ? 'completed' : ''}`;
+          item.innerHTML = `
+            <input type="checkbox" id="${taskId}" ${isDone ? 'checked' : ''} onchange="toggleTask('${taskId}')">
+            <span class="check-text">${t}</span>
+          `;
+          weekDiv.appendChild(item);
+        });
+
+        wrapper.appendChild(weekDiv);
+      });
+
+      calculateProgress();
+    }
+
+    // Toggle Task status
+    window.toggleTask = function(taskId) {
+      const chk = document.getElementById(taskId);
+      const isChecked = chk.checked;
+      localStorage.setItem(taskId, isChecked);
+      
+      // Update styling
+      const label = chk.parentElement;
+      if (isChecked) {
+        label.classList.add('completed');
+      } else {
+        label.classList.remove('completed');
+      }
+
+      calculateProgress();
+    };
+
+    // Calculate overall checklist progress
+    function calculateProgress() {
+      let total = 0;
+      let completed = 0;
+
+      checklistData.forEach(w => {
+        w.tasks.forEach((t, i) => {
+          total++;
+          const taskId = `task_w${w.week}_t${i}`;
+          if (localStorage.getItem(taskId) === 'true') {
+            completed++;
+          }
+        });
+      });
+
+      const pct = total > 0 ? Math.round((completed / total) * 100) : 0;
+      
+      // Update UI elements
+      const fill = document.getElementById('roadmap-progress-fill');
+      const text = document.getElementById('roadmap-completed-txt');
+      const pctTxt = document.getElementById('roadmap-pct-txt');
+
+      if(fill) fill.style.width = `${pct}%`;
+      if(text) text.innerHTML = `${completed} / ${total} Tasks Completed`;
+      if(pctTxt) pctTxt.innerHTML = `${pct}%`;
+    }
+
+    // Render questions bank
+    function renderQuestions(cat = 'all') {
+      const container = document.getElementById('questions-wrapper');
+      container.innerHTML = '';
+
+      const filtered = cat === 'all' ? questionsData : questionsData.filter(q => q.category === cat);
+
+      filtered.forEach(q => {
+        const card = document.createElement('div');
+        card.className = 'question-card';
+        card.id = `q_card_${q.id}`;
+        
+        const storedNote = localStorage.getItem(q.notesId) || '';
+
+        card.innerHTML = `
+          <div class="card-head">
+            <span>QUESTION ${q.id}</span>
+            <span style="text-transform: uppercase;">${q.category}</span>
+          </div>
+          <div class="question-text">${q.title}</div>
+          <button class="reveal-btn" onclick="toggleAnswerGuide(${q.id})">Toggle Answer Guide</button>
+          <div id="guide_${q.id}" class="ans-guide">
+            <strong>Key Architecture Talking Points:</strong>
+            <p style="margin-top: 6px;">${q.guide}</p>
+            
+            <div class="notes-box">
+              <strong style="display: block; margin-bottom: 6px;">My Rehearsal Notes / Custom STAR-A Draft:</strong>
+              <textarea id="${q.notesId}" placeholder="Draft your custom STAR-A (Situation, Task, Action, Result, Architecture Insight) response here. Progress is auto-saved." oninput="saveNote('${q.notesId}')">${storedNote}</textarea>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // Toggle answer guide visibility
+    window.toggleAnswerGuide = function(qId) {
+      const guide = document.getElementById(`guide_${qId}`);
+      const card = document.getElementById(`q_card_${qId}`);
+      if (guide.classList.contains('open')) {
+        guide.classList.remove('open');
+        card.classList.remove('active-card');
+      } else {
+        guide.classList.add('open');
+        card.classList.add('active-card');
+      }
+    };
+
+    // Filter questions
+    window.filterQuestions = function(category) {
+      document.querySelectorAll('.q-filter-btn').forEach(btn => btn.classList.remove('active'));
+      const activeBtn = Array.from(document.querySelectorAll('.q-filter-btn')).find(btn => btn.getAttribute('onclick').includes(category));
+      if(activeBtn) activeBtn.classList.add('active');
+
+      renderQuestions(category);
+    };
+
+    // Save custom notes to local storage
+    window.saveNote = function(notesId) {
+      const textarea = document.getElementById(notesId);
+      localStorage.setItem(notesId, textarea.value);
+    };
+
+    // Initial setup
+    renderChecklists();
+    renderQuestions('all');
+
+  </script>
+</body>
+</html>

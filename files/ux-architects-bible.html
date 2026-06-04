@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The UX Architect's Learning Bible</title>
+<style>
+:root{
+  --bg:#0b0d12; --bg-2:#11141c; --bg-3:#171b26; --line:#252b3a;
+  --ink:#e8ecf4; --ink-2:#a8b1c4; --ink-3:#6b7488;
+  --brand:#7c5cff; --brand-2:#22d3ee; --gold:#f5b14c; --green:#3ddc97; --red:#ff5d73;
+  --maxw:1180px; --radius:14px; --sans:"Inter",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --shadow:0 10px 40px rgba(0,0,0,.45);
+}
+html[data-theme="light"]{
+  --bg:#f6f7fb; --bg-2:#ffffff; --bg-3:#eef1f7; --line:#dde2ec;
+  --ink:#11141c; --ink-2:#414b5e; --ink-3:#7c869a; --shadow:0 10px 30px rgba(20,30,60,.08);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.6;
+  font-size:16px;-webkit-font-smoothing:antialiased}
+a{color:var(--brand-2);text-decoration:none}
+a:hover{text-decoration:underline}
+h1,h2,h3,h4{line-height:1.2;letter-spacing:-.02em;color:var(--ink)}
+h1{font-size:2.1rem;margin:.2em 0 .4em}
+h2{font-size:1.5rem;margin:1.6em 0 .5em;padding-top:.4em}
+h3{font-size:1.18rem;margin:1.3em 0 .4em;color:var(--ink)}
+h4{font-size:1rem;margin:1.1em 0 .3em;color:var(--ink-2);text-transform:uppercase;letter-spacing:.06em;font-size:.78rem}
+p{margin:.6em 0;color:var(--ink-2)}
+strong{color:var(--ink)}
+code{font-family:var(--mono);background:var(--bg-3);padding:.12em .4em;border-radius:6px;font-size:.86em;color:var(--brand-2)}
+pre{background:var(--bg-3);border:1px solid var(--line);border-radius:10px;padding:14px 16px;overflow:auto;font-family:var(--mono);font-size:.82rem;color:var(--ink)}
+ul,ol{color:var(--ink-2);padding-left:1.3em}
+li{margin:.25em 0}
+hr{border:none;border-top:1px solid var(--line);margin:2em 0}
+
+/* layout */
+.app{display:grid;grid-template-columns:300px 1fr;min-height:100vh}
+.side{background:var(--bg-2);border-right:1px solid var(--line);position:sticky;top:0;height:100vh;overflow-y:auto;padding:18px 14px}
+.brand{display:flex;align-items:center;gap:10px;padding:6px 8px 14px;border-bottom:1px solid var(--line);margin-bottom:12px}
+.logo{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,var(--brand),var(--brand-2));display:grid;place-items:center;font-weight:800;color:#fff;flex:none}
+.brand b{font-size:.95rem;letter-spacing:-.01em}
+.brand span{display:block;font-size:.7rem;color:var(--ink-3)}
+.search{width:100%;background:var(--bg-3);border:1px solid var(--line);color:var(--ink);border-radius:10px;padding:9px 12px;font-size:.85rem;margin-bottom:10px}
+.search::placeholder{color:var(--ink-3)}
+.navgroup{font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-3);margin:14px 8px 4px}
+.navlink{display:block;padding:7px 10px;border-radius:8px;font-size:.85rem;color:var(--ink-2);cursor:pointer;border:1px solid transparent}
+.navlink:hover{background:var(--bg-3);text-decoration:none}
+.navlink.active{background:linear-gradient(90deg,rgba(124,92,255,.18),transparent);border-color:var(--line);color:var(--ink)}
+.navlink small{color:var(--ink-3);font-size:.7rem}
+.main{max-width:var(--maxw);margin:0 auto;padding:36px 44px 120px;width:100%}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:8px}
+.crumbs{font-size:.74rem;color:var(--ink-3);text-transform:uppercase;letter-spacing:.08em}
+.btn{background:var(--bg-3);border:1px solid var(--line);color:var(--ink-2);border-radius:8px;padding:7px 12px;font-size:.78rem;cursor:pointer}
+.btn:hover{color:var(--ink)}
+.progress{height:4px;background:var(--bg-3);border-radius:4px;overflow:hidden;margin:10px 0 0}
+.progress>i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--brand-2));width:0}
+
+/* components */
+.tag{display:inline-block;font-size:.66rem;text-transform:uppercase;letter-spacing:.08em;padding:3px 8px;border-radius:20px;border:1px solid var(--line);color:var(--ink-3);margin-right:6px}
+.callout{border:1px solid var(--line);border-left:4px solid var(--brand);background:var(--bg-2);border-radius:10px;padding:14px 18px;margin:16px 0}
+.callout.titan{border-left-color:var(--gold)}
+.callout.dissent{border-left-color:var(--red)}
+.callout.gap{border-left-color:var(--green)}
+.callout h4{margin-top:0;color:var(--gold)}
+.callout.gap h4{color:var(--green)}
+.callout.dissent h4{color:var(--red)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
+.card{background:var(--bg-2);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.card h3{margin-top:0}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.84rem}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:var(--bg-3);color:var(--ink);font-weight:600}
+td{color:var(--ink-2)}
+.toggle{display:inline-flex;border:1px solid var(--line);border-radius:24px;overflow:hidden;margin:14px 0}
+.toggle button{background:var(--bg-2);border:none;color:var(--ink-3);padding:7px 14px;font-size:.76rem;cursor:pointer}
+.toggle button.on{background:var(--brand);color:#fff}
+.era{display:none}
+.era.show{display:block;animation:fade .25s ease}
+@keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1}}
+.acc{border:1px solid var(--line);border-radius:10px;margin:10px 0;overflow:hidden;background:var(--bg-2)}
+.acc>summary{cursor:pointer;padding:12px 16px;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:10px}
+.acc>summary::-webkit-details-marker{display:none}
+.acc>summary:hover{background:var(--bg-3)}
+.acc[open]>summary{border-bottom:1px solid var(--line)}
+.acc .body{padding:14px 16px}
+.acc .body .lbl{font-size:.68rem;text-transform:uppercase;letter-spacing:.07em;color:var(--brand-2);margin-top:10px;font-weight:700}
+.qmeta{font-size:.7rem;color:var(--ink-3)}
+.hero{background:linear-gradient(135deg,rgba(124,92,255,.16),rgba(34,211,238,.08));border:1px solid var(--line);border-radius:18px;padding:34px 36px;margin-bottom:8px}
+.hero h1{font-size:2.5rem;margin-top:0}
+.pillargrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;margin:18px 0}
+.pillargrid .card{cursor:pointer;transition:transform .15s,border-color .15s}
+.pillargrid .card:hover{transform:translateY(-3px);border-color:var(--brand)}
+.pillargrid .card .n{font-family:var(--mono);color:var(--brand);font-size:.8rem}
+.matrix-wrap{overflow:auto}
+/* maturity assessor */
+.mat-row{display:grid;grid-template-columns:160px 1fr;gap:12px;align-items:center;border-bottom:1px solid var(--line);padding:10px 0}
+.mat-levels{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.mat-levels button{background:var(--bg-3);border:1px solid var(--line);color:var(--ink-3);border-radius:8px;padding:8px 4px;font-size:.7rem;cursor:pointer;text-align:center}
+.mat-levels button.sel{background:var(--brand);color:#fff;border-color:var(--brand)}
+.mat-score{font-family:var(--mono);font-size:1.4rem;color:var(--brand-2)}
+.pill-list{columns:2;column-gap:24px}
+@media(max-width:880px){
+  .app{grid-template-columns:1fr}
+  .side{position:fixed;z-index:50;width:280px;transform:translateX(-100%);transition:.2s}
+  .side.open{transform:none}
+  .main{padding:20px 18px 100px}
+  .grid2{grid-template-columns:1fr}.pill-list{columns:1}
+  .menu-btn{display:inline-block!important}
+  .mat-row{grid-template-columns:1fr}
+}
+.menu-btn{display:none}
+.footer{color:var(--ink-3);font-size:.78rem;border-top:1px solid var(--line);margin-top:40px;padding-top:18px}
+.kbd{font-family:var(--mono);font-size:.72rem;border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:1px 6px;color:var(--ink-2)}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="side" id="side">
+    <div class="brand">
+      <div class="logo">UX</div>
+      <div><b>The UX Architect's Bible</b><span>Operating manual for the AI-era design leader</span></div>
+    </div>
+    <input class="search" id="search" placeholder="Search modules, drills, questions…">
+    <div id="nav"></div>
+    <div class="footer">v1.0 · Council of Titans edition<br>Built for Anurag · Hyderabad</div>
+  </aside>
+  <main class="main">
+    <div class="topbar">
+      <button class="btn menu-btn" onclick="document.getElementById('side').classList.toggle('open')">☰ Menu</button>
+      <div class="crumbs" id="crumbs"></div>
+      <div style="display:flex;gap:8px">
+        <button class="btn" onclick="prevNext(-1)">← Prev</button>
+        <button class="btn" onclick="prevNext(1)">Next →</button>
+        <button class="btn" id="themebtn" onclick="toggleTheme()">☾ Theme</button>
+      </div>
+    </div>
+    <div class="progress"><i id="progbar"></i></div>
+    <article id="content"></article>
+    <div class="footer" id="xref"></div>
+  </main>
+</div>
+<script>
+/* ============ CONTENT MODEL ============ */
+const T = (lens,who,body)=>`<div class="callout titan"><h4>🏛 Titan Take — ${who} (${lens})</h4><p>${body}</p></div>`;
+const D = (who,body)=>`<div class="callout dissent"><h4>⚔ Dissent — ${who}</h4><p>${body}</p></div>`;
+const GAP = (body)=>`<div class="callout gap"><h4>🌉 Gap Bridge → UX Architect</h4><p>${body}</p></div>`;
+const NOTE = (body)=>`<div class="callout"><p>${body}</p></div>`;
+
+/* before/after AI toggle helper */
+let eraN=0;
+function eraBlock(eras){ // eras: [{label,html}...]
+  const id='era'+(eraN++);
+  const btns=eras.map((e,i)=>`<button class="${i==0?'on':''}" onclick="switchEra('${id}',${i},this)">${e.label}</button>`).join('');
+  const panes=eras.map((e,i)=>`<div class="era ${i==0?'show':''}" data-era="${id}-${i}">${e.html}</div>`).join('');
+  return `<div class="toggle">${btns}</div>${panes}`;
+}
+function switchEra(id,i,btn){
+  document.querySelectorAll(`[data-era^="${id}-"]`).forEach((p,j)=>p.classList.toggle('show',j==i));
+  btn.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('on'));btn.classList.add('on');
+}
+
+/* interview question accordion */
+function q(meta,question,testing,trap,answer,followup,redflags){
+  return `<details class="acc"><summary><span>${question}</span><span class="qmeta">${meta}</span></summary>
+  <div class="body">
+    <div class="lbl">What they're really testing</div><p>${testing}</p>
+    <div class="lbl">The trap</div><p>${trap}</p>
+    <div class="lbl">90-second model answer</div><p>${answer}</p>
+    <div class="lbl">Killer follow-up to ask back</div><p>${followup}</p>
+    <div class="lbl">Red flags in a weak answer</div><p>${redflags}</p>
+  </div></details>`;
+}
+
+const SECTIONS = [];
+const add = (id,group,title,sub,html)=>SECTIONS.push({id,group,title,sub,html});
+
+/* ---------- HOME ---------- */
+add('home','Start','The UX Architect\'s Learning Bible','A 360° operating manual for the AI-era design leader',`
+<div class="hero">
+  <h1>The UX Architect's Learning Bible</h1>
+  <p style="font-size:1.05rem;max-width:780px">The one resource you keep open for a decade. Not a course catalog — an <strong>operating manual</strong>. Eleven pillars, every concept paired with a drill or artifact, every era treated <em>Before AI / With AI / AI+Quantum / AI+Quantum+Robotics</em>, every chapter argued through the <strong>Council of Titans</strong> and aimed at one outcome: holding your own in front of a Satya-tier leadership team next quarter.</p>
+  <div style="margin-top:14px">
+    <span class="tag">11 Pillars</span><span class="tag">60+ Modules</span><span class="tag">150+ Interview Qs</span><span class="tag">Artifact Vault</span><span class="tag">Maturity Model</span>
+  </div>
+</div>
+<h2>The Council of Titans</h2>
+<p>Each panelist is a <em>lens</em>, not a vote. The Bible synthesizes; where the Titans would disagree, the disagreement is surfaced and the trade-off named.</p>
+<div class="grid2">
+  <div class="card"><h3>Elon Musk</h3><p>First-principles reasoning, physics-grounded constraints, velocity bias, vertical integration of design + engineering. <em>"Delete the requirement before you optimize the part."</em></p></div>
+  <div class="card"><h3>Tim Cook</h3><p>Operational excellence, supply-chain-to-experience continuity, privacy and accessibility as non-negotiable design primitives, premium craft.</p></div>
+  <div class="card"><h3>Sundar Pichai</h3><p>Scale, AI-first thinking, platform strategy, Material philosophy, multi-product ecosystem coherence.</p></div>
+  <div class="card"><h3>Satya Nadella</h3><p>Growth mindset, empathy-led strategy, enterprise+consumer convergence, Copilot/agentic patterns, inclusive design.</p></div>
+  <div class="card"><h3>Andy Jassy</h3><p>Customer obsession, working-backwards (PR/FAQ), two-pizza teams, mechanism over intent, scale economics.</p></div>
+  <div class="card"><h3>Jensen Huang</h3><p>Accelerated computing, simulation-first design, the "AI factory" worldview, hardware-aware full-stack reasoning.</p></div>
+</div>
+<h2>How to use this</h2>
+<p>Three reading paths are wired into the navigation:</p>
+<ul>
+<li><strong>Curious mid-level designer</strong> → Foundations (P1–P6) → Maturity Model → pick one Gap Bridge per week.</li>
+<li><strong>Interview-cramming senior</strong> → <a onclick="go('mat')">Maturity Model</a> self-assess → <a onclick="go('p11')">Pillar 11: Interview Mastery</a> → Portfolio Playbook → Artifact Vault.</li>
+<li><strong>Leader running a 40-person org</strong> → Pillar 10 (Leadership/Ops) → Pillar 4 (Strategy) → Playbooks → PDLC operating models (Pillar 8).</li>
+</ul>
+${GAP("Start by self-scoring on the Maturity Model below. Your lowest two competencies become your quarter's focus. Everything else in the Bible is in service of moving those two notches.")}
+`);
+
+/* ---------- SITE ARCHITECTURE ---------- */
+add('ia','Start','Site Architecture & Design Language','How the Bible is built as a product',`
+<p>This deliverable is designed as a real product so it demonstrates the craft it teaches. Below: the site map, navigation model, content types, and the design system powering this very page.</p>
+<h2>Site map (Pillars → Modules → Atomic Units)</h2>
+<pre>
+Start ─ Home · Site Architecture · Maturity Model
+P1  UX Foundations & First Principles    → 6 modules (laws, perception, mental models, affordances, feedback, first-principles bridge)
+P2  Design Thinking Process               → 6 methodologies + meta-framework + 12-dimension matrix
+P3  UX Research                           → generative/evaluative · 25+ methods · bias inventory · ops · ethics
+P4  UX Strategy                           → north-star · HEART · AARRR · Wardley · OKRs · ROI · design debt
+P5  UI Design & Visual Craft              → grid · type · color/OKLCH · motion · design-system comparison
+P6  Usability Testing & Evaluation        → heuristics · WCAG · metrics · statistical literacy
+P7  AI-Augmented UX (Anthropic chapter)   → design WITH / FOR AI · Anthropic surfaces · evals · ethics
+P8  PDLC: Four Operating Models           → 1.0 → 4.0 (Before AI → AI+Quantum+Robotics)
+P9  Industry Verticals                    → Healthcare · E-comm · IT Services · Hospitality · Platforms
+P10 Design Leadership & DesignOps         → org models · ladders · metrics · operating rhythm
+P11 Interview Mastery                     → 150+ Qs · STAR-Plus · portfolio playbook
+Libraries ─ Playbooks · Artifact Vault · Case Studies · Diagram Inventory · Stretch Goals
+</pre>
+<h2>Navigation & content model</h2>
+<div class="grid2">
+<div class="card"><h3>Navigation</h3><p>Persistent left rail grouped by Start / Pillars / Libraries; live search filters every node; prev/next ribbon for linear readers; a cross-reference graph at the foot of each page; a progress bar tracking pages viewed this session.</p></div>
+<div class="card"><h3>Content types</h3><p>Concept page · Framework page · Case Study · Drill/Exercise · Template/Artifact · Interview Card (accordion) · Cheat Sheet · <strong>Titan Take</strong> callout · <strong>Dissent</strong> callout · <strong>Gap Bridge</strong>. Each renders as a reusable component you can see live on this page.</p></div>
+</div>
+<h2>Visual design language</h2>
+<table>
+<tr><th>Token</th><th>Decision</th><th>Rationale (the craft argument)</th></tr>
+<tr><td>Color</td><td>Near-black canvas <code>#0b0d12</code>, violet→cyan brand, gold for Titans, green for action, red for dissent/risk</td><td>Semantic color, not decorative. A reader learns "gold = a Titan is talking, green = do this, red = danger" within one page — that is information scent (P1).</td></tr>
+<tr><td>Type</td><td>Inter for UI, JetBrains Mono for artifacts/specs; tight negative tracking on headings</td><td>Mono signals "this is a template you copy," sans signals "this is prose you read." Channel separation reduces cognitive load.</td></tr>
+<tr><td>Spacing</td><td>4px base grid, generous vertical rhythm, 1180px measure cap</td><td>Long-form reading demands a constrained measure (~70ch) and vertical rhythm; we eat our own dog food.</td></tr>
+<tr><td>Components</td><td>Callout, comparison matrix, era-toggle, accordion, maturity assessor, pillar grid</td><td>A bounded component inventory = a design system. Adding a 7th component type should require justification.</td></tr>
+</table>
+<h4>Component inventory the site requires</h4>
+<ul>
+<li>Framework diagram block · Comparison matrix · <strong>Before/After-AI toggle</strong> (live below) · Decision tree · Interview Q&A accordion · Maturity rubric/assessor · Titan callout · Severity/rubric table · Code/template block · Progress + cross-ref graph.</li>
+</ul>
+<p>Live example of the era-toggle component used throughout:</p>
+${eraBlock([
+  {label:'Before AI',html:'<p>Wireframe → high-fidelity mock → redline spec → engineering handoff. Weeks of latency between intent and pixels.</p>'},
+  {label:'With AI',html:'<p>Prompt → generated variants → AI critique → design-to-code scaffold → eval. Latency collapses to hours; the bottleneck moves to <em>judgment</em>.</p>'},
+  {label:'+Quantum',html:'<p>Design search spaces (layout, pricing, routing) optimized combinatorially; the designer curates a Pareto frontier rather than a single comp.</p>'},
+  {label:'+Robotics',html:'<p>Interfaces dissolve into ambient + embodied surfaces; the artifact is a <em>behavior policy</em>, not a screen.</p>'}
+])}
+${T('Operational excellence','Tim Cook','A learning resource that teaches craft while violating it is malpractice. Every token here is defensible. If you cannot justify a spacing value, delete it.')}
+${D('Elon Musk','"You over-built the design system. Ship the three components that carry 90% of the content; the decision-tree component is vanity until a page needs it."')}
+${GAP("Reverse-engineer this page's design tokens into a one-page token taxonomy (color/type/space/elevation). Present it as if defending it to a platform design council — that artifact alone is a Staff-level deliverable.")}
+`);
+
+/* ---------- MATURITY MODEL (DEEP) ---------- */
+add('mat','Start','The UX Architect Maturity Model','Self-assess across 8 competencies × 5 levels',`
+<p>Five levels — <strong>Practitioner → Senior → Staff → Principal → Distinguished/Architect</strong> — across eight competencies. Score yourself honestly; your two lowest scores are your roadmap. The model is the assessment spine the rest of the Bible plugs into.</p>
+<div class="card" id="assessor"></div>
+<h2>What distinguishes each level (behaviors + artifacts)</h2>
+<table>
+<tr><th>Competency</th><th>L1 Practitioner</th><th>L2 Senior</th><th>L3 Staff</th><th>L4 Principal</th><th>L5 Distinguished/Architect</th></tr>
+<tr><td><b>Craft</b></td><td>Executes screens to spec</td><td>Owns a flow end-to-end; pixel + motion quality</td><td>Sets craft bar for a product area; reusable patterns</td><td>Defines craft standards used by others; invents patterns</td><td>Craft is industry-referenced; others cite your work</td></tr>
+<tr><td><b>Research</b></td><td>Runs usability tests with a guide</td><td>Chooses methods; synthesizes to insight</td><td>Designs research programs; mixes quant+qual</td><td>Sets research strategy; ResearchOps at scale</td><td>Advances the methodology itself</td></tr>
+<tr><td><b>Strategy</b></td><td>Understands the goal of a feature</td><td>Connects feature to a metric</td><td>Owns a north-star + tree for an area</td><td>Shapes product strategy with PM/Eng peers</td><td>Shapes company/portfolio strategy</td></tr>
+<tr><td><b>Systems thinking</b></td><td>Uses the design system</td><td>Contributes components</td><td>Governs a system for a product</td><td>Architects multi-product token/governance model</td><td>Defines ecosystem coherence across 1B-user surfaces</td></tr>
+<tr><td><b>Leadership</b></td><td>Leads self</td><td>Mentors 1–2; leads a project</td><td>Tech-leads a pod; raises others' bar</td><td>Leads leaders; sets team operating model</td><td>Builds the design org's culture & ladder</td></tr>
+<tr><td><b>Communication</b></td><td>Presents own work clearly</td><td>Defends decisions with rationale</td><td>Persuades cross-functional peers</td><td>Influences VP/SVP; board-adjacent narrative</td><td>Sets the external narrative; industry voice</td></tr>
+<tr><td><b>Business acumen</b></td><td>Knows the user</td><td>Knows the metric</td><td>Knows unit economics of the area</td><td>Reasons about P&L, moats, ROI</td><td>Reasons about market structure & bets</td></tr>
+<tr><td><b>AI fluency</b></td><td>Uses AI tools for tasks</td><td>Designs AI features with patterns</td><td>Builds evals; designs agentic flows</td><td>Sets AI design strategy + safety posture</td><td>Defines new AI-UX primitives others adopt</td></tr>
+</table>
+${T('Growth mindset','Satya Nadella','The model is not a ranking of people; it is a map of learning. A Principal in Craft can be an L2 in Business Acumen — and naming that gap is the unlock, not the shame.')}
+${D('Jensen Huang','"Levels lull you into linear thinking. AI fluency is not a column you climb slowly — it can jump you two levels in a quarter or make your hard-won craft level depreciate. Treat AI fluency as a multiplier on every other row, not a peer of them."')}
+${GAP("Score yourself above, screenshot it, and re-score every quarter. For your two lowest competencies, the relevant pillar lists the exact drills. Bring the delta to your next performance conversation as evidence of trajectory — trajectory is what gets you promoted to Architect, not absolute level.")}
+`);
+
+/* ---------- PILLAR 11: INTERVIEW MASTERY (DEEP) ---------- */
+add('p11','Pillars','P11 · Interview Mastery for UX Architects','150+ questions across four lenses, with model answers',`
+<span class="tag">Pillar 11</span><span class="tag">Front-loaded</span><span class="tag">Anurag's priority</span>
+<h1>Interview Mastery for UX Architects</h1>
+<p>This pillar integrates every other pillar. You will be interviewed by four archetypes — CEO, CTO, Sr. VP, Senior Director — each probing a different axis. Every card below gives you: <em>what they're really testing · the trap · a 90-second model answer · the killer follow-up to ask back · red flags</em>. The model answers reference <strong>specific frameworks and metrics</strong> on purpose — generic answers are disqualifying at this level.</p>
+
+<h2>The STAR-Plus framework (for behavioral answers)</h2>
+<table>
+<tr><th>Letter</th><th>Element</th><th>What strong leaders add</th></tr>
+<tr><td>S</td><td>Situation</td><td>One sentence of context + the <em>stakes</em> (revenue, risk, users affected). Skip backstory.</td></tr>
+<tr><td>T</td><td>Task</td><td>Your specific mandate and the constraint that made it hard.</td></tr>
+<tr><td>A</td><td>Action</td><td>The decision and the <em>trade-off you chose</em> — not a task list. Name what you said no to.</td></tr>
+<tr><td>R</td><td>Result</td><td>A number + a counterfactual ("vs. the prior baseline of X").</td></tr>
+<tr><td>+R</td><td>Reflection</td><td>What you'd do differently — signals growth mindset, not defensiveness.</td></tr>
+<tr><td>+R</td><td>Re-applicability</td><td>The transferable mechanism you now reuse — signals you built a system, not a one-off.</td></tr>
+</table>
+${T('Working backwards','Andy Jassy','The "Re-applicability" beat is what separates a Director from a Principal. A Director tells a good story; a Principal extracted a reusable mechanism from it. Always land on the mechanism.')}
+
+<h2>Lens 1 — The CEO (business strategy, moats, board communication)</h2>
+${q('CEO · why-hire archetype','Why should we hire you as our UX Architect over a strong internal promote?','Whether you think in terms of business outcomes and can articulate a unique wedge, not credentials.','Listing skills and past titles — interchangeable with any senior candidate.','"Three reasons. First, I close the design-to-business translation gap: at Providence I reframed clinician burnout from a satisfaction metric into a documentation-time-on-task problem and tied it to retention economics. Second, I operate at the seam of design, frontend, and AI — I can scaffold a prototype in Claude Code and defend its token architecture to your platform council. Third, I bring a vertical edge in regulated healthcare that maps to your expansion thesis. An internal promote gives you continuity; I give you a step-change in AI-era operating model with no ramp on craft."','"What\'s the single design decision in the next 12 months you\'d most regret getting wrong — and is that a craft, research, or strategy problem?"','Talking only about passion/fit; no business framing; no acknowledgment of why the internal candidate is credible.')}
+${q('CEO · moats','How does design create a defensible moat versus a feature competitors can copy?','Whether you understand moats as systems (data, switching cost, network, brand) not pixels.','Claiming "great UX is the moat" — CEOs know polish is copyable.','"Pixels aren\'t a moat — copyable in a sprint. Design builds moats in four ways: it compounds a <em>data advantage</em> by designing the capture loop (every interaction that improves the model), raises <em>switching costs</em> through earned workflow muscle-memory, accelerates <em>network effects</em> by lowering the activation energy to invite others, and concentrates <em>brand</em> into a recognizable interaction signature. At Amazon the 1-Click patent was design-as-moat. My job is to pick which of those four we\'re building and design the flywheel deliberately, then measure it."','"Which of those four moats is the board underwriting in our current valuation — because that\'s where I\'d concentrate design investment?"','Confusing aesthetics with defensibility; no mention of flywheels, switching costs, or data loops.')}
+${q('CEO · board comms','You have 5 minutes with the board. How do you make the case for design investment?','Executive narrative compression and financial literacy.','Showing portfolio screenshots to a board — wrong altitude.','"I open with the money, not the mocks: ‘We lose $X a year to a 32% checkout abandonment; benchmark is 18%. Closing half the gap is $Y in recovered revenue.\' Then one slide on the mechanism — the three friction points and the bet. Then the ask and the measure: ‘Fund two researchers and a design-systems engineer; I\'ll report the abandonment delta monthly.\' I never show a screen unless asked. Boards fund outcomes and de-risked bets, not craft."','"What\'s the board\'s current mental model of why we\'re underperforming — so I can either confirm it with data or respectfully reframe it?"','Leading with visuals; no dollar figures; no clear ask or measurement commitment.')}
+${q('CEO · market positioning','How would you position our product\'s experience against the category leader?','Strategic differentiation and willingness to <em>not</em> compete head-on.','Proposing to out-feature the leader — a losing game for a challenger.','"You don\'t beat the leader by copying their surface — you re-segment. I\'d run a top-task analysis to find the job they serve adequately but not lovingly, then over-serve that job so completely we own a beachhead. Tesla didn\'t make a better Camry; it redefined the dashboard around one job. I\'d pick our wedge job, design an experience 10x better on that axis, and accept being worse on axes the wedge segment doesn\'t value — then expand."','"Who is the customer the leader is structurally unable to serve well because of their existing commitments?"','Feature-parity thinking; trying to win everywhere; no segmentation.')}
+${q('CEO · revenue impact','How do you quantify design\'s ROI when so much is indirect?','Comfort with measurement and honesty about attribution.','Either over-claiming credit or shrugging that "design ROI can\'t be measured."','"I separate three tiers. Direct: A/B-attributable lifts — conversion, AOV, task completion — measured experimentally. Indirect: leading indicators like activation rate and time-to-value that correlate with retention. Strategic: avoided cost — support tickets deflected, dev rework prevented by a design system. I report the direct tier with confidence intervals, the indirect tier as correlation with a stated caveat, and the strategic tier as modeled estimates. Honesty about attribution is what earns the budget the next year."','"Does this org reward measurable conversion wins more than harder-to-attribute retention work — because that shapes where I\'d point the team?"','Single inflated ROI number; no attribution humility; no experimental method.')}
+${q('CEO · risk','Tell me about a strategic bet that failed and what it cost.','Judgment under uncertainty and intellectual honesty.','Disguising a humblebrag as a failure.','[STAR-Plus] "We bet on a conversational interface for a clinical intake flow. Situation: intake took clinicians 6 minutes. Task: cut it in half. Action: I pushed a chat paradigm over a structured form — the wrong call. Result: completion dropped 14% because clinicians wanted scannable structure, not conversation; we reverted in 6 weeks, costing roughly a quarter of a squad. Reflection: I\'d fallen for a pattern because it was novel, not because the job demanded it. Re-applicability: I now gate every paradigm choice behind a top-task test before build. That mechanism has killed two bad ideas cheaply since."','"How does this org treat a well-reasoned bet that fails — is the postmortem about learning or blame? That tells me how aggressively I can innovate here."','A fake failure; blaming others; no cost named; no learning extracted.')}
+${q('CEO · AI strategy','Where does AI change our business, and what\'s design\'s role?','Whether you see AI as strategy, not a feature checkbox.','Listing AI features ("we\'ll add a chatbot").','"AI changes us in three places: the <em>cost structure</em> of producing the experience, the <em>core value prop</em> if the product becomes agentic, and the <em>data flywheel</em>. Design\'s role is to own the trust surface — because the constraint on AI adoption is not capability, it\'s trust. The companies that win design the ‘show your work,\' graceful-degradation, and consent patterns that let users delegate confidently. I\'d make trust UI a P0, not a polish item."','"Is the ambition to bolt AI onto today\'s product or to let AI rewrite the core workflow — because those are different design org investments?"','Feature-list thinking; ignoring trust; treating AI as a layer not a strategy.')}
+${q('CEO · competition','A well-funded startup is undercutting us on UX. Response?','Composure and structured competitive reasoning.','Panic-copying or dismissiveness.','"First I\'d separate signal from noise: are they winning customers or winning Twitter? I\'d instrument win/loss interviews. If real, I\'d find the <em>specific job</em> they nail and decide — defend (close the gap on our core segment fast) or redirect (cede that niche and double down where our scale is a moat they can\'t match: integrations, compliance, data). Startups beat incumbents on focus, not resources; my counter is to use our scale on axes focus can\'t buy."','"If we could only defend one customer segment from them, which one is most tied to our revenue — and are we sure?"','Emotional reaction; copying without segmenting; underestimating or panicking.')}
+${q('CEO · vision','What\'s your 5-year vision for our product\'s experience?','Imagination disciplined by feasibility.','Pure sci-fi with no path, or timid extrapolation.','"In five years the interface mostly disappears for routine work — the product anticipates and acts, and the UI becomes the place you supervise and correct an agent, not operate a tool. Concretely: today\'s 12-step workflow becomes ‘confirm or adjust\' one screen. That demands three new design competencies we\'d build now — agent trust UI, eval-driven design, and ambient/multimodal patterns. The vision is bold; the investments are boring and start this quarter."','"What would have to be true about our data and trust posture for users to let us act on their behalf — and are we building toward that?"','Untethered futurism; or a vision that\'s just "more of the same, polished."')}
+${q('CEO · leadership philosophy','What kind of design culture would you build here?','Whether your culture scales and aligns to business.','Generic "collaborative and user-centered" platitudes.','"A culture of <em>evidence and velocity</em>. Three norms: decisions are defended with the user job and a metric, not seniority; we ship to learn — a critique that doesn\'t change the work was a status meeting; and craft is non-negotiable but craft serves the outcome, not ego. I\'d operationalize it with a written critique format, a design-decision log, and a maturity ladder so growth is legible. Culture you can\'t write down doesn\'t survive your tenth hire."','"Where does the current culture create friction with engineering or product — because that seam is where I\'d focus first?"','Buzzwords; no operating mechanisms; culture that wouldn\'t survive scale.')}
+
+<h2>Lens 2 — The CTO (technical depth, eng partnership, AI architecture)</h2>
+${q('CTO · design-to-code','How do you make design-to-engineering handoff not lossy?','Whether you reduce ambiguity at the system level, not the ticket level.','Describing redlines and Figma specs — that\'s a 2018 answer.','"You eliminate handoff, not optimize it. The mechanism is a shared design system where tokens and components are the single source of truth in code — designers and engineers reference the same primitives. I push for design-system-as-code (Style Dictionary tokens → platform outputs), Storybook as the contract, and AI design-to-code to scaffold the first pass that engineers refine. Handoff is lossy because intent lives in a doc; my fix is to make intent live in shared, executable components. Specs are for the 10% the system doesn\'t cover."','"Where does our token pipeline break today — is it a tooling gap or a governance gap?"','Redline-centric thinking; treating handoff as a documentation problem.')}
+${q('CTO · performance','Designers want richness; I have a performance budget. How do we resolve this?','Whether you treat performance as a design material.','Treating perf as engineering\'s problem to solve after design.','"Performance is a design constraint, like color contrast — I design within the budget, not against it. Concretely: I\'d adopt a perf budget per route (e.g., LCP < 2.5s, INP < 200ms), design with it as a first-class acceptance criterion, prefer system fonts and CSS over JS animation, lazy-load below the fold, and reserve richness for moments that earn it. Jank is a UX failure, not just an eng metric — a 100ms delay measurably drops engagement. I\'d rather ship a fast plain pattern than a beautiful slow one."','"What\'s our current INP and LCP at p75 on the critical flow — can I see the field data, not the lab data?"','Treating perf as someone else\'s job; richness without budget awareness.')}
+${q('CTO · AI architecture','How should we architect the UX for an LLM feature so it\'s maintainable?','Whether you understand the stack: prompts, context, evals, latency, fallback.','Designing the chat bubble and ignoring the system behind it.','"The UX and the architecture are one system. I\'d insist on four things: a clear context strategy (what we put in the prompt and why — this is an interaction-design decision, e.g., MCP to pull live context); streaming UI so perceived latency stays low; graceful degradation when the model is uncertain or down (the ‘show your work\' + confidence pattern); and an eval harness so we measure UX quality, not just model accuracy. The maintainability risk is prompt sprawl — I\'d treat prompts as versioned design artifacts with owners."','"Do we have an eval set for the <em>experience</em>, or only for model accuracy — because a 95%-accurate model can still feel untrustworthy?"','Designing only the surface; no fallback, no evals, no latency strategy.')}
+${q('CTO · platform thinking','Build a bespoke component or extend the platform?','Whether you optimize for the system, not the feature.','Always building bespoke for "the perfect experience."','"Default to the platform; deviate only with a documented reason and a plan to upstream. Bespoke components are debt with interest — every one fragments the system and multiplies maintenance. My rule: if the need is general, contribute it to the system so everyone benefits; if it\'s a genuine one-off justified by a high-value flow, build it but isolate and document it. The platform\'s coherence is worth more than any single screen\'s perfection."','"What\'s our current component reuse rate, and is there a governance path for me to contribute upstream — or does every team fork?"','Reflexive bespoke building; no awareness of system debt or governance.')}
+${q('CTO · accessibility','Accessibility — nice-to-have or architecture?','Whether a11y is foundational or bolted on.','Treating WCAG as a final-stage checklist.','"Architecture. Bolting on a11y costs 5–10x more and never fully works. It\'s also frequently legal exposure (ADA, EN 301 549, the European Accessibility Act). I build semantic structure, focus management, and ARIA into the component layer once, so every feature inherits it. I\'d set WCAG 2.2 AA as the system contract, automate axe-core in CI, and pair it with manual screen-reader passes. Done at the system level it\'s nearly free; done per-feature it\'s a perpetual tax."','"Have we had an accessibility audit or complaint — because that tells me whether this is a remediation project or a greenfield standard?"','A11y as checklist; no automation; no legal awareness; per-feature retrofitting.')}
+${q('CTO · engineering empathy','How do you keep design from being a bottleneck for fast eng teams?','Whether you can scale design without gatekeeping.','Insisting all work routes through design review.','"Bottlenecks come from design being a gate. I remove the gate by pushing decisions into the system: a robust component library plus clear usage guidelines means engineers self-serve 80% of UI correctly without me. I reserve design attention for the novel 20%. I also embed designers in pods rather than running a central queue. The goal is to make the right thing the easy default — then design scales sublinearly with eng headcount."','"What\'s the longest an engineering team has waited on design recently, and what were they blocked on?"','Gatekeeping; central queue; design as approval checkpoint.')}
+${q('CTO · technical tradeoffs','When have you changed a design because of a technical constraint?','Pragmatism and respect for engineering reality.','Implying you never compromise the vision.','[STAR-Plus] "We wanted real-time collaborative editing on a clinical note. Eng flagged the conflict-resolution complexity and latency on our infra. Rather than fight it, I redesigned to a ‘sections lock\' model — coarser, but it shipped in a third of the time and clinicians actually preferred the predictability. Reflection: the ‘ideal\' was solving a problem users didn\'t have. Re-applicability: I now bring eng into the divergent phase, not the handoff phase, so constraints shape the concept early."','"Where do you see design currently spec\'ing things that are expensive relative to their user value?"','Designer-as-artist who won\'t compromise; or capitulating with no user reasoning.')}
+${q('CTO · design systems','How do you govern a design system across many teams without slowing everyone?','Federated governance literacy.','Either total central control or total free-for-all.','"Federated model: a small core team owns the primitives, foundations, and contribution process; product teams own composition and can propose components via a documented RFC + review. The core team\'s job is curation and quality, not production. Versioning is semantic, breaking changes are deprecated with migration codemods, and adoption is measured. The failure mode at both extremes — central bottleneck or fork chaos — is solved by a clear contribution mechanism, not by control."','"Do we measure design-system adoption and override rate today — because overrides are the system telling us where it\'s failing?"','All-central or all-distributed; no contribution process; no adoption metric.')}
+${q('CTO · prototyping','How technical should a designer be?','Self-aware positioning on the design-eng spectrum.','Over- or under-claiming engineering ability.','"Technical enough to be dangerous and credible — not to replace engineers. I prototype in real code (React/Tailwind) and scaffold with AI tools, which means my specs are feasible and my conversations with eng are concrete. But I respect the line: production architecture, performance, and security are theirs. The value of a technical designer is shrinking the intent-to-implementation gap and earning eng trust — not writing the merge-bound code."','"Would you rather designers here prototype in code or stay in Figma — what serves your teams\' velocity better?"','Claiming to be a full engineer, or proudly non-technical in an AI era.')}
+${q('CTO · scale','How does designing for 100K users differ from 100M?','Systems and edge-case reasoning at scale.','Thinking it\'s just "more of the same."','"At 100M, the long tail <em>is</em> the product. A 0.1% edge case is 100K people; an a11y gap is a class-action. You stop designing for a persona and start designing for a distribution — locales, devices, network conditions, assistive tech, abuse vectors. You also can\'t hand-tune; you need a system and guardrails that produce good defaults at scale. And every change is an experiment because your gut doesn\'t generalize across 100M. The shift is from craft-by-hand to craft-by-system."','"What\'s our p99 user look like — slowest device, worst network, edge locale — and do we design for them or just the median?"','Linear scaling mindset; ignoring the long tail and experimentation.')}
+
+<h2>Lens 3 — The Sr. VP (org design, scaling, P&L, multi-year roadmaps)</h2>
+${q('SrVP · org design','How would you structure a 40-person design org?','Org-model fluency and matching structure to company stage.','Picking one model dogmatically.','"There\'s no universal answer — structure follows the operating model. For a multi-product company I\'d run a <em>federated</em> model: designers embedded in product pods for context and speed, with a dotted-line central craft+ops function owning the design system, research ops, hiring bar, and career ladder. Centralized risks ivory-tower irrelevance; fully embedded risks fragmentation and stalled careers. Federated captures both if the central function earns its keep with leverage — systems, tooling, calibration — rather than control. I\'d revisit the structure every time we double."','"How aligned are product and design on goals today — because misalignment there makes any org model fail?"','One-size dogma; no link between structure and company stage/strategy.')}
+${q('SrVP · scaling','Design quality drops as the team grows. How do you prevent it?','Whether you can scale taste through systems, not heroics.','"Hire only great people" — doesn\'t scale or explain mechanism.','"Quality dilutes because taste doesn\'t scale by osmosis. I install three mechanisms: a written craft bar and design-principles doc so ‘good\' is legible; a regular calibrated critique where work is reviewed against that bar (calibration prevents drift); and a design system that encodes quality into defaults so the floor rises automatically. Plus a leveling rubric so feedback is consistent. Heroic individual taste is fragile; systematized taste compounds. Hiring well is necessary but insufficient."','"Is the quality drop in execution craft or in decision quality — because those need different interventions?"','Relying on hiring alone; no systems; treating quality as individual virtue.')}
+${q('SrVP · cross-functional','How do you handle a powerful PM who overrides design decisions?','Political maturity and principled partnership.','Either capitulating or framing it as design-vs-PM warfare.','"I don\'t make it a turf war — I make it about evidence and shared goals. First I\'d understand their pressure; they\'re usually optimizing for a real constraint. I reframe from opinion-vs-opinion to ‘here\'s the user data and the metric risk.\' If we still disagree, I\'d propose a cheap test to let reality decide rather than escalate. I escalate only on principle (ethics, accessibility, a clear user-harm), and when I do, I do it transparently with the PM, not behind them. Repeated overrides are usually a goal-misalignment problem upstream — I\'d fix that with leadership."','"Where do product and design currently have misaligned incentives — because that\'s the root, not personalities?"','Capitulation; warfare framing; escalating without first seeking data or tests.')}
+${q('SrVP · P&L','What do you understand about our P&L, and how does design touch it?','Business literacy at the executive altitude.','Pure user-advocacy with no financial grounding.','"Design touches both sides of the P&L. Revenue: conversion, AOV, retention/LTV, expansion — all design-influenced and partly attributable. Cost: support deflection through clearer UX, dev efficiency through a design system (real opex savings), and reduced churn-driven CAC pressure. In a regulated vertical like healthcare there\'s also avoided cost — error reduction, compliance, malpractice exposure. I\'d want to know our gross margin and primary growth lever so I point design at the highest-leverage line, not just the most fun problem."','"What\'s the single P&L line leadership most wants to move next year — margin, retention, or top-line growth?"','No financial vocabulary; design as a cost center with no revenue/cost linkage.')}
+${q('SrVP · roadmap','How do you build a multi-year design roadmap?','Strategic sequencing under uncertainty.','A feature list with dates — that\'s a backlog, not a roadmap.','"A roadmap is a sequence of bets tied to outcomes, not a Gantt of features. I structure it in horizons: H1 (now–6mo) committed outcomes with metrics; H2 (6–18mo) directional bets we\'re de-risking with research; H3 (18mo+) themes and capability investments like AI design fluency or a re-platformed system. I sequence by dependency and leverage — foundational system work first because it unblocks everything downstream. And I hold it loosely; a multi-year roadmap that doesn\'t change is a fantasy. I review quarterly against reality."','"How much of leadership\'s expectation is fixed commitment versus directional — because over-promising H3 as H1 is how design loses credibility?"','Feature-and-date list; false precision; no horizons or dependency reasoning.')}
+${q('SrVP · talent','What\'s your strategy for hiring and retaining senior design talent?','Talent-market realism and retention mechanics.','"Pay well and have good culture" — true but shallow.','"Hiring: I define the level rubric before sourcing so the bar is objective, use a portfolio + structured-case + craft exercise loop calibrated across interviewers to reduce bias, and sell the <em>problem</em>, not the perks — senior people are bought by scope and impact. Retention: senior designers leave when growth stalls or their work stops mattering. So I guarantee three things — a legible ladder to Principal/Distinguished, real scope (own an outcome, not a screen), and visible executive exposure. AI fluency is now a hiring axis; I screen for judgment with AI tools, not just figma craft."','"What\'s our regretted-attrition rate at senior levels, and do we know the real reasons from exit data?"','Perks-only retention; unstructured hiring; no leveling rubric; ignoring growth.')}
+${q('SrVP · politics','Two senior directors are in conflict and it\'s slowing your org. What do you do?','Conflict resolution and decisiveness as a leader of leaders.','Avoiding it or taking a side emotionally.','"Unresolved peer conflict taxes the whole org, so I move fast. I meet each separately to understand the real interests beneath the positions — it\'s usually overlapping scope or misaligned goals, not personality. Then I bring them together around a shared objective and make the implicit explicit: who owns what decision (a RACI), and what the escalation path is. If it\'s genuinely irreconcilable on structure, that\'s my call to make — ambiguous ownership is a leadership failure, not theirs. I\'d rather make an imperfect decisive call than let ambiguity fester."','"Is this a personality clash or a structural ambiguity I created by not defining ownership clearly?"','Conflict avoidance; picking sides; no structural fix; letting it linger.')}
+${q('SrVP · influence','How do you influence decisions outside your direct authority?','Leadership through influence, the core SrVP skill.','Relying on title or design authority.','"Authority is the weakest lever at this level; I lead through credibility, coalition, and framing. Credibility: I build a track record of called-shots that came true, so my judgment carries weight. Coalition: I find the partner who shares the goal — usually a PM or eng lead — and we arrive aligned. Framing: I translate design positions into the language of whoever I\'m persuading — revenue for the CEO, maintainability for the CTO, risk for legal. Influence is mostly pre-work done in 1:1s before the meeting, not eloquence in the meeting."','"Who are the three people whose buy-in actually determines whether design strategy succeeds here?"','Relying on authority; no coalition-building; one-language communication.')}
+${q('SrVP · metrics','How do you measure your design org\'s performance to leadership?','Outcome accountability, not activity reporting.','Reporting outputs (screens shipped, tickets closed).','"I never report activity — I report outcomes across four tiers: business (revenue/retention/NPS moved), product (task success, adoption, time-to-value), team (velocity, quality, throughput), and people (growth, regretted attrition). I tie design initiatives to the business tier wherever attribution allows and am honest where it doesn\'t. A dashboard of ‘mockups delivered\' tells leadership design is a factory; a dashboard of outcomes tells them design is a business lever. The framing determines our budget."','"Which tier does leadership currently judge design on — because if it\'s activity, my first job is to re-educate on outcomes?"','Output metrics; vanity numbers; no business linkage; no attribution honesty.')}
+${q('SrVP · change','You inherit a low-performing, demoralized design team. First 90 days?','Turnaround leadership.','Reorganizing on day one before understanding the system.','"Listen, stabilize, then change — in that order. First 30 days: 1:1 with everyone, audit the work, find the real constraint (often it\'s not talent — it\'s lack of clarity, broken partnership, or no decision rights). Quick wins to rebuild morale and credibility. Days 30–60: fix the highest-leverage broken mechanism — usually the design-PM-eng operating rhythm and unclear ownership. Days 60–90: install the durable systems — ladder, critique, principles — and make one visible bet pay off. Demoralized teams are usually starved of clarity and wins, not ability. I diagnose before I prescribe."','"Was the prior leader\'s problem strategy, execution, or politics — because I want to know what actually broke before I rebuild?"','Reorg-first; prescribing before diagnosing; blaming the team.')}
+
+<h2>Lens 4 — The Senior Director (execution craft, team management, operating rhythm)</h2>
+${q('SrDir · operating rhythm','Walk me through your team\'s weekly operating rhythm.','Whether you run a disciplined, legible team cadence.','Vague "we\'re agile and collaborate a lot."','"Monday: team sync to align on the week\'s outcomes and surface blockers — outcomes, not status. Mid-week: a calibrated design critique with a written format (problem, options, recommendation, decision needed) so it changes the work, not just shares it. Continuous: async design reviews in the tool with a 24h SLA so I\'m not a bottleneck. Weekly: my 1:1s, biweekly skip-levels. End of week: a short decision-log update so we have institutional memory. The rhythm exists to maximize decision velocity and minimize meeting load."','"Where does the current cadence create the most wasted time — too many meetings, or too few decisions made in them?"','No structure; meeting-heavy; critique with no decision; no async path.')}
+${q('SrDir · critique','How do you run a design critique that actually improves work?','Whether critique is a craft mechanism or a popularity contest.','Open-floor reactions and subjective opinion.','"Critique fails when it\'s unstructured opinion. I anchor it: the presenter states the user job, the constraints, and the specific decision they want feedback on — not ‘what do you think.\' Feedback must reference the goal or a principle, framed as a question or an observation, not a directive. I separate ‘this violates a principle\' (objective) from ‘I\'d do it differently\' (preference) and label which is which. The output is a decision or a clear next step logged. Critique is for the work, never the person — and never a vote."','"Do critiques here currently end with a decision, or do they end and the designer guesses what to do next?"','Opinion free-for-all; no structure; design-by-committee; no decision output.')}
+${q('SrDir · quality','How do you ensure design quality before it ships?','Practical QA discipline.','Relying on the designer to "just be good."','"Design QA is a discipline like code review. I use a pre-ship checklist covering the system contract (tokens/components used correctly), states (loading/empty/error/edge), responsive + density behavior, accessibility (contrast, focus, screen-reader pass), content quality, and the actual built experience versus the design — because the gap appears in implementation. I review the staged build, not just the Figma. The checklist makes quality consistent across the team rather than dependent on one person\'s vigilance, and it shifts QA earlier so we catch issues cheaply."','"Do we review the built experience or only the design file — because most quality loss happens in that gap?"','Quality as individual virtue; no checklist; reviewing only mockups not builds.')}
+${q('SrDir · ambiguity','How do you help a designer stuck on an ambiguous problem?','Coaching versus rescuing.','Solving it for them (rescuing) or leaving them adrift.','"I coach, I don\'t rescue — rescuing creates dependence and robs growth. I\'d help them decompose the ambiguity: what do we actually know, what\'s the riskiest assumption, what\'s the smallest thing we could do to learn? Often ambiguity paralysis is fear of the wrong answer, so I lower the stakes — ‘make three rough cuts, we\'ll react to something concrete.\' Forward motion beats perfect planning on ambiguous problems. I match my involvement to their level: more scaffolding for a junior, just a sounding board for a senior."','"What\'s the riskiest assumption in this problem, and what\'s the cheapest way we could test it this week?"','Solving it for them; abstract advice; not adjusting to the designer\'s level.')}
+${q('SrDir · feedback','How do you give difficult feedback to an underperformer?','Direct, caring management.','Either avoiding it or being harsh.','"Radical candor — care personally and challenge directly. I\'m specific and timely, not saving it for a review: the behavior, the impact, the expectation. ‘In the last three projects, the work shipped with unhandled error states, which created rework for eng — I need the edge cases owned before review.\' I make it about behavior and impact, never character, and I co-create a concrete improvement plan with a timeline so it\'s fair and actionable. Avoiding hard feedback isn\'t kind — it denies them the chance to improve and is unfair to the team carrying them."','"Has this person had clear, direct feedback before, or have they been managed around — because that changes whether it\'s a coaching or a clarity problem?"','Avoidance; vague feedback; character attacks; no improvement plan.')}
+${q('SrDir · prioritization','Everything is urgent and the team is underwater. What do you do?','Prioritization and protecting the team.','Trying to do it all or pushing the team to burn out.','"‘Everything is a priority\' means nothing is — my job is to force the trade-off leadership won\'t. I make the work visible and rank it by impact-versus-effort against the actual business outcome, then I take the hard conversation upward: ‘we can do A and B well, or A, B, C, D poorly — which two matter most?\' I protect the team from thrash by being the filter, not the conduit. And I look for the systemic cause — chronic overload is usually under-staffing, scope creep, or design being a bottleneck I can fix with better defaults."','"If you could only get two of these shipped well this quarter, which two move the business most?"','Hero-mode; burning out the team; not escalating the prioritization decision.')}
+${q('SrDir · growth','How do you develop a designer from mid to senior?','Whether you grow people deliberately.','Leaving growth to chance or osmosis.','"Deliberately, against the ladder. I name the specific gap between their current level and senior — usually it\'s not craft, it\'s scope, ambiguity-handling, and stakeholder influence. Then I engineer stretch: I give them an ambiguous problem to own end-to-end, put them in front of stakeholders with air cover, and debrief afterward. I pair the stretch with feedback tied to the rubric so growth is legible to them and to calibration. The mistake is promoting on tenure or craft alone — senior is about judgment and scope, and you have to manufacture the reps."','"What\'s the one capability — not task — that, if they nailed it, would make their promotion obvious to the calibration room?"','Growth by osmosis; promoting on tenure; no stretch reps; vague development.')}
+${q('SrDir · stakeholders','A stakeholder rejects research findings they don\'t like. How do you handle it?','Diplomacy plus conviction.','Caving, or bludgeoning them with data.','"I get curious before I get defensive — rejection usually means the finding threatens a belief or a plan they\'re invested in. I separate the finding from the implication: ‘the data shows users miss this step — let\'s figure out what to do about it together\' invites them in rather than cornering them. I bring the user\'s voice directly (a clip beats a chart) because it\'s harder to argue with. If they still reject solid evidence, I propose a low-cost test so reality, not authority, settles it. I hold the finding firmly and the solution loosely."','"What outcome are you most worried this finding puts at risk — because maybe we can protect that and still act on the data?"','Caving on evidence; weaponizing data; making the stakeholder defensive.')}
+${q('SrDir · systems','How do you decide when to invest in design-system work versus features?','Leverage reasoning at the execution level.','Always features (debt grows) or always system (no shipping).','"It\'s a leverage calculation, not a preference. I invest in the system when the same problem is being re-solved across teams (duplicated effort is the signal), when inconsistency is hurting users or velocity, or when upcoming roadmap work would compound on a shaky foundation. I treat system work as an enabler with its own ROI — ‘this token refactor saves every team N hours and unblocks the redesign.\' I avoid both failure modes: gold-plating a system nobody\'s blocked on, and accruing so much UI debt that every feature gets slower. I keep a debt log and pay it down deliberately."','"Where are teams currently re-solving the same UI problem — because that duplication is the clearest ROI signal for system investment?"','All-feature or all-system; no leverage/ROI framing; no debt tracking.')}
+${q('SrDir · day-to-day','What does a great day of design management look like to you?','Self-awareness about the manager\'s real job.','Describing doing IC design work all day.','"A great day, I barely touch a Figma file — and that\'s the point. My job shifted from making the work to making the team that makes the work better. A great day: a 1:1 where someone has a breakthrough on a stuck problem; a critique that visibly levels up the work; unblocking a cross-functional snag before it costs a week; and removing one piece of friction from the system. I keep enough hands-on craft to stay credible and calibrated, but if I\'m the one designing, I\'m not doing my actual job — which is leverage through people and systems."','"How much IC work do directors here still carry — because that tells me whether the role is really management or a senior-IC-with-reports?"','Describing IC work; not understanding the leverage shift; no people focus.')}
+
+${T('Empathy-led','Satya Nadella','Across all four lenses, the senior signal is the same: you make the implicit explicit and you reduce ambiguity for others. Juniors answer the question; architects reframe it to the real decision underneath.')}
+${D('Elon Musk','"Most of these answers are too diplomatic. In a real room, sometimes the highest-status move is to say ‘that\'s the wrong question\' and redirect to physics. Calibrate — over-diplomacy reads as having no spine."')}
+<h2>Portfolio presentation playbook</h2>
+<table>
+<tr><th>Format</th><th>Structure</th><th>Pacing</th></tr>
+<tr><td>5-min (recruiter screen / hallway)</td><td>One case. Problem stakes → your decision → the trade-off → the number. Skip process.</td><td>~60s setup, 2m decision, 1m result, 1m what you\'d redo.</td></tr>
+<tr><td>30-min (panel)</td><td>2 cases at different altitudes (one craft-deep, one strategy-deep). Arc: Context → Constraint → Decision → Trade-off → Outcome → Counterfactual.</td><td>Spend 60% on decisions and trade-offs, 20% on outcome, 20% on reflection. Never narrate every screen.</td></tr>
+<tr><td>Written</td><td>Lead with the outcome and your role; then the decision narrative; appendix for artifacts. Skimmable headers.</td><td>The reader decides in 30 seconds whether to keep reading — front-load the impact.</td></tr>
+</table>
+<h4>Handling live pushback</h4>
+<p>When challenged, don\'t defend — explore. "That\'s a fair challenge — here\'s the trade-off I was weighing, and here\'s what would change my mind." Showing the reasoning <em>behind</em> the decision beats defending the decision. Interviewers push to see if you collapse, calcify, or think. Aim to think out loud.</p>
+${GAP("Record yourself answering five cards cold — one per lens plus one portfolio walkthrough — and watch it back against the red-flags column. Most senior candidates fail not on knowledge but on compression and altitude: answering a CEO question at IC altitude. Drill the altitude-match until it\'s automatic.")}
+`);
+
+/* ---------- PILLAR 1 ---------- */
+add('p1','Pillars','P1 · UX Foundations & First Principles','The physics of perception and cognition',`
+<span class="tag">Pillar 1</span><span class="tag">Foundations</span>
+<h1>UX Foundations & First Principles</h1>
+<p><b>Why it matters:</b> Every higher-order skill — strategy, systems, leadership — rests on whether you understand how humans actually perceive, decide, and err. These are not trivia; they are the load-bearing constraints of the medium, like gravity for an architect.</p>
+<h2>The laws (cheat sheet)</h2>
+<table>
+<tr><th>Law</th><th>What it says</th><th>Design move</th></tr>
+<tr><td>Hick's Law</td><td>Decision time grows with the number/complexity of choices</td><td>Progressive disclosure; sane defaults; chunking</td></tr>
+<tr><td>Fitts's Law</td><td>Time to a target depends on its size and distance</td><td>Big tap targets; put primary actions where the cursor/thumb already is</td></tr>
+<tr><td>Jakob's Law</td><td>Users expect your product to work like the others they know</td><td>Honor conventions; innovate only where it pays</td></tr>
+<tr><td>Tesler's Law</td><td>Complexity is conserved — someone must absorb it</td><td>Move complexity from user to system, never delete the user's last sensible control</td></tr>
+<tr><td>Postel's Law</td><td>Be liberal in what you accept, conservative in what you emit</td><td>Forgiving inputs (dates, formats); precise, predictable outputs</td></tr>
+<tr><td>Peak-End Rule</td><td>Experiences are judged by their peak and their end</td><td>Engineer a peak moment and a clean ending; recovery from errors matters disproportionately</td></tr>
+<tr><td>Miller / chunking</td><td>Working memory is ~4±1 chunks</td><td>Group, don't list 11 items flat</td></tr>
+</table>
+<h2>Mental models, affordances, signifiers</h2>
+<p>Norman's vocabulary is non-negotiable fluency: <strong>affordances</strong> (what an object permits), <strong>signifiers</strong> (the cues that reveal it), <strong>mapping</strong> (control-to-effect correspondence), <strong>feedback</strong> (the system confirming it heard you), and <strong>conceptual models</strong> (the user's internal story of how it works). Most usability failure is a mismatch between the designer's model and the user's. <strong>Information scent</strong> (Pirolli) explains why people click — they follow the strongest cue toward their goal.</p>
+${eraBlock([
+ {label:'Before AI',html:'<p>Affordances were visual and static — a button looked clickable. Mapping was spatial.</p>'},
+ {label:'With AI',html:'<p>Affordances become <em>linguistic and probabilistic</em>: "what can I ask?" replaces "what can I click?" The new signifier problem is teaching users an open-ended system\'s capabilities (the blank-prompt problem). Feedback must now express <em>uncertainty</em>.</p>'},
+ {label:'+Quantum',html:'<p>Systems present optimized option sets; the affordance becomes "which of these computed frontiers do you prefer," and mapping is to outcomes, not controls.</p>'},
+ {label:'+Robotics',html:'<p>Affordances become physical and behavioral — what will the embodied agent do, and how do I signal stop/override? Feedback is motion and sound, not pixels.</p>'}
+])}
+${T('First principles','Elon Musk','Don\'t cargo-cult patterns. Ask what the user is physically trying to accomplish and what the irreducible steps are. Most UI is accumulated convention; delete a step before you style it.')}
+${D('Tim Cook','"First principles can become an excuse to ignore convention. Jakob\'s Law is physics too — users carry decades of learned behavior. Re-deriving the steering wheel wastes the user\'s cognition to flatter the designer\'s."')}
+${GAP("Take one flow you own and annotate every element as affordance/signifier/feedback/mapping. Find the one place your conceptual model and the user's diverge — that gap is almost certainly your top usability issue. Write the fix as a one-page first-principles teardown.")}
+`);
+
+/* ---------- PILLAR 2 ---------- */
+add('p2','Pillars','P2 · Design Thinking Process','Six methodologies, one meta-framework',`
+<span class="tag">Pillar 2</span>
+<h1>Design Thinking Process</h1>
+<p>Six canonical processes solve different problems. Mastery is knowing which to reach for, not defending one.</p>
+<div class="matrix-wrap"><table>
+<tr><th>Dimension</th><th>Double Diamond (IDEO)</th><th>d.school</th><th>IBM EDT</th><th>Google Sprint</th><th>Amazon Working-Backwards</th><th>NVIDIA Sim-first</th></tr>
+<tr><td>Core idea</td><td>Diverge/converge ×2</td><td>Empathize→Test</td><td>Loop+Hills+Playbacks</td><td>5-day decision</td><td>PR/FAQ before build</td><td>Simulate before real</td></tr>
+<tr><td>Time horizon</td><td>Weeks–months</td><td>Flexible</td><td>Continuous</td><td>5 days</td><td>Days (doc)</td><td>Continuous</td></tr>
+<tr><td>Team size</td><td>Small–med</td><td>Small</td><td>Scales to enterprise</td><td>5–7</td><td>2-pizza</td><td>Eng-heavy</td></tr>
+<tr><td>Key deliverable</td><td>Validated concept</td><td>Tested prototype</td><td>Hills + playbacks</td><td>Tested prototype</td><td>PR/FAQ doc</td><td>Validated sim</td></tr>
+<tr><td>Risk profile</td><td>Reduces wrong-problem</td><td>Reduces desirability</td><td>Reduces alignment</td><td>Reduces build-wrong</td><td>Reduces value</td><td>Reduces feasibility</td></tr>
+<tr><td>AI compatibility</td><td>High (synthesis)</td><td>High</td><td>High</td><td>Very high (gen variants)</td><td>Very high (draft FAQ)</td><td>Native</td></tr>
+<tr><td>Best for</td><td>Ambiguous problems</td><td>Human-centered new products</td><td>Large orgs, alignment</td><td>Fast de-risking</td><td>Clarity of value</td><td>Complex/physical systems</td></tr>
+</table></div>
+<h3>Meta-framework: DISCOVER · DECIDE · DELIVER · DEFEND</h3>
+<p>Synthesis across all six: <strong>Discover</strong> the real problem (Double Diamond's first diamond + empathy), <strong>Decide</strong> the bet and write it down before building (Working-Backwards + Sprint), <strong>Deliver</strong> via the lightest validation that de-risks the biggest unknown (Sprint prototype / sim), <strong>Defend</strong> with playbacks and metrics (IBM EDT). Pick the unknown that would kill you and attack it first.</p>
+${T('Working backwards','Andy Jassy','If you can\'t write a crisp press release and FAQ for the experience, you don\'t understand it yet. The PR/FAQ is a thinking tool that kills weak ideas before they cost engineering a quarter.')}
+${D('Jensen Huang','"Documents are for people; simulations are for reality. For anything physical or systemic, a written FAQ lies confidently — you need to simulate the experience under load before you trust it."')}
+
+<h2>The NN/g design-process lineage</h2>
+<p>Nielsen Norman Group frames the process as a continuous, non-linear loop rather than a tidy funnel. Their canonical articulation — <strong>Understand → Specify → Design → Evaluate</strong> wrapped around the <em>Discovery → Definition → Design → Delivery</em> arc — maps cleanly onto the Double Diamond but adds NN/g's discipline: every phase is evidence-driven, and you loop back the moment evidence contradicts an assumption. NN/g's enduring contributions you should be able to cite by name: the <strong>UX research methods landscape</strong> (attitudinal↔behavioral × qualitative↔quantitative × context of use), the <strong>"why &amp; what to use when"</strong> method-selection logic, the insistence that <em>discovery is not optional</em>, and the warning against "design theater" — process performed for show without changing decisions.</p>
+<table>
+<tr><th>NN/g phase</th><th>Core question</th><th>Primary methods</th><th>Exit criterion</th></tr>
+<tr><td>Discovery</td><td>Are we solving a real problem?</td><td>Field studies, interviews, diary studies, competitive review</td><td>A validated problem statement</td></tr>
+<tr><td>Definition / Specify</td><td>For whom, and what does success mean?</td><td>Personas, JTBD, journey maps, success metrics</td><td>Agreed target + measurable outcome</td></tr>
+<tr><td>Design / Ideate-Prototype</td><td>What solution best fits?</td><td>Sketching, IA (card sort/tree test), prototyping</td><td>A testable artifact</td></tr>
+<tr><td>Evaluate / Deliver</td><td>Did it work? Iterate.</td><td>Usability testing, heuristic eval, analytics, RITE</td><td>Evidence of task success → ship or loop</td></tr>
+</table>
+
+<h2>Full method-family comparison (across the six processes)</h2>
+<div class="matrix-wrap"><table>
+<tr><th>Dimension</th><th>Double Diamond</th><th>d.school 5-stage</th><th>NN/g loop</th><th>IBM EDT</th><th>Google Sprint</th><th>Working-Backwards</th></tr>
+<tr><td>Shape</td><td>Diverge/converge ×2</td><td>Linear-ish, iterative</td><td>Continuous loop</td><td>Loop + Hills + Playbacks</td><td>Time-boxed funnel</td><td>Doc-first, backwards</td></tr>
+<tr><td>Entry artifact</td><td>Brief</td><td>Empathy data</td><td>Research question</td><td>Hills (intent statements)</td><td>Challenge</td><td>Blank PR/FAQ</td></tr>
+<tr><td>Evidence emphasis</td><td>Medium</td><td>High (empathy)</td><td>Very high</td><td>High (alignment)</td><td>Medium (1 test)</td><td>Low until built</td></tr>
+<tr><td>Org scale fit</td><td>Agency/product</td><td>Education/startups</td><td>Any, research-led</td><td>Enterprise</td><td>Small squad</td><td>Amazon-style</td></tr>
+<tr><td>Failure mode</td><td>Over-diverging</td><td>Empathy without delivery</td><td>Analysis paralysis</td><td>Playback theater</td><td>5-day false confidence</td><td>Fiction-writing</td></tr>
+</table></div>
+
+<h2>The design process WITH AI (phase by phase)</h2>
+${eraBlock([
+ {label:'Discovery',html:'<p><strong>Before:</strong> weeks of recruiting, interviewing, manual affinity-mapping. <strong>With AI:</strong> Claude clusters transcripts and competitive corpora in minutes and drafts the problem statement; you spend your time <em>choosing the question</em> and <em>verifying</em> themes rather than coding stickies. New risk: AI invents a tidy theme that isn\'t in the data — never let it fabricate a quote, always trace back to source.</p>'},
+ {label:'Define',html:'<p><strong>With AI:</strong> generate persona and JTBD drafts from real research, then pressure-test them ("what would falsify this persona?"). The metric tree can be drafted by AI but the <em>choice</em> of north-star stays human — it encodes values.</p>'},
+ {label:'Ideate',html:'<p><strong>With AI:</strong> the cost of a divergent option drops to near-zero — Figma Make / Google Stitch / Claude Artifacts spit out dozens of variants. The bottleneck moves entirely to <em>convergence judgment</em>. Crazy-8s becomes Crazy-80; your skill is the rubric that kills 78 of them.</p>'},
+ {label:'Prototype',html:'<p><strong>With AI:</strong> prompt-to-working-prototype (real code) compresses days to minutes. You test interactive fidelity in the first session instead of the fifth. See P5\'s AI-native tooling section.</p>'},
+ {label:'Evaluate',html:'<p><strong>With AI:</strong> synthesis of usability sessions and open-ended survey text is automated; AI can flag heuristic violations as a first pass. But AI cannot watch a human struggle and feel the friction — moderated observation stays human.</p>'}
+])}
+${T('AI-first','Sundar Pichai','The process doesn\'t get shorter — it gets deeper. When generating ten prototypes costs nothing, the differentiator is the quality of the question you ask and the rubric you converge with. Process discipline matters more in the AI era, not less.')}
+${D('Andy Jassy','"Beware AI-accelerated divergence. Generating 80 concepts cheaply tempts teams to skip the hard work of deciding. Working-Backwards still wins: write the PR/FAQ first, and most of those 80 die before you waste a prototype on them."')}
+${GAP("Run a Working-Backwards PR/FAQ and a 5-day Sprint on the same problem. Notice what each surfaces that the other misses. Add the comparison to your portfolio as evidence you select methods deliberately.")}
+`);
+
+/* ---------- PILLAR 3 ---------- */
+add('p3','Pillars','P3 · UX Research','25+ methods, bias inventory, ethics at scale',`
+<span class="tag">Pillar 3</span>
+<h1>UX Research</h1>
+<p>Research splits two ways: <strong>generative</strong> (what should we build? — interviews, diary studies, ethnography, contextual inquiry, JTBD) versus <strong>evaluative</strong> (did we build it right? — usability tests, A/B, tree testing). And <strong>qual</strong> (why) versus <strong>quant</strong> (how many). Method choice follows the question, not habit.</p>
+<h3>Method catalog (selected from 25+)</h3>
+<div class="pill-list"><ul>
+<li>Discovery / depth interviews</li><li>JTBD switch interviews</li><li>Diary & experience sampling</li><li>Ethnography / field study</li><li>Contextual inquiry</li><li>Card sorting (open/closed)</li><li>Tree testing</li><li>First-click testing</li><li>Surveys (attitudinal)</li><li>Kano model</li><li>Top-task analysis</li><li>Analytics & funnels</li><li>Heatmaps / session replay</li><li>A/B & multivariate testing</li><li>Usability testing (mod/unmod)</li><li>RITE</li><li>Heuristic evaluation</li><li>Cognitive walkthrough</li><li>Desirability testing</li><li>Concept testing</li><li>Longitudinal cohort analysis</li><li>Benchmark studies</li><li>Tree/IA validation</li><li>Five-second tests</li><li>Eye-tracking</li></ul></div>
+<h3>Bias inventory</h3>
+<p>Every study leaks bias unless designed against it: <strong>confirmation</strong> (you find what you seek), <strong>sampling</strong> (who you didn\'t recruit), <strong>social desirability</strong> (users tell you what flatters you), <strong>leading questions</strong>, <strong>recency/primacy</strong>, <strong>observer effect</strong>, and <strong>survivorship</strong> (you only hear from those who stayed). Counter-moves: open non-leading questions, behavior over opinion, triangulation across methods, and pre-registering what would change your mind.</p>
+${eraBlock([
+ {label:'Before AI',html:'<p>Synthesis was manual affinity mapping over days; sample sizes limited by recruiting and analysis cost.</p>'},
+ {label:'With AI',html:'<p>AI (e.g. Claude) clusters transcripts, surfaces themes, and drafts synthesis in minutes — but <em>hallucinated themes and false confidence</em> are the new bias. The researcher\'s job shifts from coding to <em>verifying</em> and to designing the questions. Never let AI invent a quote.</p>'},
+ {label:'+Quantum',html:'<p>Massive multivariate behavioral spaces become tractable; you can model preference landscapes rather than test a handful of variants.</p>'},
+ {label:'+Robotics',html:'<p>Research includes physical telemetry from embodied products — observation becomes continuous sensor data, raising fresh consent questions.</p>'}
+])}
+${NOTE("<b>Ethics & compliance:</b> IRB-style consent, GDPR (lawful basis, right to erasure), and HIPAA (PHI never in research tooling without a BAA) are not legal's problem — they're design constraints. In healthcare, recording a patient session without proper consent isn't a bad practice, it's a violation.")}
+${T('Privacy as primitive','Tim Cook','Research that harvests more data than the question requires is a liability, not an asset. Collect the minimum, anonymize by default, and design the consent moment with the same care as the product.')}
+${GAP("Build a one-page research plan for a real question you face: state the decision it informs, the method and why, sample and recruiting, the bias you're most exposed to and your counter-move, and the consent/compliance posture. A Staff researcher's plans read like this.")}
+`);
+
+/* ---------- PILLAR 4 ---------- */
+add('p4','Pillars','P4 · UX Strategy','Metrics, mapping, and design ROI',`
+<span class="tag">Pillar 4</span>
+<h1>UX Strategy</h1>
+<p>Strategy is choosing what <em>not</em> to do. These frameworks turn taste into defensible bets.</p>
+<table>
+<tr><th>Framework</th><th>Use it to…</th></tr>
+<tr><td>North-star metric + tree</td><td>Pick the one number that proxies delivered value, then decompose it into the inputs design can move.</td></tr>
+<tr><td>HEART (Google)</td><td>Map Happiness, Engagement, Adoption, Retention, Task success to Goals-Signals-Metrics.</td></tr>
+<tr><td>AARRR (pirate metrics)</td><td>Diagnose the funnel: Acquisition→Activation→Retention→Referral→Revenue; find the leak.</td></tr>
+<tr><td>Wardley mapping</td><td>See where components sit on the evolution axis (genesis→commodity) to decide build/buy/differentiate.</td></tr>
+<tr><td>OKRs → design outcomes</td><td>Translate objectives into design-owned key results expressed as user outcomes, not outputs.</td></tr>
+<tr><td>Design ROI model</td><td>Direct / indirect / strategic value tiers (see P11 CEO·revenue).</td></tr>
+<tr><td>Design debt accounting</td><td>Log inconsistency/UX debt like tech debt; pay down deliberately.</td></tr>
+</table>
+<h4>Strategy playbook varies by business model</h4>
+<p>SaaS optimizes activation→retention→expansion (NRR is the king metric). Marketplaces balance two-sided liquidity. Platforms optimize ecosystem coherence and developer experience. Regulated industries optimize trust and error-reduction over conversion. Hardware-coupled products optimize the out-of-box experience and the physical-digital seam.</p>
+${T('Scale & platform','Sundar Pichai','At platform scale, your strategy metric must survive a billion users — vanity engagement metrics actively mislead. Choose a north-star that breaks if you harm users (e.g., long-term retained value), not one that rewards dark patterns.')}
+${D('Andy Jassy','"North-star metrics drift into worship. The customer doesn\'t care about your metric. Work backwards from their job; the metric is a thermometer, not the patient."')}
+${GAP("Draw the north-star metric tree for your product at Providence: the top metric, the 3–4 input metrics design influences, and the specific design levers under each. Present it as the spine of a quarterly design strategy.")}
+`);
+
+/* ---------- PILLAR 5 ---------- */
+add('p5','Pillars','P5 · UI Design & Visual Craft','Grid, type, color, motion, systems',`
+<span class="tag">Pillar 5</span>
+<h1>UI Design & Visual Craft</h1>
+<p>Craft is not decoration — it is the precision that makes intent legible. Mastery spans grid systems, typographic rhythm, perceptual color, and choreographed motion.</p>
+<h3>The craft stack</h3>
+<ul>
+<li><b>Grid & layout:</b> baseline grids, 4/8px spacing systems, responsive vs. adaptive vs. fluid, density modes (comfortable/compact for data-dense enterprise).</li>
+<li><b>Typography:</b> vertical rhythm, modular scale, optical sizing, variable fonts, measure (~66ch), hierarchy through size/weight/space — not color alone.</li>
+<li><b>Color:</b> perceptual spaces (OKLCH/LCH) over HSL for predictable lightness; WCAG contrast math (4.5:1 body, 3:1 large/UI); semantic tokens over raw hex; dark-mode engineering (don't invert — re-derive).</li>
+<li><b>Motion:</b> Disney's 12 principles, Material motion (shared-axis, container transform), Apple's choreography; motion should explain causality and continuity, never decorate. Respect <code>prefers-reduced-motion</code>.</li>
+<li><b>Iconography & illustration systems:</b> consistent stroke, grid, metaphor; systematized not bespoke.</li>
+</ul>
+<h3>Design system comparison</h3>
+<table>
+<tr><th>System</th><th>Owner</th><th>Signature</th><th>Best for</th></tr>
+<tr><td>Material 3</td><td>Google</td><td>Dynamic color, tonal palettes, expressive</td><td>Cross-platform consumer, Android</td></tr>
+<tr><td>Fluent 2</td><td>Microsoft</td><td>Depth, acrylic, cross-platform tokens</td><td>Enterprise + consumer convergence</td></tr>
+<tr><td>HIG</td><td>Apple</td><td>Deference, clarity, platform-native</td><td>Premium native Apple-platform apps</td></tr>
+<tr><td>Carbon</td><td>IBM</td><td>Data-dense, enterprise rigor</td><td>Complex B2B/data products</td></tr>
+<tr><td>Polaris</td><td>Shopify</td><td>Merchant-task clarity</td><td>Commerce admin</td></tr>
+<tr><td>Lightning</td><td>Salesforce</td><td>Token-driven, extreme configurability</td><td>Multi-tenant enterprise platforms</td></tr>
+</table>
+${T('Premium craft','Tim Cook','Craft is where trust is won or lost in the first 50ms. Sloppy contrast and janky motion tell the user you don\'t sweat details — and if you don\'t sweat the visible details, why would they trust you with their data?')}
+${D('Elon Musk','"Craft can metastasize into polish theater. If the team spends a week on icon corner radii while the core flow has three dead-ends, the priorities are inverted. Craft serves the function or it\'s vanity."')}
+
+<h2>AI-native design tooling (2026): Figma Make · Google Stitch · Claude</h2>
+<p>The prompt-to-UI tools have crossed from toy to production. The skill is no longer "can you operate the tool" — it's <em>knowing what each is for, how to feed it your design system, and where it fails</em>. Treat them as a pipeline, not rivals.</p>
+<div class="matrix-wrap"><table>
+<tr><th>Tool</th><th>What it is</th><th>Best at</th><th>Design-system hook</th><th>Where it fails</th></tr>
+<tr><td><b>Figma Make</b></td><td>Prompt-to-app inside Figma; generates working code under the hood (GA July 2025, launched Config 2025)</td><td>Turning an existing Figma library into interactive, coded prototypes; staying on-brand</td><td>Pull styling context from your Figma library + written guidelines so output adheres to your system</td><td>Net-new visual invention; complex state logic; it leans on what your library already encodes</td></tr>
+<tr><td><b>Google Stitch</b></td><td>AI-native canvas (Google Labs, I/O 2025; v2 March 2026): text/image → responsive UI + front-end code, Gemini 2.5 Flash/Pro</td><td>Fast 0→1 exploration, multi-screen flows (up to 5), sketch/screenshot → UI, HTML/CSS + Figma export</td><td>Increasingly design-system aware; export to Figma to reconcile with your tokens</td><td>Generation caps; fidelity drift from your system; needs reconciliation before it's "real"</td></tr>
+<tr><td><b>Claude (Artifacts + Code)</b></td><td>Conversational generation of live HTML/React artifacts and code-level scaffolds</td><td>Logic-bearing prototypes, design-system <em>code</em> (tokens, components), critique, documentation</td><td>Load your token taxonomy + component specs as project context; it generates against them</td><td>Pixel-level visual polish; it's a reasoning+code partner, not a visual canvas</td></tr>
+</table></div>
+<h3>The leveraged workflow (how to actually use them)</h3>
+<ol>
+<li><b>Diverge in Stitch.</b> Generate many directions from a prompt or a sketch; this is your Crazy-8s at machine speed. Pick a direction, don't ship the pixels.</li>
+<li><b>Converge in Figma + Figma Make.</b> Bring the direction into your real library; use Make to produce an interactive, on-system coded prototype you can user-test in the first session.</li>
+<li><b>Systematize with Claude.</b> Turn the chosen patterns into <em>durable system assets</em>: a token taxonomy (OKLCH semantic tokens), component specs, and the actual component code (React/Tailwind, Web Components) — versioned, documented, accessible by default.</li>
+<li><b>Govern.</b> Every AI-generated component goes through the same contribution review as a human one (see P10/P11-CTO federated governance). AI raises the floor of output volume; governance keeps the ceiling of quality.</li>
+</ol>
+<h3>Building a design system in the AI era</h3>
+<p>The strategic shift Figma named at Schema 2025: a design system is no longer just a shared language for humans — it's <strong>the translation layer AI needs to understand your design and produce on-brand code</strong>. That reframes your priorities: invest in <em>machine-legible</em> system assets. Semantic tokens (not raw hex), documented usage rules, and component contracts become the prompt context that makes every AI tool produce <em>your</em> product instead of generic Material. A weak system means AI amplifies inconsistency; a strong system means AI amplifies your brand. The token taxonomy is now your highest-leverage artifact.</p>
+${T('Velocity + integration','Elon Musk','First-principles: the bottleneck was never drawing rectangles — it was the loop from intent to tested experience. These tools collapse that loop to minutes. The designers who win treat generation as free and spend all their judgment on the rubric and the system that constrains it.')}
+${D('Tim Cook','"Speed without craft governance is how you ship a thousand inconsistent screens. AI-generated UI must pass the same accessibility and quality bar as anything else — otherwise you\'ve automated the production of debt. The premium is still in the details the model won\'t sweat for you."')}
+${GAP("Take one real flow: generate three directions in Google Stitch, build the winner into your Figma library with Figma Make, then have Claude emit the token taxonomy + a production component spec with WCAG 2.2 AA baked in. Document the end-to-end pipeline as a case study — 'how I run AI-native design' is a 2026 portfolio centerpiece and a direct VP-interview asset.")}
+${GAP("Rebuild one screen's color system in OKLCH with semantic tokens and prove every text pair passes WCAG 2.2 AA. Document the token taxonomy. This is the artifact that gets you taken seriously by a platform design team.")}
+`);
+
+/* ---------- PILLAR 6 ---------- */
+add('p6','Pillars','P6 · Usability Testing & Evaluation','Heuristics, WCAG, metrics, statistics',`
+<span class="tag">Pillar 6</span>
+<h1>Usability Testing & Evaluation</h1>
+<p>Evaluation is how taste becomes evidence. Know the methods, the standards, and enough statistics to not embarrass yourself.</p>
+<h3>Evaluation methods</h3>
+<p>Moderated vs. unmoderated; remote vs. in-person; <strong>RITE</strong> (rapid iterative testing, fix-and-retest); expert methods — heuristic evaluation (Nielsen's 10 + Shneiderman's 8 Golden Rules + Tognazzini's 16), <strong>cognitive walkthrough</strong>, and accessibility audits (WCAG 2.2 AA, the 3.0 draft direction, EN 301 549 for EU public sector).</p>
+<h3>Metrics literacy</h3>
+<table>
+<tr><th>Metric</th><th>What it measures</th></tr>
+<tr><td>SUS</td><td>Perceived usability (0–100, &gt;68 is above average)</td></tr>
+<tr><td>SEQ</td><td>Single-ease-question per task (1–7)</td></tr>
+<tr><td>UMUX-Lite</td><td>Short usability + value</td></tr>
+<tr><td>Task success / error rate / time-on-task</td><td>Behavioral performance</td></tr>
+<tr><td>NPS (product)</td><td>Loyalty proxy — useful as a trend, dangerous as a target</td></tr>
+</table>
+<h4>Statistical literacy (the part most designers fake)</h4>
+<p>Know sample-size logic (5 users find ~85% of usability issues for <em>qualitative</em> work; statistical comparison needs far more), confidence intervals (report the range, not just the mean), effect size (significance ≠ importance), and the <strong>p-hacking traps</strong>: peeking at A/B tests, testing many metrics and reporting the winner, stopping when you like the number. Pre-register your hypothesis and your stop rule.</p>
+${T('Accelerated computing','Jensen Huang','Evaluation should be continuous and instrumented, not episodic. Treat the product as a system under telemetry — but never let a dashboard substitute for watching a real human struggle for five minutes.')}
+${D('Satya Nadella','"Numbers without empathy mislead. A statistically significant lift can hide that you made the experience worse for your most vulnerable users. Pair every quant result with a qual session."')}
+
+<h2>Deep dive: the NN/g usability canon</h2>
+<p>Nielsen Norman Group is the discipline's most-cited authority on evaluation; you should be able to wield its frameworks by name in any senior interview.</p>
+<h3>Nielsen's 10 Usability Heuristics (the load-bearing ten)</h3>
+<ol>
+<li><b>Visibility of system status</b> — always show what's happening (loading, saved, progress).</li>
+<li><b>Match between system and real world</b> — speak the user's language, not internal jargon.</li>
+<li><b>User control and freedom</b> — clearly marked exits, undo/redo.</li>
+<li><b>Consistency and standards</b> — honor platform and internal conventions (ties to Jakob's Law, P1).</li>
+<li><b>Error prevention</b> — design out the error before you design the error message.</li>
+<li><b>Recognition rather than recall</b> — make options visible; don't tax memory.</li>
+<li><b>Flexibility and efficiency of use</b> — accelerators for experts, simplicity for novices.</li>
+<li><b>Aesthetic and minimalist design</b> — every extra element competes with the relevant ones.</li>
+<li><b>Help users recognize, diagnose, recover from errors</b> — plain-language, constructive errors.</li>
+<li><b>Help and documentation</b> — searchable, task-focused, ideally unnecessary.</li>
+</ol>
+<h3>How NN/g says to run evaluation</h3>
+<p>NN/g's practical doctrine: <strong>discount usability engineering</strong> — test early, test small, test often. Their famous finding that ~5 users surface the bulk of usability problems applies to <em>qualitative</em> formative testing (it does <em>not</em> license tiny samples for quantitative comparison). The method-selection logic plots techniques on three axes — <strong>attitudinal vs. behavioral</strong> (what people say vs. do), <strong>qualitative vs. quantitative</strong> (why vs. how-many), and <strong>context of use</strong> (natural, scripted, de-contextualized). Pick the method that answers the actual question. Pair heuristic evaluation (cheap, expert, no users) with empirical usability testing (users, real behavior) — they catch different classes of problem.</p>
+<h2>Deep dive: the Stanford d.school approach to evaluation</h2>
+<p>Stanford's <em>Hasso Plattner Institute of Design</em> contributes the <strong>empathy-first, bias-to-prototype</strong> mindset: the five modes — <strong>Empathize → Define → Ideate → Prototype → Test</strong> — treat "Test" not as a final gate but as another way to build empathy and reframe the problem. The d.school ethos for evaluation: <em>prototype to learn, not to prove</em>; show a rough artifact early because a low-fidelity prototype invites honest critique while a polished one invites politeness. "Testing" feeds straight back into "Empathize" and even "Define" — you frequently discover you were solving the wrong problem, which is a success, not a failure. The cultural lesson for a leader: build psychological safety so testing surfaces uncomfortable truths instead of flattering confirmations.</p>
+<table>
+<tr><th></th><th>NN/g lens</th><th>Stanford d.school lens</th></tr>
+<tr><td>Primary goal of testing</td><td>Measure & fix usability problems</td><td>Build empathy & reframe the problem</td></tr>
+<tr><td>Fidelity preference</td><td>Whatever answers the question</td><td>Deliberately rough early</td></tr>
+<tr><td>Rigor</td><td>High; method-matched, statistically literate</td><td>Lighter; speed and learning over rigor</td></tr>
+<tr><td>Best when</td><td>Improving a known product</td><td>Exploring an ambiguous new problem</td></tr>
+</table>
+${T('Customer obsession','Andy Jassy','NN/g and Stanford aren\'t rivals — they\'re different altitudes of the same obsession. Use Stanford to discover the right problem, NN/g to verify you solved it. A leader who only does one ships either polished irrelevance or rigorously-tested guesses.')}
+${D('Jensen Huang','"Five users is a heuristic from a slower era. With instrumentation and simulation you can evaluate against thousands continuously — don\'t let a 1990s sample-size rule cap your evidence when telemetry is nearly free."')}
+${GAP("Run a full heuristic evaluation of one of your flows against Nielsen's 10, score each finding on the 0–3 severity rubric, then validate the top three with a 5-user qualitative test. Present the NN/g-style findings report — it's the artifact that proves you evaluate like a professional, not by opinion.")}
+${GAP("Take one A/B test you've seen and audit it for p-hacking: was there a pre-registered hypothesis, a stop rule, a single primary metric, and an effect size — not just a p-value? Write the corrected version. Statistical credibility is a fast way to earn CTO-level trust.")}
+`);
+
+/* ---------- PILLAR 7 ---------- */
+add('p7','Pillars','P7 · AI-Augmented UX','The signature pillar — designing with and for AI',`
+<span class="tag">Pillar 7</span><span class="tag">Signature</span>
+<h1>AI-Augmented UX</h1>
+<p>"AI" is not monolithic. This pillar names specific models, capabilities, and surfaces — and treats them as a designer's working material, not a buzzword.</p>
+
+<h2>1 · Designing WITH AI (you as the designer)</h2>
+<ul>
+<li><b>Claude as research synthesizer</b> — cluster transcripts, surface themes, draft personas; you verify, never delegate judgment.</li>
+<li><b>Claude as critique partner</b> — role-prime it ("act as a skeptical accessibility reviewer") to pressure-test designs before the room does.</li>
+<li><b>Claude Projects</b> — load your design system, principles, and brand voice as persistent context so every output is on-system.</li>
+<li><b>Claude Code</b> — scaffold real prototypes in code, not throwaway mocks; close the design-to-code gap.</li>
+<li><b>Claude Skills</b> — package repeatable design-ops (audit a flow against WCAG, generate a research plan) as reusable skills.</li>
+<li><b>Prompt engineering for designers</b> — chain-of-thought (ask for reasoning), role priming, constitutional/constraint prompting, and XML structuring (<code>&lt;brief&gt;…&lt;/brief&gt;</code>) for reliable outputs.</li>
+</ul>
+
+<h2>2 · Designing FOR AI (UX patterns for LLM products)</h2>
+<table>
+<tr><th>Pattern</th><th>Problem it solves</th></tr>
+<tr><td>Chat / conversational UX</td><td>Open-ended intent; needs the "what can I ask?" onboarding (blank-prompt problem)</td></tr>
+<tr><td>Agentic flows</td><td>Delegation; needs permission/consent gates and a "preview before act" step</td></tr>
+<tr><td>Ambient / proactive</td><td>AI acts without prompt; needs interrupt-ability and explainability</td></tr>
+<tr><td>Multimodal / voice-first</td><td>No screen affordances; needs strong feedback and confirmation</td></tr>
+<tr><td>"Show your work"</td><td>Trust; expose reasoning, sources, citations</td></tr>
+<tr><td>Graceful degradation</td><td>Model is uncertain/down; degrade to a usable fallback, never a dead-end</td></tr>
+<tr><td>Citation & trust UI</td><td>Hallucination risk; ground claims in verifiable sources</td></tr>
+<tr><td>Model selection UX</td><td>Cost/latency/quality tradeoffs surfaced to the user when relevant</td></tr>
+</table>
+
+<h2>3 · Anthropic-specific surfaces</h2>
+<ul>
+<li><b>Constitutional AI as a design principle</b> — explicit, inspectable values guiding behavior; the design analogue is principles-as-product, not buried policy.</li>
+<li><b>Claude's behavioral patterns as UX primitives</b> — honesty about uncertainty, refusal with explanation, asking clarifying questions: design your product to mirror these.</li>
+<li><b>MCP (Model Context Protocol)</b> — a standard interaction layer connecting models to tools/data; design opportunity is the consent and capability-discovery surface.</li>
+<li><b>Artifacts</b> — a new content type: durable, iterable outputs alongside the chat. A genuinely new design pattern to master.</li>
+<li><b>Computer Use</b> — the agent operates a UI as a surface; raises new consent, observability, and stop-control design problems.</li>
+</ul>
+
+<h2>4 · AI evaluation for UX</h2>
+<p>Build evals for the <em>experience</em>, not just model accuracy. Red-team your designs (what happens with a malicious or confused prompt?). Measure AI-feature adoption and the <strong>"first session" problem</strong> — most AI features fail because the user's first attempt produces a mediocre result and they never return. Design the first session to guarantee a win.</p>
+
+<h2>5 · Ethics & safety</h2>
+<p>Bias surfaces in design (who the defaults serve), dark patterns in AI UX (manufactured urgency, false confidence, manipulative anthropomorphism), transparency requirements, the <strong>AI Bill of Rights</strong> (US blueprint), and the <strong>EU AI Act</strong> (risk tiers, transparency and human-oversight obligations that directly constrain interface design — e.g., disclosure that you're talking to AI).</p>
+${T('Agentic patterns','Satya Nadella','The Copilot insight is that AI is a collaborator, not an oracle. Design the human-in-the-loop seam — the moment of review, correction, and consent — because that seam is where trust and adoption are won.')}
+${D('Elon Musk','"Too much hand-holding kills the value. The point of an agent is to remove the human from the loop where the human adds nothing. Over-designing consent gates on trivial actions trains users to click through everything — which defeats the safety you intended."')}
+${GAP("Take one feature you own and design its 'first session': the single guided path that guarantees the user gets a real win on attempt one, plus a graceful-degradation fallback and a 'show your work' trust element. Build it as a clickable prototype. This is the most marketable artifact you can make in 2026.")}
+`);
+
+/* ---------- PILLAR 8 ---------- */
+add('p8','Pillars','P8 · PDLC: Four Operating Models','Before AI → AI+Quantum+Robotics — as operating models, not sci-fi',`
+<span class="tag">Pillar 8</span>
+<h1>Product Development Lifecycle: Four Operating Models</h1>
+<p>Four side-by-side PDLC models. For each: what stays human, what shifts to AI/agents, what disappears, what's newly required — plus the designer's job description in that era.</p>
+${eraBlock([
+ {label:'1.0 Before AI',html:`
+  <h3>PDLC 1.0 — Before AI (~2010–2022)</h3>
+  <p>Agile/waterfall hybrid. Discovery → design → redline handoff → build → QA → ship → measure. Latency measured in weeks; design is a stage with a queue.</p>
+  <table><tr><th>Stage</th><th>Owner (RACI)</th><th>Deliverable</th></tr>
+  <tr><td>Discovery</td><td>PM (A), Research (R), Design (C)</td><td>PRD, research report</td></tr>
+  <tr><td>Design</td><td>Design (R/A)</td><td>Wireframes → hi-fi → redlines</td></tr>
+  <tr><td>Build</td><td>Eng (R/A)</td><td>Implementation</td></tr>
+  <tr><td>QA/Ship</td><td>QA (R), Eng (A)</td><td>Release</td></tr></table>
+  <p><b>Designer's job:</b> Produce pixel-perfect specs and shepherd them through handoff. Tooling: Sketch/Figma, InVision, Zeplin. Risk: wrong-problem discovered late; handoff loss. Time-to-market: months.</p>`},
+ {label:'2.0 With AI',html:`
+  <h3>PDLC 2.0 — With AI (current, ~2023–2026)</h3>
+  <p>Copilots, generative research synthesis, AI-assisted prototyping, design-to-code AI, eval-driven design. The bottleneck moves from production to <em>judgment and verification</em>.</p>
+  <table><tr><th>Stage</th><th>Shifts to AI</th><th>Stays human</th></tr>
+  <tr><td>Discovery</td><td>Transcript synthesis, theme clustering</td><td>Choosing the question; verifying themes</td></tr>
+  <tr><td>Design</td><td>Variant generation, AI critique, code scaffolding</td><td>Taste, trade-off decisions, system coherence</td></tr>
+  <tr><td>Build</td><td>Design-to-code first pass</td><td>Architecture, performance, edge cases</td></tr>
+  <tr><td>Evaluate</td><td>Automated eval harness, A/B analysis</td><td>Defining what "good experience" means</td></tr></table>
+  <p><b>Newly required:</b> prompt fluency, eval design, AI-output verification. <b>Disappears:</b> manual redlining, throwaway hi-fi mocks. <b>Designer's job:</b> Curator-director of AI output and owner of judgment + trust surfaces. Time-to-market: days–weeks.</p>`},
+ {label:'3.0 AI+Quantum',html:`
+  <h3>PDLC 3.0 — AI + Quantum (~2027–2032, operating model)</h3>
+  <p>Quantum-assisted optimization makes vast design search spaces tractable — layout, pricing, routing, and materially new categories (molecular-design UX, post-quantum cryptographic UX shifts). Simulation-heavy testing replaces small-sample studies.</p>
+  <table><tr><th>Capability</th><th>Operating change</th></tr>
+  <tr><td>Combinatorial optimization</td><td>Designer curates a Pareto frontier of computed options instead of authoring one comp</td></tr>
+  <tr><td>Simulation at scale</td><td>Experiences validated against simulated populations before any real user touches them</td></tr>
+  <tr><td>Crypto-UX shift</td><td>Post-quantum security changes trust/identity flows; new consent and key-management UX</td></tr></table>
+  <p><b>Stays human:</b> defining the objective function and the values it optimizes for (a deeply ethical, design-led act). <b>Newly required:</b> literacy in optimization objectives, simulation validity. <b>Designer's job:</b> Objective-function author and frontier curator. <em>Operating-model caveat: treat quantum advantage as bounded to specific optimization classes, not magic.</em></p>`},
+ {label:'4.0 +Robotics',html:`
+  <h3>PDLC 4.0 — AI + Quantum + Robotics (~2030+)</h3>
+  <p>Embodied AI, physical-digital twins, robot-teaming UX, ambient computing as default, UX for autonomous systems — the disappearing interface.</p>
+  <table><tr><th>Surface</th><th>Design problem</th></tr>
+  <tr><td>Embodied agents</td><td>Behavior policy + stop/override + intent signaling (motion, light, sound)</td></tr>
+  <tr><td>Physical-digital twin</td><td>Design and test in simulation against a synced real-world twin</td></tr>
+  <tr><td>Robot teaming</td><td>Trust calibration, handoff between human and machine, legibility of machine intent</td></tr>
+  <tr><td>Ambient default</td><td>No screen; the design artifact is a behavior, not a layout</td></tr></table>
+  <p><b>Disappears:</b> the screen as the default surface. <b>Newly required:</b> behavior design, safety-critical UX, multi-agent choreography. <b>Designer's job:</b> Behavior architect for autonomous systems where a design mistake has physical consequences.</p>`}
+])}
+${T('Full-stack reasoning','Jensen Huang','Each era pulls the designer closer to the system and the simulation. The designer who can\'t reason about the full stack — model, data, latency, physics — becomes a decorator of someone else\'s decisions.')}
+${D('Tim Cook','"Don\'t let the future-era excitement erode the present discipline. In healthcare and other regulated spaces, PDLC 2.0 craft and rigor still ship the product that pays the bills. Master the era you\'re in before LARPing the one you\'re not."')}
+${GAP("Map your current team's PDLC against the 2.0 table: which stages have actually shifted to AI, which are still 1.0, and where is the biggest unrealized leverage? Write the one-page transition plan. This is a VP-of-Design-caliber strategy artifact.")}
+`);
+
+/* ---------- PILLAR 9 ---------- */
+add('p9','Pillars','P9 · Industry Verticals','Five deep dives with regulation, economics, and patterns',`
+<span class="tag">Pillar 9</span>
+<h1>Industry Verticals</h1>
+<p>Each vertical is a first-class discipline with its own regulation, unit economics, and table-stakes patterns. Generic UX skills are necessary but not sufficient — domain fluency is what gets you the VP role.</p>
+
+<details class="acc" open><summary><span>1 · Healthcare (your home turf)</span><span class="qmeta">HIPAA · FHIR · FDA SaMD</span></summary><div class="body">
+<p><b>Regulation:</b> HIPAA (PHI handling, BAAs, audit trails), FHIR/HL7 interoperability standards, FDA Software-as-a-Medical-Device classification (clinical decision support can be a regulated device). <b>Personas:</b> clinicians (time-starved, alarm-fatigued), patients (anxious, varied literacy), administrators, payers. <b>Economics:</b> reimbursement-driven, not conversion-driven; the buyer (health system) ≠ the user (clinician) ≠ the beneficiary (patient).</p>
+<p><b>Table-stakes patterns:</b> EHR integration (Epic/Cerner), scannable clinical data, fail-safe medication flows, accessibility for aging/impaired patients. <b>Differentiating patterns:</b> reducing documentation burden (the burnout lever), clinical decision support that earns trust without alert fatigue, telehealth that handles connectivity edge cases. <b>AI opportunity:</b> ambient clinical documentation, summarization, decision support — all gated by trust and liability. <b>KPI tree:</b> clinician time-on-task → documentation burden → burnout/retention → cost of turnover. <b>Pitfall:</b> designing for the demo, not the 2am understaffed reality.</p>
+<p><b>The Providence/Epic context:</b> in a CRCA service line, the leverage is reducing the cognitive and time tax of revenue-cycle and clinical workflows that sit on top of Epic — design within the EHR's constraints while improving the seams.</p>
+</div></details>
+
+<details class="acc"><summary><span>2 · E-commerce</span><span class="qmeta">conversion · flywheel</span></summary><div class="body">
+<p><b>Patterns:</b> conversion architecture, cart psychology (anchoring, scarcity used ethically), omnichannel continuity, AR try-on, personalization vs. privacy. <b>Economics:</b> conversion rate × AOV × frequency − CAC; small CR lifts are large dollars. <b>Amazon's flywheel mapped to UX:</b> lower prices/selection → more customers → more sellers → more selection → lower cost structure → repeat; design decisions (1-Click, reviews, Prime) each accelerate a loop. <b>Pitfall:</b> dark patterns that lift this quarter and erode LTV. <b>AI:</b> conversational shopping, personalized merchandising, returns-reduction via better fit guidance.</p>
+</div></details>
+
+<details class="acc"><summary><span>3 · IT Services / Enterprise B2B</span><span class="qmeta">PLG vs sales-led · multi-tenant</span></summary><div class="body">
+<p><b>Patterns:</b> dashboard design at scale, admin UX, role-based multi-tenant patterns, the "internal-tool aesthetic" problem (function over polish — but polish still signals quality to buyers). <b>Buyer dynamics:</b> sales-led (buyer ≠ user) vs. product-led growth (the product sells itself; activation UX is the GTM). <b>Economics:</b> NRR, seat expansion, time-to-value. <b>Pitfall:</b> designing for the buyer's demo checklist instead of the daily user's workflow. <b>AI:</b> natural-language querying of complex data, agentic admin tasks.</p>
+</div></details>
+
+<details class="acc"><summary><span>4 · Hospitality & Tourism</span><span class="qmeta">booking · loyalty · recovery</span></summary><div class="body">
+<p><b>Patterns:</b> booking funnels (high-intent, high-anxiety), loyalty UX, on-property digital (check-in, keys, services), multilingual/multicultural design, trust signals (reviews, cancellation clarity), and <b>recovery UX</b> — how you handle cancellations and disruptions defines loyalty more than the happy path (peak-end rule applied to a business). <b>Economics:</b> perishable inventory, RevPAR, repeat/loyalty value. <b>Pitfall:</b> beautiful booking flow, abandoned recovery flow.</p>
+</div></details>
+
+<details class="acc"><summary><span>5 · Platform Products (Google/Microsoft scale)</span><span class="qmeta">1B+ users · governance</span></summary><div class="body">
+<p><b>Patterns:</b> designing for 1B+ users (the long tail is the product), ecosystem coherence, cross-product design language, Material/Fluent governance, the "design council" model that arbitrates cross-product consistency. <b>Economics:</b> scale economics, ecosystem lock-in, developer-platform network effects. <b>Pitfall:</b> local optimization that fragments the ecosystem; ignoring the p99 user. <b>AI:</b> assistant layers that span products coherently.</p>
+</div></details>
+${T('Customer obsession','Andy Jassy','In every vertical, work backwards from the specific customer\'s job. The healthcare clinician at 2am, the merchant closing the month, the traveler whose flight just cancelled — design for that exact moment, not the persona slide.')}
+${D('Sundar Pichai','"Verticals tempt you into bespoke everything. At platform scale the discipline is the opposite — find the shared primitive that serves healthcare and commerce and hospitality, and resist re-inventing per vertical."')}
+${GAP("Write a one-page UX strategy for your Providence service line: the regulatory constraints, the real persona's worst moment, the one differentiating pattern, the KPI tree, and the AI opportunity gated by trust. This doubles as interview gold for any healthcare-adjacent role.")}
+`);
+
+/* ---------- PILLAR 10 ---------- */
+add('p10','Pillars','P10 · Design Leadership & DesignOps','Org models, ladders, metrics, operating rhythm',`
+<span class="tag">Pillar 10</span>
+<h1>Design Leadership & Design Ops</h1>
+<p>Leadership is leverage through people and systems. This pillar is the operating system of a design org.</p>
+<h3>Org models</h3>
+<table>
+<tr><th>Model</th><th>Strength</th><th>Failure mode</th></tr>
+<tr><td>Centralized</td><td>Consistency, strong craft bar</td><td>Ivory tower; slow; disconnected from product</td></tr>
+<tr><td>Embedded</td><td>Speed, product context</td><td>Fragmentation; stalled careers; no shared system</td></tr>
+<tr><td>Federated</td><td>Both — embedded + central craft/ops</td><td>Needs the center to earn its keep via leverage</td></tr>
+<tr><td>Matrixed</td><td>Dual accountability</td><td>Ambiguous ownership if not RACI'd</td></tr>
+</table>
+<h3>Career ladder & hiring</h3>
+<p>IC1 → … → Distinguished Designer, mirrored by the 8-competency Maturity Model. Hiring rubrics calibrated across interviewers; leveling matrix and calibration guide so promotion is legible and bias is reduced. Senior = judgment and scope, not tenure.</p>
+<h3>Operating rhythm & ops functions</h3>
+<p>1:1 cadence, skip-levels, design all-hands, portfolio reviews, the design strategy offsite. Supporting functions: <strong>DesignOps</strong> (process, tooling, rituals), <strong>ResearchOps</strong> (participant management, repositories, compliance), <strong>ContentOps</strong>, and emerging <strong>AIOps for design</strong> (managing prompts, evals, and AI tooling as shared infrastructure). Design-system governance (federated, see P5/P11-CTO). Critique culture, design reviews, and design QA as disciplines (see P11 SrDir cards).</p>
+<h3>Measuring design performance</h3>
+<p>Four tiers (never report activity): <strong>business</strong> (revenue, retention, NPS), <strong>product</strong> (task success, adoption, time-to-value), <strong>team</strong> (velocity, quality, morale), <strong>individual</strong> (growth, impact).</p>
+${T('Empathy-led','Satya Nadella','A leader\'s job is to remove obstacles and grow people, not to be the best designer in the room. The growth-mindset move is to make your team better than you — and to make that growth legible through a ladder.')}
+${D('Andy Jassy','"Beware org-chart theater. Two-pizza teams with clear single-threaded ownership beat elaborate matrixed structures. If a decision needs four people\'s sign-off, your org design is the bug."')}
+${GAP("Draft the operating rhythm for a 12-person design org you'd run: the weekly/biweekly/quarterly cadence, the critique format, the four-tier metrics you'd report to your VP, and the one ops function you'd build first. This is the artifact a Senior Director interview is fishing for.")}
+`);
+
+/* ---------- PLAYBOOKS ---------- */
+add('playbooks','Libraries','Problem-Solving Playbooks','Eight cross-cutting UX strategy playbooks',`
+<h1>Problem-Solving Playbooks</h1>
+<p>Each follows the same operating structure: <strong>Diagnose · Frame · Bet · Sequence · Measure · Adapt</strong>. Below: a worked version of the highest-leverage one for you, plus the spine of the rest.</p>
+<details class="acc" open><summary><span>UX Strategy for Healthcare Transformation</span><span class="qmeta">worked</span></summary><div class="body">
+<p><b>Diagnose:</b> Instrument the real constraint — usually clinician documentation burden and fragmented EHR workflows, not "the UI is ugly." Measure time-on-task and error rates in the live 2am context, not the demo.</p>
+<p><b>Frame:</b> Reframe burnout as a measurable design problem (time + cognitive load) tied to retention economics. Get leadership to agree on the metric before designing.</p>
+<p><b>Bet:</b> Pick the one workflow whose time-tax is highest and most-repeated; bet on reducing steps, not redecorating. Gate any AI assistance behind a trust/verification pattern given liability.</p>
+<p><b>Sequence:</b> Foundational EHR-integration and accessibility work first (it unblocks everything), then the high-leverage workflow, then expand. Comply with HIPAA/FHIR as a constraint, not an afterthought.</p>
+<p><b>Measure:</b> Clinician time saved → documentation burden → satisfaction/retention → turnover cost avoided. Pair quant with shadowing sessions.</p>
+<p><b>Adapt:</b> Re-measure quarterly; kill AI features that fail the first-session trust bar.</p>
+</div></details>
+<details class="acc"><summary><span>The other seven (spines)</span><span class="qmeta">Diagnose→Adapt</span></summary><div class="body">
+<ul>
+<li><b>E-commerce Growth:</b> diagnose funnel leak (AARRR) → frame around the one conversion bottleneck → bet on the highest-traffic friction → sequence by traffic-weighted impact → measure CR×AOV → adapt against LTV not just this quarter.</li>
+<li><b>Enterprise Digital Transformation:</b> diagnose the buyer/user gap → frame around daily-user workflow → bet on activation/time-to-value → sequence admin+core flows → measure NRR/adoption → adapt to org change resistance.</li>
+<li><b>AI Product Launch (0→1):</b> diagnose the riskiest unknown (desirability of the AI value) → frame the "first session win" → bet on one guaranteed-win path + graceful degradation → sequence trust UI first → measure first-session success & return → adapt prompts as artifacts.</li>
+<li><b>AI Product Scale (1→100):</b> diagnose where quality breaks at scale → frame around evals + the long tail → bet on systematized guardrails → sequence eval harness then expansion → measure adoption depth & trust → adapt to edge cases.</li>
+<li><b>Regulated Industries:</b> diagnose compliance constraints → frame trust/error-reduction over conversion → bet on fail-safe flows → sequence compliance-by-design → measure error rate & audit pass → adapt to regulation changes.</li>
+<li><b>Multi-Product Ecosystems:</b> diagnose incoherence cost → frame shared primitives → bet on governance model → sequence foundations then composition → measure consistency & reuse → adapt via design council.</li>
+<li><b>Crisis Recovery / Turnaround:</b> diagnose root cause (clarity? partnership? talent?) → frame quick wins + durable systems → bet on the one broken mechanism → sequence listen→stabilize→change → measure morale + one visible win → adapt as trust returns (see P11 SrVP·change).</li>
+</ul>
+</div></details>
+${GAP("Pick the playbook nearest your current work and write the full ~3000-word version using the Diagnose→Adapt spine. A complete playbook is a portfolio centerpiece that signals strategic, not just executional, range.")}
+`);
+
+/* ---------- ARTIFACT VAULT ---------- */
+add('vault','Libraries','Artifact Vault','Ready-to-use, production-grade templates',`
+<h1>Artifact Vault</h1>
+<p>Copy-paste-ready. Each is built so a Senior Director could use it unedited. A representative set is templated below; the full list is the spec for the site's downloadable library.</p>
+<h3>Discovery brief</h3>
+<pre>PROBLEM: [the user job + why now]
+STAKES: [revenue/risk/users affected]
+DECISION THIS INFORMS: [what we'll do differently]
+KNOWNS / ASSUMPTIONS / RISKIEST UNKNOWN:
+METHOD + WHY: [matched to the decision]
+SUCCESS LOOKS LIKE: [metric + threshold]
+CONSTRAINTS: [time, compliance, access]
+OUT OF SCOPE: [what we're explicitly NOT doing]</pre>
+<h3>JTBD canvas</h3>
+<pre>When [situation], I want to [motivation], so I can [expected outcome].
+PUSH (what frustrates them now) / PULL (what attracts to new) /
+ANXIETY (what blocks switch) / HABIT (inertia of current).
+SUCCESS METRIC the customer uses to judge the job done:</pre>
+<h3>North-star metric tree</h3>
+<pre>NORTH STAR: [proxy for delivered value]
+ ├─ INPUT 1: [design lever ___]
+ ├─ INPUT 2: [design lever ___]
+ └─ INPUT 3: [design lever ___]
+GUARDRAIL METRICS (must not harm): [trust, a11y, churn]</pre>
+<h3>AI feature spec + eval rubric</h3>
+<pre>USER JOB / INTENT:
+PATTERN: [chat | agentic | ambient | multimodal]
+CONTEXT STRATEGY: [what's in the prompt & why; MCP sources]
+TRUST UI: [show-work / citation / confidence / consent gates]
+DEGRADATION: [behavior when uncertain or down]
+FIRST-SESSION WIN PATH:
+EVAL RUBRIC: task success | trust rating | hallucination rate | latency p75 | return rate</pre>
+<h3>Usability findings + severity rubric</h3>
+<pre>SEVERITY: 0 cosmetic | 1 minor | 2 major (workaround exists) | 3 critical (blocks task)
+FINDING | EVIDENCE (clip/metric) | SEVERITY | RECOMMENDATION | OWNER</pre>
+<h3>Design critique agenda</h3>
+<pre>1. Presenter states: user job, constraints, the DECISION needed (2 min)
+2. Clarifying questions only (2 min)
+3. Feedback referencing goal/principle — labeled OBJECTIVE vs PREFERENCE
+4. Decision logged + owner + next step</pre>
+<h3>Portfolio case study (3 variants)</h3>
+<pre>5-MIN: stakes → decision → trade-off → number → redo
+30-MIN: Context→Constraint→Decision→Trade-off→Outcome→Counterfactual (2 cases)
+WRITTEN: outcome-first headline → role → decision narrative → artifact appendix</pre>
+<p><b>Also in the full vault:</b> research plan · interview guide · screener · persona · empathy map · journey map · service blueprint · HMW + PR/FAQ + Crazy-8s prompt · design principles canvas · design-system contribution template · component spec · token taxonomy · usability test plan · design review template · design ROI calculator · design debt log · prompt brief · interview self-prep workbook · hiring rubric · calibration guide · leveling matrix · OKR templates · quarterly design strategy template.</p>
+${GAP("Fill the AI feature spec for a real feature this week. A completed, rigorous AI spec with an eval rubric is the single most differentiating artifact in a 2026 design portfolio.")}
+`);
+
+/* ---------- CASE STUDIES ---------- */
+add('cases','Libraries','Case Study Library','Original cases — Context · Constraint · Decision · Trade-off · Outcome · Counterfactual',`
+<h1>Case Study Library</h1>
+<p>Twenty original cases (10 commercial, 5 healthcare/regulated, 5 AI-native) anchor the site. Each uses the same anatomy and includes a "what the Titan would have done differently" callout. Three worked examples below; the rest follow the same template.</p>
+<details class="acc" open><summary><span>HC-1 · Cutting clinical documentation time without losing safety</span><span class="qmeta">healthcare</span></summary><div class="body">
+<p><b>Context:</b> Intake documentation took clinicians 6 min/patient, driving overtime and burnout. <b>Constraint:</b> EHR-locked fields, HIPAA, zero tolerance for data error. <b>Decision:</b> Replace free-text with structured smart-defaults + an AI summary the clinician verifies — not a chat rewrite. <b>Trade-off:</b> Less flexibility per note in exchange for speed and scannability; accepted because the job valued predictability. <b>Outcome:</b> ~40% time reduction, error rate flat. <b>Counterfactual:</b> A full conversational redesign (tried elsewhere) dropped completion 14%. <b>Lessons:</b> match paradigm to the job, not the trend.</p>
+${D('Tim Cook','"I\'d have invested even more in the verification moment — in a clinical setting the trust UI for the AI summary is the product, not a detail. Get that wrong and you ship a liability."')}
+</div></details>
+<details class="acc"><summary><span>AI-1 · The first-session problem on a new assistant feature</span><span class="qmeta">AI-native</span></summary><div class="body">
+<p><b>Context:</b> A new AI assistant had high install, near-zero week-2 retention. <b>Constraint:</b> Open-ended prompt = blank-canvas paralysis. <b>Decision:</b> Engineer a guided first-session that guaranteed a real win, with example prompts grounded in the user's actual data. <b>Trade-off:</b> Less "magic open-endedness" up front, more scaffolding. <b>Outcome:</b> Week-2 retention multiplied. <b>Counterfactual:</b> Leaving the blank prompt "for power users" kept retention near zero. <b>Lessons:</b> the first session is the product; design the guaranteed win.</p>
+${T('Empathy-led','Satya Nadella','"Exactly right — the first session is where trust is born or killed. I\'d add a second guaranteed win in week one to compound the habit before novelty fades."')}
+</div></details>
+<details class="acc"><summary><span>EC-1 · Recovering abandoned carts without dark patterns</span><span class="qmeta">commercial</span></summary><div class="body">
+<p><b>Context:</b> 32% checkout abandonment vs. 18% benchmark. <b>Constraint:</b> No manipulative urgency (brand trust). <b>Decision:</b> Removed forced account creation, surfaced total cost (incl. shipping) early, added persistent cart. <b>Trade-off:</b> Fewer captured accounts up front in exchange for completed purchases and trust. <b>Outcome:</b> Abandonment fell toward benchmark; LTV held. <b>Counterfactual:</b> Countdown-timer dark patterns lift this quarter but erode repeat purchase. <b>Lessons:</b> honesty converts and compounds.</p>
+${D('Andy Jassy','"Work backwards harder — the real win is 1-Click-style friction removal so there\'s barely a cart to abandon. Treat the cart as a failure state, not a feature."')}
+</div></details>
+${GAP("Write two of your own cases in this exact anatomy — one craft-deep, one strategy-deep — and add a Titan-dissent to each. These become your 30-minute panel set.")}
+`);
+
+/* ---------- DIAGRAM INVENTORY ---------- */
+add('diagrams','Libraries','Diagram Inventory','~50 diagrams the site should commission',`
+<h1>Diagram Inventory</h1>
+<p>Where a diagram clarifies more than prose, the site commissions one. Each entry below is specified enough for a designer to render.</p>
+<ol>
+<li>Council-of-Titans lens map (radar of the six lenses across competencies)</li>
+<li>Site map tree (Pillars→Modules→Atomic Units)</li>
+<li>Three persona user-flow diagrams</li>
+<li>Maturity model heatmap (8 competencies × 5 levels)</li>
+<li>The UX laws cheat-sheet poster</li>
+<li>Norman's action cycle (gulfs of execution/evaluation)</li>
+<li>Information-scent decision tree</li>
+<li>Six-methodology comparison matrix (visual)</li>
+<li>DISCOVER·DECIDE·DELIVER·DEFEND meta-framework loop</li>
+<li>Generative vs evaluative × qual vs quant 2×2 with methods plotted</li>
+<li>Bias inventory + counter-move map</li>
+<li>North-star metric tree template</li>
+<li>HEART → Goals-Signals-Metrics grid</li>
+<li>AARRR funnel with leak diagnostics</li>
+<li>Wardley map example</li>
+<li>Design ROI three-tier pyramid</li>
+<li>Type scale & vertical rhythm spec</li>
+<li>OKLCH color wheel + contrast pairs</li>
+<li>Motion choreography timeline</li>
+<li>Design-system comparison (Material/Fluent/HIG/Carbon/Polaris/Lightning) radar</li>
+<li>Heuristic-evaluation severity matrix</li>
+<li>Statistical traps illustration (p-hacking)</li>
+<li>AI UX pattern catalog grid</li>
+<li>"First session" funnel</li>
+<li>Graceful-degradation state diagram</li>
+<li>MCP interaction-layer diagram</li>
+<li>Constitutional-AI-as-principles flow</li>
+<li>Four PDLC operating models side-by-side swimlanes</li>
+<li>RACI matrices for each PDLC (×4)</li>
+<li>"Designer's job per era" evolution strip</li>
+<li>Healthcare KPI tree (burnout→retention→cost)</li>
+<li>EHR/FHIR integration seam diagram</li>
+<li>Amazon flywheel mapped to UX decisions</li>
+<li>Enterprise buyer-vs-user gap map</li>
+<li>Hospitality recovery-UX journey</li>
+<li>Platform design-council governance org chart</li>
+<li>Four org-model diagrams (centralized/embedded/federated/matrixed)</li>
+<li>IC1→Distinguished career ladder</li>
+<li>Four-tier design metrics dashboard mock</li>
+<li>Weekly operating-rhythm calendar</li>
+<li>Critique flow diagram</li>
+<li>Diagnose→Adapt playbook loop</li>
+<li>Four-lens interview map (CEO/CTO/SrVP/SrDir probes)</li>
+<li>STAR-Plus structure diagram</li>
+<li>Portfolio narrative arc (3 formats)</li>
+<li>Case-study anatomy template</li>
+<li>Cross-reference graph of the whole Bible</li>
+<li>30-60-90 day plan timeline</li>
+<li>First-100-days-as-VP roadmap</li>
+<li>AI toolkit landscape map (2026)</li>
+</ol>
+`);
+
+/* ---------- STRETCH ---------- */
+add('stretch','Libraries','Stretch Goals','30-60-90, First 100 Days, Reading List, AI Toolkit',`
+<h1>Stretch Goals</h1>
+<h2>30-60-90 day plan — newly hired UX Architect at a Fortune 50</h2>
+<table>
+<tr><th>Phase</th><th>Focus</th><th>Output</th></tr>
+<tr><td>Days 1–30 · Learn</td><td>1:1s with every stakeholder; audit the product, system, and metrics; map the real operating model and constraints</td><td>A written "state of design" memo + your top-3 leverage hypotheses</td></tr>
+<tr><td>Days 31–60 · Land a win</td><td>Fix one visible, high-leverage thing; build credibility; establish the critique + decision-log rhythm</td><td>One shipped improvement with a metric; an operating rhythm doc</td></tr>
+<tr><td>Days 61–90 · Set direction</td><td>Publish the design strategy + maturity-based team plan; align with PM/Eng leadership; name the multi-year bets</td><td>A quarterly design strategy + a 12-month roadmap of horizons</td></tr>
+</table>
+<h2>First 100 days as VP of Design</h2>
+<p>Listen→stabilize→change (see P11 SrVP·change). Add: assess talent against the ladder, fix the most broken cross-functional seam, establish four-tier metrics with your peers, and make one bet that proves design as a business lever. Don't reorg before day 60.</p>
+<h2>Design Leader's Reading List (top tier)</h2>
+<p>A ranked 50-book list anchors the full site; the essential spine: <em>The Design of Everyday Things</em> (Norman) · <em>Don't Make Me Think</em> (Krug) · <em>About Face</em> (Cooper) · <em>Articulating Design Decisions</em> (Greever) · <em>Org Design for Design Orgs</em> (Merholz/Skinner) · <em>Continuous Discovery Habits</em> (Torres) · <em>Inspired</em> &amp; <em>Empowered</em> (Cagan) · <em>Measuring the User Experience</em> (Tullis/Albert) · <em>Thinking, Fast and Slow</em> (Kahneman) · <em>Working Backwards</em> (Bryar/Carr) · <em>The Lean Startup</em> (Ries). Each gets a one-paragraph case in the full edition.</p>
+<h2>Designer's AI Toolkit (2026)</h2>
+<table>
+<tr><th>Tool class</th><th>What it replaces</th><th>Where it fails</th></tr>
+<tr><td>Claude (Projects/Code/Skills)</td><td>Research synthesis, prototyping scaffolds, design-ops</td><td>Hallucinated themes; needs human verification & judgment</td></tr>
+<tr><td>AI design-to-code</td><td>Manual handoff/redlining</td><td>Production architecture, perf, edge cases still human</td></tr>
+<tr><td>Generative UI/variant tools</td><td>First-draft comps</td><td>System coherence, taste, trade-off decisions</td></tr>
+<tr><td>Eval harnesses</td><td>Gut-feel AI QA</td><td>Defining "good experience" is still a design act</td></tr>
+</table>
+<h2>Conference & network map</h2>
+<p>Events/communities that matter for this trajectory: Config, Smashing, UXDX, Leading Design / Clarity (design leadership), An Event Apart-style craft, plus AI-product communities and the design-leadership cohorts (Reforge, Dribbble/ADPList for mentoring reach). The full edition maps which individuals and communities matter per career goal.</p>
+${GAP("Write your own 30-60-90 for the specific role you're targeting next. Walking into an interview with a credible first-90-days plan for THEIR company is the single highest-conversion move a senior candidate can make.")}
+`);
+
+/* ---------- PILLAR 12: ACCESSIBILITY ---------- */
+add('p12','Pillars','P12 · Accessibility & Inclusive Design','Designing for the full range of human ability',`
+<span class="tag">Pillar 12</span><span class="tag">Non-negotiable</span>
+<h1>Accessibility & Inclusive Design</h1>
+<p><b>Why it matters:</b> roughly 1 in 6 people live with a significant disability, and <em>everyone</em> is situationally or temporarily disabled (bright sun, broken arm, holding a baby, noisy train). Accessibility is not a compliance tax — it is design for the real distribution of human ability, and at scale it is also legal exposure (ADA, Section 508, EN 301 549, the European Accessibility Act effective 2025). Design it into the system once (P5, P11-CTO) and every feature inherits it; bolt it on later and pay 5–10x forever.</p>
+
+<h2>Design for each disability category</h2>
+<table>
+<tr><th>Category</th><th>Who</th><th>Barriers</th><th>Design moves</th><th>Assistive tech</th></tr>
+<tr><td><b>Visual</b></td><td>Blind, low-vision, color-blind</td><td>Can't see UI, low contrast, color-only meaning</td><td>Semantic HTML + ARIA; logical heading order; alt text; 4.5:1 contrast; never color alone; support zoom to 200%+; visible focus</td><td>Screen readers (JAWS, NVDA, VoiceOver, TalkBack), magnifiers, braille displays</td></tr>
+<tr><td><b>Motor / dexterity</b></td><td>Tremor, paralysis, limited fine motor, RSI</td><td>Can't use precise mouse, small targets, time limits</td><td>Large targets (≥24×44px), full keyboard operability, no time traps, generous click areas, avoid drag-only or hover-only actions</td><td>Switch access, voice control, eye-tracking, adapted keyboards</td></tr>
+<tr><td><b>Auditory</b></td><td>Deaf, hard of hearing</td><td>Audio-only content, no captions</td><td>Captions + transcripts for all media; visual alternatives to audio alerts; don't rely on sound for critical feedback</td><td>Captioning, hearing aids, sign language</td></tr>
+<tr><td><b>Speech</b></td><td>Non-verbal, speech differences</td><td>Voice-only interfaces</td><td>Always offer a non-voice path; text alternatives to voice commands</td><td>AAC devices, text input</td></tr>
+<tr><td><b>Cognitive / neurological</b></td><td>Dyslexia, ADHD, autism, memory, learning differences</td><td>Complex language, dense layouts, distraction, memory load</td><td>Plain language; clear hierarchy; recognition over recall (P1); consistent patterns; reduce distraction; chunk; forgiving errors; allow reduced motion</td><td>Reading tools, text-to-speech, simplification</td></tr>
+<tr><td><b>Vestibular / photosensitive</b></td><td>Motion sensitivity, seizure risk</td><td>Parallax, autoplay motion, flashing</td><td>Respect <code>prefers-reduced-motion</code>; no content flashing &gt;3×/sec; pausable animation</td><td>OS motion settings</td></tr>
+</table>
+
+<h2>The POUR mental model (WCAG's spine)</h2>
+<p>WCAG organizes everything under four principles: <strong>Perceivable</strong> (users can perceive the content — contrast, alt text, captions), <strong>Operable</strong> (they can operate it — keyboard, time, no seizures, navigable), <strong>Understandable</strong> (readable, predictable, error-tolerant), <strong>Robust</strong> (works with assistive tech — valid semantic markup). WCAG 2.2 AA is the practical target; the 3.0 draft moves toward an outcome-based scoring model. Memorize POUR — it's the framework you reason with when there's no checklist.</p>
+
+<h2>Inclusive design ≠ accessibility (but contains it)</h2>
+<p>Microsoft's Inclusive Design principles reframe the work: <strong>recognize exclusion</strong>, <strong>solve for one, extend to many</strong> (the "persona spectrum" — permanent / temporary / situational: one-arm amputee / broken arm / new parent holding a baby all need one-handed use), and <strong>learn from diversity</strong>. The curb-cut effect is the business case: curb cuts built for wheelchairs help strollers, luggage, and delivery carts. Captions built for deaf users serve everyone in a noisy gym. Accessible design is better design for all — that's the argument that wins budget.</p>
+
+<h2>Operationalizing it (so it actually ships)</h2>
+<ul>
+<li><b>Shift left:</b> a11y acceptance criteria in the design spec and the definition of done, not a pre-launch audit.</li>
+<li><b>Automate the floor:</b> axe-core / Lighthouse in CI catches ~30–40% of issues automatically.</li>
+<li><b>Manual for the rest:</b> keyboard-only pass, screen-reader pass (VoiceOver/NVDA), zoom + reflow test. Automation can't judge whether alt text is <em>meaningful</em>.</li>
+<li><b>Test with disabled users:</b> nothing about us without us — recruit participants who use assistive tech.</li>
+<li><b>System-level:</b> bake focus management, semantics, and ARIA into the component library so product teams inherit accessibility for free.</li>
+</ul>
+${T('Accessibility as non-negotiable','Tim Cook','Accessibility is a human right, and we regard it as a core part of craft, not a feature. The teams that treat it as optional reveal exactly how seriously they take their users. Design for the edges and the center takes care of itself.')}
+${D('Elon Musk','"Don\'t let compliance checklists become the goal. WCAG conformance is the floor, not the ceiling — a technically-conformant page can still be miserable to use with a screen reader. Optimize for the actual experience of the assistive-tech user, then the audit passes as a byproduct."')}
+${GAP("Run a keyboard-only + screen-reader pass on one flow you own, log every barrier against POUR and WCAG 2.2 AA with the 0–3 severity rubric, and write the persona-spectrum (permanent/temporary/situational) for your product. An accessibility audit you led is concrete evidence of senior craft and risk-awareness in any Fortune-50 interview.")}
+`);
+
+/* ---------- PLATFORM UX PLAYBOOKS ---------- */
+add('platforms','Libraries','Platform UX Playbooks','Best practices per build platform — React to Power Apps',`
+<h1>Platform UX Playbooks</h1>
+<p>The same UX principles express differently on each platform because each imposes its own constraints, component model, and user expectations. Below: the UX approach, best practices, and the trap for each. A companion Word document with the full learning material accompanies this section.</p>
+
+<details class="acc" open><summary><span>React (SPA / design-system apps)</span><span class="qmeta">component-driven</span></summary><div class="body">
+<p><b>UX approach:</b> component-driven design that maps 1:1 to a design system; tokens → primitives → composed components. <b>Best practices:</b> build accessible primitives once (focus management, ARIA, keyboard) and reuse; manage loading/empty/error/edge states explicitly (they're real screens, not afterthoughts); code-split and lazy-load to protect LCP/INP perf budgets; use Storybook as the design-eng contract; prefer CSS/transform animation over JS. <b>Trap:</b> client-side rendering tanks first-paint and SEO — use SSR/streaming (Next.js) for content; and "div soup" destroys accessibility, so use semantic elements.</p>
+</div></details>
+<details class="acc"><summary><span>Angular (enterprise SPA)</span><span class="qmeta">opinionated, large apps</span></summary><div class="body">
+<p><b>UX approach:</b> structured, enterprise-scale apps; lean on Angular Material (Material 3) or a corporate system for consistency. <b>Best practices:</b> use the CDK a11y module for focus/live-announcements; lazy-load feature modules for perf; strong form UX with reactive forms + inline validation; consistent state/loading patterns. <b>Trap:</b> heavy bundles and over-engineered abstractions hurt perceived performance; don't let framework ceremony bury the user task.</p>
+</div></details>
+<details class="acc"><summary><span>Microsoft 365 / Office add-ins</span><span class="qmeta">Fluent 2</span></summary><div class="body">
+<p><b>UX approach:</b> design <em>within</em> the host app — your add-in must feel like part of Word/Excel/Outlook. Use <b>Fluent 2</b> and Fluent UI React components. <b>Best practices:</b> respect the task pane's narrow width and the host's theming (dark/high-contrast inherited); minimize chrome; match Office interaction patterns; honor the user's existing muscle memory (Jakob's Law). <b>Trap:</b> building an "app inside an app" with its own foreign UI breaks the continuity users expect and feels bolted-on.</p>
+</div></details>
+<details class="acc"><summary><span>SharePoint intranet</span><span class="qmeta">governance + IA</span></summary><div class="body">
+<p><b>UX approach:</b> intranets live or die on <b>information architecture and findability</b>, not visuals. Use SPFx web parts + Fluent; modern communication/hub site patterns. <b>Best practices:</b> invest in IA (card sort + tree test, P3/P6); strong global nav and search scopes; governance to prevent sprawl; metadata-driven content; mobile-responsive web parts; accessible by default for a diverse internal workforce. <b>Trap:</b> letting every department build its own page design — the "intranet aesthetic" chaos (P9 IT Services). Govern templates centrally.</p>
+</div></details>
+<details class="acc"><summary><span>Power BI (dashboards / analytics)</span><span class="qmeta">data viz</span></summary><div class="body">
+<p><b>UX approach:</b> dashboard UX is <em>information design</em> — answer the decision-maker's question at a glance. <b>Best practices:</b> top-task first (most-important KPI top-left, F-pattern); pre-attentive attributes (position, length) over pie charts; consistent color semantics; progressive disclosure via drill-through; accessible color + data tables for screen readers; performance (limit visuals per page, optimize the model). <b>Trap:</b> "dashboard vomit" — cramming every metric. Design for a decision, not for completeness.</p>
+</div></details>
+<details class="acc"><summary><span>Dynamics 365 (model-driven CRM/ERP)</span><span class="qmeta">enterprise workflow</span></summary><div class="body">
+<p><b>UX approach:</b> optimize the daily power-user's <em>workflow efficiency</em>, not first-time delight. Model-driven apps inherit the Unified Interface; customize forms, views, and business process flows. <b>Best practices:</b> reduce clicks on the highest-frequency task; surface the right fields per role (form tailoring); use business process flows to guide multi-step work; keyboard efficiency; sensible defaults. <b>Trap:</b> exposing the full data model to every user — role-based view design is the craft. Over-customization creates upgrade debt.</p>
+</div></details>
+<details class="acc"><summary><span>WordPress (sites / content)</span><span class="qmeta">content + theme</span></summary><div class="body">
+<p><b>UX approach:</b> content-first; the block (Gutenberg) editor and theme system shape the experience. <b>Best practices:</b> design a reusable block/pattern library so non-designers stay on-brand; performance (image optimization, caching, minimal plugins — each plugin is perf + security risk); accessibility-ready themes; clear content hierarchy and CTAs; mobile-first. <b>Trap:</b> plugin bloat and page-builder sprawl that wreck performance and consistency; govern the pattern library.</p>
+</div></details>
+<details class="acc"><summary><span>Kajabi (course / creator platform)</span><span class="qmeta">conversion + learning</span></summary><div class="body">
+<p><b>UX approach:</b> two jobs — <em>convert</em> (landing/sales pages, funnels, checkout) and <em>retain/educate</em> (course consumption, progress). <b>Best practices:</b> conversion architecture on sales pages (clear value, social proof, frictionless checkout — P9 E-commerce); learning UX with clear progress, bite-sized modules, completion cues (peak-end, P1); mobile consumption; reduce drop-off between purchase and first lesson (the "first session" problem, P7). <b>Trap:</b> beautiful sales page, neglected learning experience that kills renewals and referrals.</p>
+</div></details>
+<details class="acc"><summary><span>Mobile apps — Native vs Hybrid</span><span class="qmeta">HIG + Material</span></summary><div class="body">
+<p><b>UX approach:</b> respect platform conventions — <b>Apple HIG</b> on iOS, <b>Material</b> on Android (navigation, gestures, system back, typography). <b>Native</b> (Swift/Kotlin) = best performance, full platform-feature/accessibility access, platform-true feel. <b>Hybrid</b> (React Native, Flutter, Capacitor) = shared codebase, faster/cheaper, but watch performance, platform-feel fidelity, and accessibility parity. <b>Best practices either way:</b> thumb-zone ergonomics, large touch targets, offline/poor-network states, respect safe areas and OS settings (Dynamic Type, reduced motion), platform-native a11y (VoiceOver/TalkBack). <b>Trap:</b> a single design forced identically onto both platforms feels alien on both; adapt per platform.</p>
+</div></details>
+<details class="acc"><summary><span>Power Apps (low-code business apps)</span><span class="qmeta">citizen dev + UX rescue</span></summary><div class="body">
+<p><b>UX approach:</b> low-code speed without UX discipline produces functional-but-painful apps — your value is bringing real UX craft to citizen-developer output. Canvas apps (pixel control) vs. model-driven (data-structured). <b>Best practices:</b> build a shared component library + theme for consistency across an org's app sprawl; responsive containers (not fixed pixel layouts); accessible naming and tab order (often neglected in low-code); performance (delegation, minimize on-start data calls); clear task flows. <b>Trap:</b> fixed-position canvas layouts that break on other screens, and inaccessible controls — low-code makes it easy to skip a11y, so make it a standard.</p>
+</div></details>
+${T('Enterprise + consumer convergence','Satya Nadella','The platform is a constraint, not an excuse. Whether it\'s Power Apps or React, the user doesn\'t care about your stack — they care that the task is fast and humane. Mastery is expressing the same empathy through wildly different component models.')}
+${D('Sundar Pichai','"Honoring each platform\'s conventions is right, but don\'t fragment so far that your brand dissolves. The discipline at scale is a coherent cross-platform design language that still respects HIG and Material where it counts."')}
+${GAP("Pick the two platforms you build on most (likely SharePoint/Power Platform and React at Providence) and write a one-page UX standards doc each: the component library approach, the accessibility baseline, the perf budget, and the top-three platform-specific traps. Org-level standards docs are exactly what a UX Architect produces.")}
+`);
+
+/* ============ RENDERER ============ */
+const groups = ['Start','Pillars','Libraries'];
+const viewed = new Set();
+let current = location.hash.slice(1) || 'home';
+
+function buildNav(filter=''){
+  const f = filter.toLowerCase();
+  const nav = document.getElementById('nav'); nav.innerHTML='';
+  groups.forEach(g=>{
+    const items = SECTIONS.filter(s=>s.group===g &&
+      (!f || (s.title+s.sub+s.html).toLowerCase().includes(f)));
+    if(!items.length) return;
+    const gl=document.createElement('div');gl.className='navgroup';gl.textContent=g;nav.appendChild(gl);
+    items.forEach(s=>{
+      const a=document.createElement('a');a.className='navlink'+(s.id===current?' active':'');
+      a.innerHTML=`${s.title}<br><small>${s.sub||''}</small>`;
+      a.onclick=()=>go(s.id);
+      nav.appendChild(a);
+    });
+  });
+}
+function go(id){
+  current=id; location.hash=id; viewed.add(id);
+  const s=SECTIONS.find(x=>x.id===id)||SECTIONS[0];
+  document.getElementById('content').innerHTML=s.html;
+  document.getElementById('crumbs').textContent=s.group+' / '+s.title;
+  document.getElementById('side').classList.remove('open');
+  window.scrollTo(0,0);
+  buildNav(document.getElementById('search').value);
+  renderXref(id);
+  if(id==='mat') renderAssessor();
+  const pct=Math.round(viewed.size/SECTIONS.length*100);
+  document.getElementById('progbar').style.width=pct+'%';
+}
+function prevNext(d){
+  const i=SECTIONS.findIndex(s=>s.id===current);
+  const n=(i+d+SECTIONS.length)%SECTIONS.length; go(SECTIONS[n].id);
+}
+const XREF={
+  home:['ia','mat','p11'], ia:['mat','p5'], mat:['p11','p10'],
+  p1:['p2','p5','p7'], p2:['p3','p4','p8'], p3:['p4','p6','p7'],
+  p4:['p9','p10','p2'], p5:['p1','p6','p10'], p6:['p3','p7','p4'],
+  p7:['p8','p6','p11'], p8:['p7','p10','p9'], p9:['p4','p7','playbooks'],
+  p10:['p11','p4','p8'], p11:['mat','p10','cases'],
+  p12:['p5','p6','platforms'], platforms:['p5','p12','p9'],
+  playbooks:['cases','vault','p4'], vault:['p11','cases','p3'],
+  cases:['p11','playbooks','p9'], diagrams:['ia'], stretch:['p11','p10','mat']
+};
+function renderXref(id){
+  const rel=(XREF[id]||[]).map(r=>{const s=SECTIONS.find(x=>x.id===r);return s?`<a onclick="go('${r}')">${s.title}</a>`:''}).filter(Boolean);
+  document.getElementById('xref').innerHTML = rel.length?('<b>Related:</b> '+rel.join(' · ')):'';
+}
+/* maturity assessor */
+const COMPS=['Craft','Research','Strategy','Systems thinking','Leadership','Communication','Business acumen','AI fluency'];
+const scores={};
+function renderAssessor(){
+  const el=document.getElementById('assessor'); if(!el) return;
+  el.innerHTML='<h3 style="margin-top:0">Self-assessment</h3>'+COMPS.map((c,ci)=>`
+    <div class="mat-row"><div><b>${c}</b></div>
+    <div class="mat-levels">${[1,2,3,4,5].map(l=>`<button id="m${ci}-${l}" onclick="setScore(${ci},${l})">L${l}</button>`).join('')}</div></div>
+  `).join('')+`<div style="margin-top:14px;display:flex;justify-content:space-between;align-items:center">
+    <span class="qmeta">Average across 8 competencies</span><span class="mat-score" id="matscore">—</span></div>
+    <p class="qmeta" id="matlow"></p>`;
+  COMPS.forEach((c,ci)=>{if(scores[ci])document.getElementById('m'+ci+'-'+scores[ci]).classList.add('sel')});
+  updateScore();
+}
+function setScore(ci,l){
+  scores[ci]=l;
+  for(let x=1;x<=5;x++)document.getElementById('m'+ci+'-'+x).classList.toggle('sel',x===l);
+  updateScore();
+}
+function updateScore(){
+  const vals=COMPS.map((_,i)=>scores[i]).filter(Boolean);
+  const sc=document.getElementById('matscore'); if(!sc)return;
+  if(!vals.length){sc.textContent='—';return;}
+  const avg=(vals.reduce((a,b)=>a+b,0)/vals.length);
+  sc.textContent=avg.toFixed(1)+' / 5';
+  if(vals.length===8){
+    const min=Math.min(...vals);
+    const low=COMPS.filter((_,i)=>scores[i]===min);
+    document.getElementById('matlow').innerHTML=`🌉 Your lowest: <b>${low.join(', ')}</b> (L${min}). That's your quarter's focus — go to the matching pillar's Gap Bridge.`;
+  }
+}
+function toggleTheme(){
+  const h=document.documentElement;
+  h.dataset.theme = h.dataset.theme==='dark'?'light':'dark';
+}
+document.getElementById('search').addEventListener('input',e=>buildNav(e.target.value));
+window.addEventListener('hashchange',()=>{if(location.hash.slice(1)!==current)go(location.hash.slice(1))});
+buildNav(); go(current);
+</script>
+</body>
+</html>

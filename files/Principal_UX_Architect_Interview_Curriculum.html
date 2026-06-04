@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Principal UX Architect — Interview Mastery Curriculum</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #08090C;
+  --bg-card: #0F1117;
+  --bg-elevated: #161922;
+  --bg-hover: #1C2030;
+  --border: #252A38;
+  --border-accent: #3A4058;
+  --text: #E6E8EE;
+  --text-sec: #9BA3B8;
+  --text-muted: #636B82;
+  --gold: #C9A44C;
+  --gold-soft: rgba(201,164,76,0.1);
+  --gold-glow: rgba(201,164,76,0.06);
+  --blue: #5B8DEF;
+  --blue-soft: rgba(91,141,239,0.08);
+  --teal: #34D399;
+  --teal-soft: rgba(52,211,153,0.08);
+  --rose: #F472B6;
+  --rose-soft: rgba(244,114,182,0.08);
+  --purple: #A78BFA;
+  --purple-soft: rgba(167,139,250,0.08);
+  --amber: #FBBF24;
+  --amber-soft: rgba(251,191,36,0.08);
+  --green: #4ADE80;
+  --green-soft: rgba(74,222,128,0.08);
+  --radius: 14px;
+  --radius-sm: 8px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);line-height:1.75;-webkit-font-smoothing:antialiased}
+::selection{background:var(--gold);color:#000}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+
+/* NAV */
+.sidebar{position:fixed;top:0;left:0;width:260px;height:100vh;background:var(--bg-card);border-right:1px solid var(--border);padding:20px 0;overflow-y:auto;z-index:100;transition:transform .3s}
+.sidebar-brand{padding:0 20px 20px;border-bottom:1px solid var(--border);margin-bottom:12px}
+.sidebar-brand .logo{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:700;color:var(--gold)}
+.sidebar-brand .sub{font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:2.5px;margin-top:3px}
+.nav-group{padding:6px 14px}
+.nav-group-title{font-size:9px;text-transform:uppercase;letter-spacing:2.5px;color:var(--text-muted);padding:8px 8px 4px;font-weight:600}
+.nav-link{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:var(--radius-sm);color:var(--text-sec);font-size:12.5px;font-weight:500;cursor:pointer;transition:all .2s;text-decoration:none;user-select:none}
+.nav-link:hover{background:var(--bg-elevated);color:var(--text)}
+.nav-link.active{background:var(--gold-soft);color:var(--gold)}
+.nav-link .icon{font-size:14px;width:18px;text-align:center;flex-shrink:0}
+.mob-toggle{display:none;position:fixed;top:14px;left:14px;z-index:200;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:8px 10px;color:var(--text);font-size:18px;cursor:pointer}
+
+/* MAIN */
+.main{margin-left:260px;min-height:100vh}
+
+/* HERO */
+.hero{position:relative;padding:80px 56px 60px;overflow:hidden;background:linear-gradient(160deg,#08090C 0%,#111524 40%,#0D1020 70%,#08090C 100%)}
+.hero::before{content:'';position:absolute;top:-150px;right:-150px;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(201,164,76,0.06) 0%,transparent 70%)}
+.hero-content{position:relative;z-index:1;max-width:720px}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:var(--gold-soft);border:1px solid rgba(201,164,76,0.2);border-radius:100px;padding:5px 14px;font-size:11px;color:var(--gold);font-weight:600;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:20px}
+.hero h1{font-family:'Cormorant Garamond',serif;font-size:44px;font-weight:700;line-height:1.1;letter-spacing:-1px;margin-bottom:16px}
+.hero h1 em{font-style:italic;color:var(--gold)}
+.hero p{font-size:15px;color:var(--text-sec);max-width:600px;line-height:1.8}
+.hero-meta{display:flex;gap:32px;margin-top:32px;padding-top:24px;border-top:1px solid var(--border)}
+.hero-meta .m-num{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:700;color:var(--gold)}
+.hero-meta .m-label{font-size:12px;color:var(--text-muted);margin-top:2px}
+
+/* SECTIONS */
+.section{padding:52px 56px;border-bottom:1px solid var(--border)}
+.sec-head{display:flex;align-items:center;gap:14px;margin-bottom:28px}
+.sec-num{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--gold);background:var(--gold-soft);padding:3px 10px;border-radius:100px;font-weight:500}
+.section h2{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:700;letter-spacing:-0.3px}
+.section h3{font-size:18px;font-weight:700;margin:28px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+.section h4{font-size:13px;font-weight:600;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin:20px 0 10px}
+.section p,.section li{font-size:14px;color:var(--text-sec);line-height:1.8}
+.section ul{list-style:none;padding:0}
+.section ul li{padding:5px 0 5px 20px;position:relative}
+.section ul li::before{content:'';position:absolute;left:6px;top:13px;width:4px;height:4px;border-radius:50%;background:var(--gold)}
+
+/* CARDS */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin:20px 0}
+.card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:22px;transition:all .25s;cursor:default}
+.card:hover{border-color:var(--border-accent);background:var(--bg-hover);transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,.3)}
+.card-icon{font-size:24px;margin-bottom:10px;display:block}
+.card-title{font-size:15px;font-weight:700;margin-bottom:6px}
+.card-sub{font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+.card-body{font-size:13px;color:var(--text-sec);line-height:1.7}
+.card-tag{display:inline-block;padding:2px 8px;border-radius:100px;font-size:10px;font-weight:600;margin-top:10px}
+
+/* PHASE BLOCKS */
+.phase{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);margin:20px 0;overflow:hidden}
+.phase-header{padding:20px 24px;display:flex;align-items:center;gap:14px;cursor:pointer;user-select:none;transition:all .2s}
+.phase-header:hover{background:var(--bg-hover)}
+.phase-week{font-family:'JetBrains Mono',monospace;font-size:11px;padding:4px 10px;border-radius:100px;font-weight:500;flex-shrink:0}
+.phase-info{flex:1}
+.phase-info h3{font-size:16px;font-weight:700;margin:0;border:none;padding:0}
+.phase-info .phase-desc{font-size:12px;color:var(--text-muted);margin-top:2px}
+.phase-toggle{width:28px;height:28px;border-radius:50%;background:var(--bg-elevated);display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:16px;transition:all .3s}
+.phase.open .phase-toggle{transform:rotate(180deg);color:var(--gold)}
+.phase-body{max-height:0;overflow:hidden;transition:max-height .5s cubic-bezier(.4,0,.2,1)}
+.phase.open .phase-body{max-height:12000px}
+.phase-content{padding:0 24px 24px;border-top:1px solid var(--border)}
+
+/* TABLES */
+.tbl-wrap{overflow-x:auto;margin:14px 0;border-radius:var(--radius);border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+thead th{background:var(--bg-elevated);color:var(--text);font-weight:600;text-align:left;padding:10px 14px;border-bottom:2px solid var(--border);white-space:nowrap;font-size:11px;text-transform:uppercase;letter-spacing:.5px}
+tbody td{padding:9px 14px;border-bottom:1px solid var(--border);color:var(--text-sec);vertical-align:top}
+tbody tr:hover{background:var(--bg-hover)}
+tbody td:first-child{font-weight:600;color:var(--text)}
+
+/* PROMPT BLOCK */
+.prompt{background:var(--bg-elevated);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:var(--radius-sm);padding:14px 18px;margin:10px 0;font-size:13px;font-family:'JetBrains Mono',monospace;color:var(--text-sec);line-height:1.7}
+.prompt-label{font-family:'DM Sans',sans-serif;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--gold);font-weight:700;margin-bottom:6px}
+
+/* GAP TAG */
+.gap-tag{display:inline-block;padding:2px 8px;border-radius:100px;font-size:10px;font-weight:600;white-space:nowrap}
+.gap-strong{background:var(--rose-soft);color:var(--rose)}
+.gap-moderate{background:var(--amber-soft);color:var(--amber)}
+.gap-slight{background:var(--blue-soft);color:var(--blue)}
+.gap-ready{background:var(--green-soft);color:var(--green)}
+
+/* PROGRESS */
+.progress-bar{width:100%;height:6px;background:var(--bg-elevated);border-radius:3px;overflow:hidden;margin:6px 0}
+.progress-fill{height:100%;border-radius:3px;transition:width .5s ease}
+
+/* RESPONSIVE */
+@media(max-width:960px){
+  .sidebar{transform:translateX(-100%)}
+  .sidebar.open{transform:translateX(0)}
+  .mob-toggle{display:block}
+  .main{margin-left:0}
+  .hero{padding:70px 20px 50px}
+  .hero h1{font-size:32px}
+  .section{padding:36px 20px}
+  .grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<button class="mob-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰</button>
+
+<nav class="sidebar">
+  <div class="sidebar-brand">
+    <div class="logo">Principal UX Architect</div>
+    <div class="sub">Interview Mastery Curriculum</div>
+  </div>
+  <div class="nav-group">
+    <div class="nav-group-title">Overview</div>
+    <a class="nav-link active" href="#hero"><span class="icon">🏠</span> Home</a>
+    <a class="nav-link" href="#gap-analysis"><span class="icon">📊</span> Gap Analysis</a>
+    <a class="nav-link" href="#roadmap"><span class="icon">🗺️</span> 12-Week Roadmap</a>
+  </div>
+  <div class="nav-group">
+    <div class="nav-group-title">Curriculum Phases</div>
+    <a class="nav-link" href="#phase1"><span class="icon">1️⃣</span> Architectural Foundations</a>
+    <a class="nav-link" href="#phase2"><span class="icon">2️⃣</span> Enterprise Systems</a>
+    <a class="nav-link" href="#phase3"><span class="icon">3️⃣</span> Strategic Leadership</a>
+    <a class="nav-link" href="#phase4"><span class="icon">4️⃣</span> Interview Mastery</a>
+  </div>
+  <div class="nav-group">
+    <div class="nav-group-title">Interview Prep</div>
+    <a class="nav-link" href="#question-bank"><span class="icon">❓</span> Question Bank (80+)</a>
+    <a class="nav-link" href="#case-studies"><span class="icon">📋</span> Case Study Framework</a>
+    <a class="nav-link" href="#portfolio"><span class="icon">💼</span> Portfolio Prep</a>
+    <a class="nav-link" href="#whiteboard"><span class="icon">🖊️</span> Whiteboard Challenges</a>
+  </div>
+  <div class="nav-group">
+    <div class="nav-group-title">Resources</div>
+    <a class="nav-link" href="#reading"><span class="icon">📚</span> Reading List</a>
+    <a class="nav-link" href="#courses"><span class="icon">🎓</span> Courses & Certs</a>
+    <a class="nav-link" href="#weekly"><span class="icon">📅</span> Weekly Planner</a>
+  </div>
+</nav>
+
+<div class="main">
+
+<!-- HERO -->
+<header class="hero" id="hero">
+  <div class="hero-content">
+    <div class="hero-badge">🎯 Tailored for Anurag Challapalli</div>
+    <h1>Crack the <em>Principal UX Architect</em> Interview</h1>
+    <p>A Senior Director–vetted, 12-week learning curriculum designed specifically for your transition from Principal UX Designer to Principal UX Architect. Gap analysis, structured learning, 80+ interview questions, case study frameworks, and portfolio positioning — all built around your exact strengths and growth areas.</p>
+    <div class="hero-meta">
+      <div><div class="m-num">12</div><div class="m-label">Week Curriculum</div></div>
+      <div><div class="m-num">80+</div><div class="m-label">Interview Questions</div></div>
+      <div><div class="m-num">4</div><div class="m-label">Learning Phases</div></div>
+      <div><div class="m-num">6</div><div class="m-label">Case Frameworks</div></div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ GAP ANALYSIS ============ -->
+<section class="section" id="gap-analysis">
+  <div class="sec-head"><span class="sec-num">01</span><h2>Gap Analysis: Designer → Architect</h2></div>
+  <p>This analysis maps your current Principal UX Designer competencies against what VP/Director-level hiring panels expect from a Principal UX Architect. Green = interview-ready, Blue = slight gap, Amber = moderate investment, Rose = focused learning needed.</p>
+
+  <div class="tbl-wrap" style="margin-top:24px">
+    <table>
+      <thead><tr><th>Competency Domain</th><th>Your Current Level</th><th>Architect Expectation</th><th>Gap</th><th>Priority</th></tr></thead>
+      <tbody>
+        <tr><td>UX Research & Usability</td><td>Expert — 16+ yrs, CUA certified, heuristic evaluations</td><td>Research governance, org-wide research ops</td><td><span class="gap-tag gap-ready">Ready</span></td><td>Low — leverage</td></tr>
+        <tr><td>Design Systems Architecture</td><td>Strong — built enterprise systems, 10+ surfaces</td><td>Multi-brand token architecture, DTCG format, federated governance</td><td><span class="gap-tag gap-slight">Slight</span></td><td>Deepen tokens & federation</td></tr>
+        <tr><td>Information Architecture</td><td>Strong — wireframes, user flows, IA for healthcare</td><td>Enterprise IA strategy, cross-product taxonomy, content architecture at scale</td><td><span class="gap-tag gap-slight">Slight</span></td><td>Scale to enterprise</td></tr>
+        <tr><td>Technical Architecture Knowledge</td><td>Moderate — front-end dev (HTML/CSS/JS), design-to-code</td><td>API-first design, micro-frontend patterns, component API contracts, platform architecture</td><td><span class="gap-tag gap-moderate">Moderate</span></td><td>Key focus area</td></tr>
+        <tr><td>Design-Engineering Governance</td><td>Strong — design QA, handoff, component libraries</td><td>Design-dev contract models, design API standards, cross-platform rendering governance</td><td><span class="gap-tag gap-slight">Slight</span></td><td>Formalize frameworks</td></tr>
+        <tr><td>Strategic Vision & Roadmapping</td><td>Strong — Duke PM program, roadmap planning, OKRs</td><td>3-5 year UX architecture vision, technology-aligned design strategy</td><td><span class="gap-tag gap-slight">Slight</span></td><td>Elevate narrative</td></tr>
+        <tr><td>Accessibility Architecture</td><td>Expert — WCAG 2.2 AA, inclusive design, org-wide</td><td>Accessibility as architectural pattern, automated a11y pipelines</td><td><span class="gap-tag gap-ready">Ready</span></td><td>Low — leverage</td></tr>
+        <tr><td>AI/ML Integration in UX</td><td>Strong — Figma Make, Claude AI, Google Stitch</td><td>AI-native UX architecture patterns, adaptive interfaces, ML-personalization</td><td><span class="gap-tag gap-moderate">Moderate</span></td><td>Deepen AI-UX patterns</td></tr>
+        <tr><td>Cross-Platform Architecture</td><td>Moderate — web + mobile design experience</td><td>Platform-agnostic design architecture, responsive systems, spatial/voice/wearable</td><td><span class="gap-tag gap-moderate">Moderate</span></td><td>Expand platform thinking</td></tr>
+        <tr><td>Executive Communication</td><td>Good — stakeholder management, presentations</td><td>C-suite architecture proposals, investment justification, board-level narratives</td><td><span class="gap-tag gap-slight">Slight</span></td><td>Practice framing</td></tr>
+        <tr><td>Team Architecture & Ops</td><td>Strong — 15-20 team, mentoring, design ops</td><td>Org design for UX architecture teams, hiring frameworks, capability models</td><td><span class="gap-tag gap-slight">Slight</span></td><td>Formalize models</td></tr>
+        <tr><td>Performance & Scalability Thinking</td><td>Moderate — improved page load, modern UI patterns</td><td>Core Web Vitals architecture, performance budgets as design constraints</td><td><span class="gap-tag gap-moderate">Moderate</span></td><td>Technical deepening</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Your Competitive Advantages (Lead with These)</h3>
+  <div class="grid">
+    <div class="card" style="border-left:3px solid var(--green)"><span class="card-icon">🏆</span><div class="card-title">Healthcare Enterprise Domain</div><div class="card-body">Providence, WinWire, Trusana — deep regulated industry experience is rare and highly valued for UX Architect roles in healthcare, fintech, and government</div></div>
+    <div class="card" style="border-left:3px solid var(--green)"><span class="card-icon">🎯</span><div class="card-title">Research + Design + Dev</div><div class="card-body">CUA certification + design systems + front-end development = the architect trifecta. Most candidates have 1-2 of these; you have all three</div></div>
+    <div class="card" style="border-left:3px solid var(--green)"><span class="card-icon">📐</span><div class="card-title">Design Systems at Enterprise Scale</div><div class="card-body">10+ product surfaces, design tokens, governance documentation — this is architect-level work already, just needs architectural framing</div></div>
+    <div class="card" style="border-left:3px solid var(--green)"><span class="card-icon">♿</span><div class="card-title">Accessibility Leadership</div><div class="card-body">WCAG 2.2 AA org-wide compliance is a differentiator. Architects who embed a11y at the systems level are in extreme demand</div></div>
+  </div>
+</section>
+
+<!-- ============ ROADMAP ============ -->
+<section class="section" id="roadmap">
+  <div class="sec-head"><span class="sec-num">02</span><h2>12-Week Learning Roadmap</h2></div>
+  <p>Four phases, each building on the last. Designed for 8-10 hours/week alongside full-time work. Each phase has learning objectives, materials, and deliverables.</p>
+
+  <div class="tbl-wrap" style="margin-top:24px">
+    <table>
+      <thead><tr><th>Phase</th><th>Weeks</th><th>Focus</th><th>Outcome</th></tr></thead>
+      <tbody>
+        <tr><td style="color:var(--blue)">Phase 1: Architectural Foundations</td><td>1-3</td><td>Technical architecture, platform patterns, API-first design, component architecture</td><td>Speak credibly about technical architecture decisions in interviews</td></tr>
+        <tr><td style="color:var(--teal)">Phase 2: Enterprise Systems Mastery</td><td>4-6</td><td>Design systems at scale, token architecture, cross-platform governance, performance</td><td>Present enterprise design system architecture case study</td></tr>
+        <tr><td style="color:var(--purple)">Phase 3: Strategic Leadership</td><td>7-9</td><td>UX architecture vision, AI-native patterns, executive communication, org design</td><td>Articulate 3-5 year UX architecture strategy with business alignment</td></tr>
+        <tr><td style="color:var(--gold)">Phase 4: Interview Mastery</td><td>10-12</td><td>Mock interviews, case study practice, whiteboard sessions, portfolio polish</td><td>Interview-ready with rehearsed answers, portfolio narrative, and case frameworks</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============ PHASE 1 ============ -->
+<section class="section" id="phase1">
+  <div class="sec-head"><span class="sec-num">03</span><h2>Phase 1: Architectural Foundations (Weeks 1-3)</h2></div>
+  <p>Close the "technical architecture knowledge" gap. You don't need to become an engineer — you need to think and communicate like an architect who happens to specialize in user experience.</p>
+
+  <div class="phase open">
+    <div class="phase-header" onclick="this.parentElement.classList.toggle('open')">
+      <span class="phase-week" style="background:var(--blue-soft);color:var(--blue)">Week 1</span>
+      <div class="phase-info"><h3>Platform & System Architecture for UX</h3><div class="phase-desc">Understand how modern platforms are built so you can architect UX that aligns with technical reality</div></div>
+      <div class="phase-toggle">▼</div>
+    </div>
+    <div class="phase-body"><div class="phase-content">
+      <h4>Learning Objectives</h4>
+      <ul>
+        <li>Understand micro-frontend architecture and its impact on UX consistency</li>
+        <li>Learn API-first design principles and how they shape interaction patterns</li>
+        <li>Map design system components to technical component architecture (Web Components, React, etc.)</li>
+        <li>Understand the role of a UX Architect vs. UX Designer vs. UI Engineer</li>
+      </ul>
+      <h4>Study Materials</h4>
+      <ul>
+        <li><strong>Book:</strong> "Designing Web APIs" by Brenda Jin, Saurabh Sahni & Amir Shevat — Chapters 1-4 on API design patterns</li>
+        <li><strong>Article:</strong> Martin Fowler — "Micro Frontends" (martinfowler.com) — essential reading</li>
+        <li><strong>Article:</strong> Nathan Curtis — "Picking Parts, Products & People" (Medium) — system architecture for design</li>
+        <li><strong>Video:</strong> "Design Systems as Code" — Clarity Conference talks (YouTube)</li>
+        <li><strong>Hands-on:</strong> Diagram a micro-frontend architecture for Providence's product suite; map how your design system components would render across micro-frontends</li>
+      </ul>
+      <h4>Deliverable</h4>
+      <p>Create a one-page architecture diagram showing how a UX architecture layer sits between business strategy and technical implementation — using Providence as the case study.</p>
+    </div></div>
+  </div>
+
+  <div class="phase">
+    <div class="phase-header" onclick="this.parentElement.classList.toggle('open')">
+      <span class="phase-week" style="background:var(--blue-soft);color:var(--blue)">Week 2</span>
+      <div class="phase-info"><h3>Component Architecture & API Contracts</h3><div class="phase-desc">Think in terms of component APIs, contracts, and composability — the architect's language</div></div>
+      <div class="phase-toggle">▼</div>
+    </div>
+    <div class="phase-body"><div class="phase-content">
+      <h4>Learning Objectives</h4>
+      <ul>
+        <li>Define component API contracts (props, states, events, slots) — the bridge between design and engineering</li>
+        <li>Understand atomic design at the architectural level: atoms → molecules → organisms → templates → pages</li>
+        <li>Learn the DTCG (Design Token Community Group) token format specification</li>
+        <li>Study how design tokens flow from Figma → build pipeline → multi-platform rendering</li>
+      </ul>
+      <h4>Study Materials</h4>
+      <ul>
+        <li><strong>Spec:</strong> DTCG Design Token Format specification (designtokens.org) — read the full spec</li>
+        <li><strong>Book:</strong> "Atomic Design" by Brad Frost — re-read through an architect's lens (focus on Chapter 5: Maintaining Design Systems)</li>
+        <li><strong>Article:</strong> "Design Tokens — Scaling Design with a Single Source of Truth" — CSS-Tricks</li>
+        <li><strong>Article:</strong> "Component API Design" — Robin Rendle, designsystems.com</li>
+        <li><strong>Hands-on:</strong> Define the component API contract for 5 key components from your Providence design system (Button, Modal, Form Field, Card, Navigation) — include props, variants, states, accessibility requirements, and responsive behavior</li>
+      </ul>
+      <h4>Deliverable</h4>
+      <p>A component API specification document for 5 components with props tables, state machines, accessibility contracts, and platform-specific rendering notes.</p>
+    </div></div>
+  </div>
+
+  <div class="phase">
+    <div class="phase-header" onclick="this.parentElement.classList.toggle('open')">
+      <span class="phase-week" style="background:var(--blue-soft);color:var(--blue)">Week 3</span>
+      <div class="phase-info"><h3>Performance Architecture & Core Web Vitals</h3><div class="phase-desc">Architects own performance as a design constraint, not an afterthought</div></div>
+      <div class="phase-toggle">▼</div>
+    </div>
+    <div class="phase-body"><div class="phase-content">
+      <h4>Learning Objectives</h4>
+      <ul>
+        <li>Understand Core Web Vitals (LCP, FID/INP, CLS) and how UX architecture decisions impact each</li>
+        <li>Learn performance budgets as design constraints — how to bake performance into design specs</li>
+        <li>Study image/asset architecture: lazy loading, responsive images, SVG systems, icon sprite strategies</li>
+        <li>Understand how design system bundle size impacts application performance</li>
+      </ul>
+      <h4>Study Materials</h4>
+      <ul>
+        <li><strong>Course:</strong> web.dev — "Learn Core Web Vitals" (free, Google) — complete the full course</li>
+        <li><strong>Article:</strong> "Designing for Performance" by Lara Hogan — key chapters on performance budgets</li>
+        <li><strong>Article:</strong> "The Cost of JavaScript" by Addy Osmani (V8 blog)</li>
+        <li><strong>Tool:</strong> Run Lighthouse audits on 3 healthcare platforms; document UX architecture decisions that would improve scores</li>
+        <li><strong>Hands-on:</strong> Create a "Performance Architecture Spec" template that can be included in every design spec</li>
+      </ul>
+      <h4>Deliverable</h4>
+      <p>A Performance Architecture Checklist that a UX Architect would include with every major design deliverable — covering loading strategy, asset optimization, animation performance, and CWV targets.</p>
+    </div></div>
+  </div>
+</section>
+
+<!-- ============ PHASE 2 ============ -->
+<section class="section" id="phase2">
+  <div class="sec-head"><span class="sec-num">04</span><h2>Phase 2: Enterprise Systems Mastery (Weeks 4-6)</h2></div>
+  <p>Elevate your existing design systems experience to architectural scale — multi-brand, multi-platform, federated governance.</p>
+
+  <div class="phase">
+    <div class="phase-header" onclick="this.parentElement.classList.toggle('open')">
+      <span class="phase-week" style="background:var(--teal-soft);color:var(--teal)">Week 4</span>
+      <div class="phase-info"><h3>Design System Architecture at Enterprise Scale</h3><div class="phase-desc">Multi-brand, multi-platform, federated contribution models</div></div>
+      <div class="phase-toggle">▼</div>
+    </div>
+    <div class="phase-body"><div class="phase-content">
+      <h4>Learning Objectives</h4>
+      <ul>
+        <li>Study federated design system models (centralized vs. federated vs. hybrid governance)</li>
+        <li>Learn multi-brand theming architecture (how one system serves 5+ product brands)</li>
+        <li>Understand design system maturity models and how to assess organizational readiness</li>
+        <li>Study real-world enterprise systems: Salesforce Lightning, IBM Carbon, Atlassian Design System, Microsoft Fluent</li>
+      </ul>
+      <h4>Study Materials</h4>
+      <ul>
+        <li><strong>Book:</strong> "Design Systems" by Alla Kholmatova (Smashing Magazine) — the architecture chapters</li>
+        <li><strong>Case Study:</strong> Salesforce Lightning Design System documentation — study governance model</li>
+        <li><strong>Case Study:</strong> IBM Carbon — study the contribution model and multi-framework support</li>
+        <li><strong>Article:</strong> "The Sliding Scale of Design Systems" — Nathan Curtis</li>
+        <li><strong>Article:</strong> "Design System Governance" — InVision blog</li>
+        <li><strong>Hands-on:</strong> Create a maturity assessment of your Providence design system using a standard maturity model</li>
+      </ul>
+    </div></div>
+  </div>
+
+  <div class="phase">
+    <div class="phase-header" onclick="this.parentElement.classList.toggle('open')">
+      <span class="phase-week" style="background:var(--teal-soft);color:var(--teal)">Week 5</span>
+      <div class="phase-info"><h3>Cross-Platform UX Architecture</h3><div class="phase-desc">Web, mobile, voice, spatial — one coherent experience architecture</div></div>
+      <div class="phase-toggle">▼</div>
+    </div>
+    <div class="phase-body"><div class="phase-content">
+      <h4>Learning Objectives</h4>
+      <ul>
+        <li>Architect platform-agnostic experience patterns that adapt across web, iOS, Android, and emerging platforms</li>
+        <li>Study adaptive vs. responsive architecture — when each is appropriate</li>
+        <li>Understand spatial computing UX architecture (visionOS, XR interfaces)</li>
+        <li>Learn voice UX architecture patterns and multimodal interaction design</li>
+      </ul>
+      <h4>Study Materials</h4>
+      <ul>
+        <li><strong>Guidelines:</strong> Apple Human Interface Guidelines — Spatial Design section (developer.apple.com)</li>
+        <li><strong>Guidelines:</strong> Google Material Design 3 — Adaptive Layouts documentation</li>
+        <li><strong>Book:</strong> "Designing Connected Products" by Claire Rowland — cross-platform ecosystems</li>
+        <li><strong>Course:</strong> NN/g "Omnichannel UX" course — understand multi-touchpoint architecture</li>
+        <li><strong>Hands-on:</strong> Architect a cross-platform experience map for a healthcare patient portal (web → mobile → wearable → voice)</li>
+      </ul>
+    </div></div>
+  </div>
+
+  <div class="phase">
+    <div class="phase-header" onclick="this.parentElement.classList.toggle('open')">
+      <span class="phase-week" style="background:var(--teal-soft);color:var(--teal)">Week 6</span>
+      <div class="phase-info"><h3>Accessibility Architecture & Automation</h3><div class="phase-desc">Move from compliance to architectural embedding — automated, systematic, proactive</div></div>
+      <div class="phase-toggle">▼</div>
+    </div>
+    <div class="phase-body"><div class="phase-content">
+      <h4>Learning Objectives</h4>
+      <ul>
+        <li>Design accessibility as an architectural pattern, not a testing afterthought</li>
+        <li>Build automated accessibility pipelines (axe-core in CI/CD, Storybook a11y addon, Playwright a11y tests)</li>
+        <li>Study WCAG 3.0 draft and the shift from conformance levels to scoring</li>
+        <li>Architect accessible design tokens (contrast ratios, focus styles, reduced-motion) as system defaults</li>
+      </ul>
+      <h4>Study Materials</h4>
+      <ul>
+        <li><strong>Spec:</strong> WCAG 3.0 Working Draft (W3C) — understand the new scoring model</li>
+        <li><strong>Tool:</strong> Deque University — "Accessibility Architecture" course (free tier)</li>
+        <li><strong>Article:</strong> "Accessibility in Design Systems" — A List Apart</li>
+        <li><strong>Hands-on:</strong> Design an "Accessibility Architecture Spec" for your design system — covering token-level a11y, component-level ARIA contracts, and pipeline-level automated testing</li>
+      </ul>
+    </div></div>
+  </div>
+</section>
+
+<!-- ============ PHASE 3 ============ -->
+<section class="section" id="phase3">
+  <div class="sec-head"><span class="sec-num">05</span><h2>Phase 3: Strategic Leadership (Weeks 7-9)</h2></div>
+  <p>The differentiator between a senior practitioner and an architect is the ability to set multi-year vision, align with business strategy, and communicate at the executive level.</p>
+
+  <div class="phase">
+    <div class="phase-header" onclick="this.parentElement.classList.toggle('open')">
+      <span class="phase-week" style="background:var(--purple-soft);color:var(--purple)">Week 7</span>
+      <div class="phase-info"><h3>UX Architecture Vision & Strategy</h3><div class="phase-desc">Articulate a 3-5 year UX architecture roadmap aligned to business objectives</div></div>
+      <div class="phase-toggle">▼</div>
+    </div>
+    <div class="phase-body"><div class="phase-content">
+      <h4>Learning Objectives</h4>
+      <ul>
+        <li>Create a UX Architecture Strategy document — vision, principles, capability roadmap, investment thesis</li>
+        <li>Learn Wardley Mapping for UX — map UX capabilities on the evolution axis to identify investment priorities</li>
+        <li>Study how to align UX architecture investments with business KPIs (revenue, retention, efficiency, compliance)</li>
+        <li>Practice writing architecture decision records (ADRs) for UX</li>
+      </ul>
+      <h4>Study Materials</h4>
+      <ul>
+        <li><strong>Book:</strong> "Team Topologies" by Matthew Skelton & Manuel Pais — Chapters on team architecture</li>
+        <li><strong>Framework:</strong> Wardley Mapping — "Learn Wardley Mapping" (learnwardleymapping.com) — first 5 chapters</li>
+        <li><strong>Article:</strong> "Architecture Decision Records" — Michael Nygard (cognitect.com)</li>
+        <li><strong>Hands-on:</strong> Write a 3-year UX Architecture Vision for Providence — covering design system evolution, AI integration roadmap, platform expansion, and accessibility maturity</li>
+      </ul>
+    </div></div>
+  </div>
+
+  <div class="phase">
+    <div class="phase-header" onclick="this.parentElement.classList.toggle('open')">
+      <span class="phase-week" style="background:var(--purple-soft);color:var(--purple)">Week 8</span>
+      <div class="phase-info"><h3>AI-Native UX Architecture</h3><div class="phase-desc">Architect interfaces that are AI-native, not AI-bolted-on</div></div>
+      <div class="phase-toggle">▼</div>
+    </div>
+    <div class="phase-body"><div class="phase-content">
+      <h4>Learning Objectives</h4>
+      <ul>
+        <li>Understand AI-native UX patterns: adaptive interfaces, predictive navigation, generative UI, conversational UX</li>
+        <li>Architect for uncertainty — how to design systems where AI outputs are non-deterministic</li>
+        <li>Study human-AI interaction patterns: confidence indicators, explanation layers, override mechanisms, feedback loops</li>
+        <li>Learn the compound intelligence model — AI augments every PDLC phase</li>
+      </ul>
+      <h4>Study Materials</h4>
+      <ul>
+        <li><strong>Guidelines:</strong> Google PAIR — "People + AI Guidebook" (pair.withgoogle.com) — complete the full guidebook</li>
+        <li><strong>Guidelines:</strong> Apple — "Human Interface Guidelines: Machine Learning" section</li>
+        <li><strong>Article:</strong> "Designing Human-AI Experiences" — Microsoft Research</li>
+        <li><strong>Book:</strong> "Designing Human-Centric AI Experiences" by Akshay Sharma (O'Reilly)</li>
+        <li><strong>Hands-on:</strong> Architect an AI-enhanced patient triage flow showing: confidence indicators, human override points, explanation layers, and graceful degradation when AI is uncertain</li>
+      </ul>
+    </div></div>
+  </div>
+
+  <div class="phase">
+    <div class="phase-header" onclick="this.parentElement.classList.toggle('open')">
+      <span class="phase-week" style="background:var(--purple-soft);color:var(--purple)">Week 9</span>
+      <div class="phase-info"><h3>Executive Communication & Org Design</h3><div class="phase-desc">Sell architecture to executives; design the team that delivers it</div></div>
+      <div class="phase-toggle">▼</div>
+    </div>
+    <div class="phase-body"><div class="phase-content">
+      <h4>Learning Objectives</h4>
+      <ul>
+        <li>Frame UX architecture investments in business language (ROI, risk reduction, velocity improvement, compliance)</li>
+        <li>Design organizational structures for UX architecture teams (embedded vs. platform vs. center of excellence)</li>
+        <li>Create capability models and hiring frameworks for architecture talent</li>
+        <li>Practice the "architecture pitch" — a 10-minute executive presentation of a UX architecture transformation</li>
+      </ul>
+      <h4>Study Materials</h4>
+      <ul>
+        <li><strong>Book:</strong> "Org Design for Design Orgs" by Peter Merholz & Kristin Skinner — the definitive guide</li>
+        <li><strong>Article:</strong> "The UX of UX Architecture" — Peter Morville (intertwingled.com)</li>
+        <li><strong>Practice:</strong> Write a 1-page "Architecture Investment Proposal" for an executive audience — covering problem, proposed architecture, expected ROI, timeline, and risks</li>
+        <li><strong>Practice:</strong> Record yourself delivering the 10-minute architecture pitch; review and iterate 3 times</li>
+      </ul>
+    </div></div>
+  </div>
+</section>
+
+<!-- ============ PHASE 4 ============ -->
+<section class="section" id="phase4">
+  <div class="sec-head"><span class="sec-num">06</span><h2>Phase 4: Interview Mastery (Weeks 10-12)</h2></div>
+  <p>Apply everything you've learned. Mock interviews, case study practice, whiteboard sessions, and portfolio narrative polish.</p>
+
+  <div class="phase">
+    <div class="phase-header" onclick="this.parentElement.classList.toggle('open')">
+      <span class="phase-week" style="background:var(--gold-soft);color:var(--gold)">Week 10-12</span>
+      <div class="phase-info"><h3>Mock Interviews, Case Studies & Portfolio</h3><div class="phase-desc">3 weeks of intensive interview simulation</div></div>
+      <div class="phase-toggle">▼</div>
+    </div>
+    <div class="phase-body"><div class="phase-content">
+      <h4>Week 10: Case Study Deep Practice</h4>
+      <ul>
+        <li>Complete 3 full case study exercises (45-60 min each) using the framework in Section 08</li>
+        <li>Record yourself presenting each case; review for clarity, executive presence, and architecture depth</li>
+        <li>Get peer feedback from at least 2 senior designers or architects</li>
+      </ul>
+      <h4>Week 11: Mock Interview Rounds</h4>
+      <ul>
+        <li>Schedule 3 mock interviews — one behavioral, one technical, one whiteboard</li>
+        <li>Use the 80+ question bank (Section 07) to prepare; rehearse answers for the top 20</li>
+        <li>Practice the STAR-A method: Situation, Task, Action, Result, <strong>Architecture Insight</strong></li>
+      </ul>
+      <h4>Week 12: Portfolio & Narrative Polish</h4>
+      <ul>
+        <li>Finalize portfolio presentation (3-4 case studies, architecture-framed)</li>
+        <li>Prepare "Tell me about yourself" as a 90-second architecture career narrative</li>
+        <li>Prepare questions to ask interviewers (shows architectural thinking)</li>
+        <li>Final dress rehearsal — full interview simulation with a mentor</li>
+      </ul>
+    </div></div>
+  </div>
+</section>
+
+<!-- ============ QUESTION BANK ============ -->
+<section class="section" id="question-bank">
+  <div class="sec-head"><span class="sec-num">07</span><h2>Interview Question Bank (80+)</h2></div>
+  <p>Curated from real Principal UX Architect interview loops at enterprise companies. Organized by round type.</p>
+
+  <h3>Architecture & Systems Thinking (20 Questions)</h3>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>#</th><th>Question</th><th>What They're Really Assessing</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>How would you architect a design system for an organization with 15 product teams across 3 platforms?</td><td>Federated governance, scalability thinking, stakeholder alignment</td></tr>
+      <tr><td>2</td><td>Describe how you'd define component API contracts between design and engineering.</td><td>Technical depth, cross-functional collaboration, standardization</td></tr>
+      <tr><td>3</td><td>How do you ensure UX consistency across micro-frontend architectures?</td><td>Technical architecture knowledge, design system distribution</td></tr>
+      <tr><td>4</td><td>Walk me through your approach to design token architecture for multi-brand theming.</td><td>Token taxonomy, DTCG knowledge, scaling patterns</td></tr>
+      <tr><td>5</td><td>How do you architect for accessibility at the systems level vs. the component level?</td><td>Accessibility depth, proactive vs. reactive thinking</td></tr>
+      <tr><td>6</td><td>Describe a time you had to make a significant UX architecture trade-off. What was the decision framework?</td><td>Decision-making maturity, stakeholder management</td></tr>
+      <tr><td>7</td><td>How would you approach information architecture for a platform with 500+ features?</td><td>Enterprise IA, navigation patterns, progressive disclosure</td></tr>
+      <tr><td>8</td><td>What's your approach to performance budgets as design constraints?</td><td>Performance awareness, engineering empathy</td></tr>
+      <tr><td>9</td><td>How do you architect responsive experiences that go beyond breakpoints?</td><td>Adaptive design thinking, content-first architecture</td></tr>
+      <tr><td>10</td><td>Describe your approach to versioning and deprecation in a design system.</td><td>Lifecycle management, migration strategy</td></tr>
+      <tr><td>11</td><td>How would you architect a UX layer for a healthcare platform with strict HIPAA requirements?</td><td>Regulated industry experience, security-aware design</td></tr>
+      <tr><td>12</td><td>What role does a UX Architect play in API design? How do you influence API shape?</td><td>Technical influence, API-first thinking</td></tr>
+      <tr><td>13</td><td>How do you evaluate whether to build custom components vs. adopt open-source?</td><td>Build vs. buy judgment, ROI thinking</td></tr>
+      <tr><td>14</td><td>Describe your approach to error state architecture across an enterprise product suite.</td><td>Systematic thinking, edge case coverage</td></tr>
+      <tr><td>15</td><td>How would you architect a design system contribution model for 50+ contributors?</td><td>Governance, quality control, community building</td></tr>
+      <tr><td>16</td><td>What's the difference between a design system and a UX architecture? How do they relate?</td><td>Conceptual clarity, systems thinking</td></tr>
+      <tr><td>17</td><td>How do you ensure design system adoption across resistant teams?</td><td>Change management, influence without authority</td></tr>
+      <tr><td>18</td><td>Describe how you'd architect the onboarding experience for a complex enterprise tool.</td><td>Progressive disclosure, cognitive load management</td></tr>
+      <tr><td>19</td><td>How do you approach localization/internationalization at the architecture level?</td><td>Global thinking, RTL/LTR, cultural adaptation</td></tr>
+      <tr><td>20</td><td>What architectural patterns do you use for real-time collaborative interfaces?</td><td>Technical depth, modern interaction patterns</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Strategic & Leadership (20 Questions)</h3>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>#</th><th>Question</th><th>What They're Really Assessing</th></tr></thead>
+    <tbody>
+      <tr><td>21</td><td>How would you present a UX architecture transformation to a C-suite that doesn't understand design?</td><td>Executive communication, business framing</td></tr>
+      <tr><td>22</td><td>Tell me about a time you aligned UX architecture with business KPIs. What was the measurable impact?</td><td>Business acumen, outcome orientation</td></tr>
+      <tr><td>23</td><td>How do you create a 3-year UX architecture roadmap? What inputs inform it?</td><td>Strategic planning, vision setting</td></tr>
+      <tr><td>24</td><td>Describe how you'd build a UX architecture team from scratch. What roles would you hire first?</td><td>Org design, hiring judgment, team building</td></tr>
+      <tr><td>25</td><td>How do you balance innovation with consistency in a large product portfolio?</td><td>Governance vs. creativity, pragmatic leadership</td></tr>
+      <tr><td>26</td><td>Tell me about a time you influenced a major product decision without having direct authority.</td><td>Influence, stakeholder management, persuasion</td></tr>
+      <tr><td>27</td><td>How do you measure the ROI of a design system investment?</td><td>Business case development, metrics literacy</td></tr>
+      <tr><td>28</td><td>What's your approach to technical debt in UX? How do you prioritize it?</td><td>Long-term thinking, pragmatic trade-offs</td></tr>
+      <tr><td>29</td><td>How do you mentor senior designers to think architecturally?</td><td>Talent development, knowledge transfer</td></tr>
+      <tr><td>30</td><td>Describe a situation where you had to sunset a design pattern. How did you manage the transition?</td><td>Change management, migration planning</td></tr>
+      <tr><td>31</td><td>How do you stay current with emerging UX technologies while leading at scale?</td><td>Continuous learning, practical innovation</td></tr>
+      <tr><td>32</td><td>What's your framework for evaluating new design tools and technologies for a team?</td><td>Tool evaluation maturity, change leadership</td></tr>
+      <tr><td>33</td><td>How do you handle architectural disagreements with engineering leadership?</td><td>Conflict resolution, collaborative problem-solving</td></tr>
+      <tr><td>34</td><td>Describe your approach to design governance in an organization scaling from 5 to 50 designers.</td><td>Scaling leadership, process design</td></tr>
+      <tr><td>35</td><td>How do you ensure research insights are embedded in architectural decisions?</td><td>Research integration, evidence-based architecture</td></tr>
+      <tr><td>36</td><td>What's your perspective on AI's impact on UX architecture over the next 3 years?</td><td>Vision, trend awareness, strategic thinking</td></tr>
+      <tr><td>37</td><td>How do you justify headcount for a UX architecture function?</td><td>Business case, executive persuasion</td></tr>
+      <tr><td>38</td><td>Tell me about a time your architecture decision was wrong. What did you learn?</td><td>Self-awareness, learning agility, humility</td></tr>
+      <tr><td>39</td><td>How do you facilitate architecture reviews? Who's in the room?</td><td>Process design, cross-functional leadership</td></tr>
+      <tr><td>40</td><td>What principles guide your UX architecture decision-making?</td><td>Values, consistency, architectural philosophy</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>AI & Emerging Technology (15 Questions)</h3>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>#</th><th>Question</th><th>What They're Really Assessing</th></tr></thead>
+    <tbody>
+      <tr><td>41</td><td>How do you architect UX for AI-powered features where outputs are non-deterministic?</td><td>AI-UX architecture, uncertainty design</td></tr>
+      <tr><td>42</td><td>What's your approach to designing confidence indicators for AI-generated content?</td><td>Trust patterns, transparency architecture</td></tr>
+      <tr><td>43</td><td>How would you architect a human-AI handoff pattern for healthcare decision support?</td><td>Domain expertise + AI thinking</td></tr>
+      <tr><td>44</td><td>Describe how you'd integrate generative AI capabilities into an existing design system.</td><td>AI integration architecture, practical implementation</td></tr>
+      <tr><td>45</td><td>What UX architecture patterns are needed for conversational AI interfaces?</td><td>Emerging interaction patterns</td></tr>
+      <tr><td>46</td><td>How do you architect for graceful degradation when AI services are unavailable?</td><td>Resilience thinking, fallback architecture</td></tr>
+      <tr><td>47</td><td>What ethical considerations should UX architects embed in AI-powered experiences?</td><td>Responsible AI, ethical design thinking</td></tr>
+      <tr><td>48</td><td>How would you architect a personalization layer that respects privacy?</td><td>Privacy-by-design, data architecture awareness</td></tr>
+      <tr><td>49</td><td>What's your approach to A/B testing AI-driven UX changes at scale?</td><td>Experimentation architecture, data literacy</td></tr>
+      <tr><td>50</td><td>How do you evaluate whether an AI feature adds genuine user value vs. technology-for-technology's-sake?</td><td>User-centered judgment, critical thinking</td></tr>
+      <tr><td>51</td><td>Describe how you'd architect voice + screen multimodal interactions.</td><td>Cross-modal architecture</td></tr>
+      <tr><td>52</td><td>How do you stay current with AI capabilities and integrate them into UX thinking?</td><td>Learning agility, practical AI knowledge</td></tr>
+      <tr><td>53</td><td>What role should UX architects play in AI model evaluation?</td><td>Cross-functional influence, model-UX alignment</td></tr>
+      <tr><td>54</td><td>How would you architect an AI-assisted design system documentation tool?</td><td>Creative problem-solving, AI application</td></tr>
+      <tr><td>55</td><td>What UX metrics change when AI powers the interface? How do you adapt measurement?</td><td>Metrics evolution, measurement architecture</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Behavioral & Scenario-Based (25+ Questions)</h3>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>#</th><th>Question</th><th>STAR-A Focus</th></tr></thead>
+    <tbody>
+      <tr><td>56</td><td>Tell me about yourself. (Architect version — 90 seconds)</td><td>Career narrative → architecture progression</td></tr>
+      <tr><td>57</td><td>Describe the most complex UX architecture challenge you've solved.</td><td>Technical depth + leadership in ambiguity</td></tr>
+      <tr><td>58</td><td>Tell me about a time you had to convince engineers to adopt a UX standard they resisted.</td><td>Influence, empathy, negotiation</td></tr>
+      <tr><td>59</td><td>Describe a design system you built. What would you do differently?</td><td>Self-reflection, architectural maturity</td></tr>
+      <tr><td>60</td><td>Tell me about a time you prioritized tech debt over new features. How did you justify it?</td><td>Long-term thinking, executive communication</td></tr>
+      <tr><td>61</td><td>Describe a time you had to simplify a complex enterprise workflow.</td><td>Simplification skill, user advocacy</td></tr>
+      <tr><td>62</td><td>Tell me about a time research insights contradicted your architecture plan.</td><td>Evidence-based decision-making, adaptability</td></tr>
+      <tr><td>63</td><td>Describe how you handled a major accessibility failure in production.</td><td>Crisis management, accountability</td></tr>
+      <tr><td>64</td><td>Tell me about a time you had to ship something you weren't proud of architecturally.</td><td>Pragmatism, trade-off maturity</td></tr>
+      <tr><td>65</td><td>Describe your approach to onboarding a new designer into your architecture philosophy.</td><td>Teaching, culture building</td></tr>
+      <tr><td>66</td><td>Tell me about a cross-functional project where you bridged design, engineering, and product.</td><td>Orchestration, communication</td></tr>
+      <tr><td>67</td><td>Describe a time you had to deprecate a beloved component. How did you manage adoption?</td><td>Change management, empathy</td></tr>
+      <tr><td>68</td><td>How have you used data to validate or invalidate an architecture decision?</td><td>Data literacy, evidence-based practice</td></tr>
+      <tr><td>69</td><td>Tell me about a time you improved a process, not just a product.</td><td>Systems-level impact, operational thinking</td></tr>
+      <tr><td>70</td><td>Describe how you handle scope creep in architecture projects.</td><td>Boundary setting, prioritization</td></tr>
+      <tr><td>71</td><td>Tell me about your biggest failure as a design leader. What did you learn?</td><td>Vulnerability, growth mindset</td></tr>
+      <tr><td>72</td><td>Why do you want to move from Principal Designer to Principal Architect?</td><td>Self-awareness, career intentionality</td></tr>
+      <tr><td>73</td><td>What does great UX architecture look like? How would you know if an org has it?</td><td>Vision, assessment ability</td></tr>
+      <tr><td>74</td><td>How do you balance being hands-on vs. strategic as an architect?</td><td>Role clarity, delegation</td></tr>
+      <tr><td>75</td><td>What questions would you ask in your first 30 days as our UX Architect?</td><td>Diagnostic thinking, organizational awareness</td></tr>
+      <tr><td>76</td><td>Describe how you'd audit an existing product's UX architecture.</td><td>Assessment methodology, systematic thinking</td></tr>
+      <tr><td>77</td><td>How do you document architectural decisions for future teams?</td><td>Knowledge management, institutional thinking</td></tr>
+      <tr><td>78</td><td>Tell me about a time you had to pivot a UX strategy mid-project.</td><td>Adaptability, stakeholder management</td></tr>
+      <tr><td>79</td><td>What's your approach to balancing user needs with business constraints and technical limitations?</td><td>Three-circle (UX-Business-Tech) thinking</td></tr>
+      <tr><td>80</td><td>Where do you see UX architecture evolving in the next 5 years?</td><td>Vision, thought leadership, trend awareness</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ============ CASE STUDIES ============ -->
+<section class="section" id="case-studies">
+  <div class="sec-head"><span class="sec-num">08</span><h2>Case Study Framework</h2></div>
+  <p>Principal UX Architect interviews often include a 45-60 minute case study presentation. Use this framework — and specifically prepare your Providence and WinWire stories in this structure.</p>
+
+  <h3>The ARCH Framework (Architecture Case Presentation)</h3>
+  <div class="grid">
+    <div class="card" style="border-top:3px solid var(--gold)"><span class="card-icon">🔍</span><div class="card-title">A — Assess</div><div class="card-sub">2-3 minutes</div><div class="card-body">What was the architectural landscape? Audit the existing state: tech stack, design maturity, team structure, user scale, compliance requirements. Show you diagnose before you prescribe.</div></div>
+    <div class="card" style="border-top:3px solid var(--blue)"><span class="card-icon">📐</span><div class="card-title">R — Recommend</div><div class="card-sub">5-7 minutes</div><div class="card-body">What architecture did you propose? Design system strategy, component model, token architecture, governance framework, platform considerations. Show the WHY behind every decision.</div></div>
+    <div class="card" style="border-top:3px solid var(--teal)"><span class="card-icon">🔧</span><div class="card-title">C — Construct</div><div class="card-sub">5-7 minutes</div><div class="card-body">How did you build it? Phased rollout, team structure, adoption strategy, stakeholder management, technical implementation approach. Show pragmatic execution.</div></div>
+    <div class="card" style="border-top:3px solid var(--green)"><span class="card-icon">📊</span><div class="card-title">H — Harvest</div><div class="card-sub">3-5 minutes</div><div class="card-body">What were the measurable outcomes? Metrics (conversion, velocity, adoption, satisfaction), business impact, lessons learned, what you'd do differently. Show you measure architecture success.</div></div>
+  </div>
+
+  <h3>6 Case Studies to Prepare (From Your Experience)</h3>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Case Study</th><th>Source</th><th>Architecture Angle</th><th>Key Metrics</th></tr></thead>
+    <tbody>
+      <tr><td>Enterprise Design System Architecture</td><td>Providence — Principal UX Designer</td><td>Multi-product token architecture, governance model, federated contribution</td><td>10+ surfaces, 60% fewer inconsistencies, 30% faster dev</td></tr>
+      <tr><td>Healthcare UX Transformation</td><td>Providence — Trusana</td><td>Patient-facing UX architecture in regulated healthcare, HIPAA-aware design patterns</td><td>25% conversion, award-winning</td></tr>
+      <tr><td>Enterprise ATS Modernization</td><td>Providence — PS&D Job Portal</td><td>Full-stack UX architecture (front-end + back-end), workflow simplification</td><td>35% faster task completion</td></tr>
+      <tr><td>AI-Integrated Design Workflow</td><td>Providence — AI tools adoption</td><td>AI-enabled design architecture: Figma Make + Claude AI + Google Stitch integration</td><td>Accelerated iteration cycles</td></tr>
+      <tr><td>Accessibility Architecture at Scale</td><td>Providence + WinWire</td><td>WCAG 2.2 AA as architectural pattern, automated testing pipeline, org-wide adoption</td><td>Full compliance across product lines</td></tr>
+      <tr><td>Product Portfolio Standardization</td><td>Gramener + WinWire</td><td>Material Design adoption across 25+ products, component library architecture</td><td>30% dev time reduction, 18% usability improvement</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ============ PORTFOLIO ============ -->
+<section class="section" id="portfolio">
+  <div class="sec-head"><span class="sec-num">09</span><h2>Portfolio Positioning Guide</h2></div>
+  <p>Your portfolio needs to shift from "I designed this" to "I architected this system." Here's how to reframe each case.</p>
+
+  <h3>Portfolio Reframing: Designer → Architect</h3>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Designer Portfolio Says</th><th>Architect Portfolio Says</th></tr></thead>
+    <tbody>
+      <tr><td>"I designed the onboarding flow"</td><td>"I architected the onboarding experience pattern that scales across 10 products and adapts to 3 user personas, with progressive disclosure rules codified in the design system"</td></tr>
+      <tr><td>"I built the design system"</td><td>"I defined the token architecture, component API contracts, governance model, and contribution workflow for a federated design system serving 15 product teams"</td></tr>
+      <tr><td>"I made it accessible"</td><td>"I embedded accessibility as an architectural layer: ARIA contracts at the component level, contrast tokens at the system level, and automated a11y testing in the CI/CD pipeline"</td></tr>
+      <tr><td>"I improved conversion by 25%"</td><td>"I identified the architectural root cause of conversion drop-off (inconsistent interaction patterns across 3 product modules), unified the interaction architecture, and measured a 25% improvement"</td></tr>
+      <tr><td>"I integrated AI tools into design"</td><td>"I established the AI-augmented design architecture layer: tool selection framework, workflow integration patterns, quality gates for AI-generated outputs, and team adoption strategy"</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Your 90-Second Architecture Career Narrative</h3>
+  <div class="prompt">
+    <div class="prompt-label">Practice This Daily</div>
+    "I'm an enterprise UX architect with 16 years of experience transforming how organizations approach design at scale. I started in front-end development, which gives me the technical fluency to architect systems that engineering teams can actually build. Over the past decade, I've progressively moved from designing interfaces to architecting enterprise-scale design systems — most recently at Providence, where I architect the UX layer across 10+ healthcare products serving Medicare/Medicaid populations. My work combines three things that are hard to find together: deep accessibility expertise baked into architectural patterns, AI-integrated design workflows, and enterprise design governance across 15-20 person cross-functional teams. I'm looking for a Principal UX Architect role where I can define the architectural vision for a product platform — not just the pixels, but the systems, patterns, governance, and standards that let an entire organization deliver consistent, accessible, high-quality experiences at scale."
+  </div>
+</section>
+
+<!-- ============ WHITEBOARD ============ -->
+<section class="section" id="whiteboard">
+  <div class="sec-head"><span class="sec-num">10</span><h2>Whiteboard Challenge Prep</h2></div>
+  <p>Many architect interviews include a live whiteboard exercise. Here are 5 practice challenges with the evaluation criteria interviewers use.</p>
+
+  <div class="grid">
+    <div class="card"><span class="card-icon">🏥</span><div class="card-title">Challenge 1: Healthcare Patient Portal</div><div class="card-body">Architect the information architecture, navigation model, and component taxonomy for a patient portal serving 5M users across web, mobile, and voice. Include accessibility patterns and HIPAA-aware data display.</div><div class="card-tag" style="background:var(--gold-soft);color:var(--gold)">45 min</div></div>
+    <div class="card"><span class="card-icon">🔗</span><div class="card-title">Challenge 2: Design System Migration</div><div class="card-body">A company has 8 products each with their own UI. Architect the migration to a unified design system. Show phased rollout, token strategy, strangler-fig migration pattern, and adoption metrics.</div><div class="card-tag" style="background:var(--blue-soft);color:var(--blue)">45 min</div></div>
+    <div class="card"><span class="card-icon">🤖</span><div class="card-title">Challenge 3: AI-Powered Dashboard</div><div class="card-body">Architect an analytics dashboard where AI surfaces insights proactively. Show confidence indicators, human override patterns, explanation layers, and graceful degradation when AI is unavailable.</div><div class="card-tag" style="background:var(--teal-soft);color:var(--teal)">30 min</div></div>
+    <div class="card"><span class="card-icon">🌍</span><div class="card-title">Challenge 4: Multi-Platform Design Tokens</div><div class="card-body">Design the token architecture for a system that renders on web (React), iOS (SwiftUI), and Android (Compose). Show semantic layers, platform mappings, and dark mode strategy.</div><div class="card-tag" style="background:var(--purple-soft);color:var(--purple)">30 min</div></div>
+    <div class="card"><span class="card-icon">📱</span><div class="card-title">Challenge 5: Enterprise Onboarding</div><div class="card-body">A complex enterprise tool has 80% drop-off during onboarding. Architect a progressive onboarding system with role-based paths, contextual help, and engagement measurement.</div><div class="card-tag" style="background:var(--rose-soft);color:var(--rose)">30 min</div></div>
+  </div>
+</section>
+
+<!-- ============ READING LIST ============ -->
+<section class="section" id="reading">
+  <div class="sec-head"><span class="sec-num">11</span><h2>Essential Reading List</h2></div>
+
+  <h3>Must-Read Books (Priority Order)</h3>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Book</th><th>Author</th><th>Why It Matters</th><th>Priority</th></tr></thead>
+    <tbody>
+      <tr><td>Org Design for Design Orgs</td><td>Peter Merholz & Kristin Skinner</td><td>How to structure UX architecture teams and org models</td><td><span class="gap-tag gap-moderate">Week 1-2</span></td></tr>
+      <tr><td>Team Topologies</td><td>Skelton & Pais</td><td>Team architecture patterns that align with system architecture</td><td><span class="gap-tag gap-moderate">Week 3-4</span></td></tr>
+      <tr><td>Atomic Design</td><td>Brad Frost</td><td>Re-read through architect lens — focus on governance chapters</td><td><span class="gap-tag gap-slight">Week 2</span></td></tr>
+      <tr><td>Design Systems</td><td>Alla Kholmatova</td><td>Enterprise design system architecture principles</td><td><span class="gap-tag gap-moderate">Week 4</span></td></tr>
+      <tr><td>Designing Connected Products</td><td>Claire Rowland et al.</td><td>Cross-platform ecosystem architecture</td><td><span class="gap-tag gap-slight">Week 5</span></td></tr>
+      <tr><td>Designing Web APIs</td><td>Jin, Sahni, Shevat</td><td>API-first design thinking for architects</td><td><span class="gap-tag gap-moderate">Week 1</span></td></tr>
+      <tr><td>The Design of Everyday Things</td><td>Don Norman</td><td>First principles — revisit for architecture-level framing</td><td><span class="gap-tag gap-ready">Refresh</span></td></tr>
+      <tr><td>Thinking in Systems</td><td>Donella Meadows</td><td>Systems thinking fundamentals for architects</td><td><span class="gap-tag gap-moderate">Week 7</span></td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Key Articles & Resources</h3>
+  <ul>
+    <li><strong>Martin Fowler</strong> — "Micro Frontends" (martinfowler.com)</li>
+    <li><strong>Nathan Curtis</strong> — Everything on Medium (medium.com/eightshapes-llc) — the bible of design systems architecture</li>
+    <li><strong>Brad Frost</strong> — bradfrost.com blog — design systems philosophy</li>
+    <li><strong>DTCG</strong> — Design Token Community Group specification (designtokens.org)</li>
+    <li><strong>Google PAIR</strong> — People + AI Guidebook (pair.withgoogle.com)</li>
+    <li><strong>NN/g</strong> — "UX Architecture" articles collection (nngroup.com)</li>
+    <li><strong>W3C</strong> — WCAG 3.0 Working Draft (w3.org)</li>
+    <li><strong>Wardley Maps</strong> — Learn Wardley Mapping (learnwardleymapping.com)</li>
+  </ul>
+</section>
+
+<!-- ============ COURSES ============ -->
+<section class="section" id="courses">
+  <div class="sec-head"><span class="sec-num">12</span><h2>Recommended Courses & Certifications</h2></div>
+
+  <div class="grid">
+    <div class="card" style="border-left:3px solid var(--gold)"><span class="card-icon">🎓</span><div class="card-title">NN/g: UX Management</div><div class="card-sub">Nielsen Norman Group</div><div class="card-body">Covers design operations, team scaling, and organizational UX strategy. Directly maps to architect-level leadership competencies.</div></div>
+    <div class="card" style="border-left:3px solid var(--blue)"><span class="card-icon">🎓</span><div class="card-title">web.dev: Core Web Vitals</div><div class="card-sub">Google (Free)</div><div class="card-body">Complete performance architecture course. Essential for demonstrating technical depth in interviews.</div></div>
+    <div class="card" style="border-left:3px solid var(--teal)"><span class="card-icon">🎓</span><div class="card-title">Deque: Accessibility Architecture</div><div class="card-sub">Deque University</div><div class="card-body">Advanced accessibility from an architectural perspective. Elevates your existing WCAG expertise to systems-level thinking.</div></div>
+    <div class="card" style="border-left:3px solid var(--purple)"><span class="card-icon">🎓</span><div class="card-title">IxDF: Design Systems Management</div><div class="card-sub">Interaction Design Foundation</div><div class="card-body">Given your existing IxDF membership, this course covers governance, scaling, and architectural patterns for enterprise design systems.</div></div>
+    <div class="card" style="border-left:3px solid var(--rose)"><span class="card-icon">🎓</span><div class="card-title">TOGAF Foundation</div><div class="card-sub">The Open Group</div><div class="card-body">Enterprise architecture certification. Not required but signals architectural rigor to VP/Director hiring panels. Strong differentiator.</div></div>
+    <div class="card" style="border-left:3px solid var(--amber)"><span class="card-icon">🎓</span><div class="card-title">AWS/Azure Solutions Architect Associate</div><div class="card-sub">Amazon / Microsoft</div><div class="card-body">Optional but powerful signal. Shows you understand the cloud infrastructure your UX architecture depends on. Consider for long-term career investment.</div></div>
+  </div>
+</section>
+
+<!-- ============ WEEKLY PLANNER ============ -->
+<section class="section" id="weekly">
+  <div class="sec-head"><span class="sec-num">13</span><h2>Weekly Study Planner</h2></div>
+  <p>8-10 hours per week, structured for working professionals. Adjust based on energy and interview timeline.</p>
+
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Day</th><th>Time</th><th>Activity</th><th>Duration</th></tr></thead>
+    <tbody>
+      <tr><td>Monday</td><td>Evening</td><td>Reading: Book chapter + 2 articles from the weekly focus area</td><td>90 min</td></tr>
+      <tr><td>Tuesday</td><td>Evening</td><td>Hands-on: Work on the week's deliverable (architecture diagram, spec, or case study)</td><td>90 min</td></tr>
+      <tr><td>Wednesday</td><td>Lunch + Evening</td><td>Lunch: Listen to design systems podcast (30 min). Evening: Continue hands-on deliverable</td><td>30 + 60 min</td></tr>
+      <tr><td>Thursday</td><td>Evening</td><td>Interview prep: Practice 5 questions from the question bank (record yourself)</td><td>90 min</td></tr>
+      <tr><td>Friday</td><td>Evening</td><td>Review: Watch 1 architecture talk (Clarity, Config, An Event Apart). Take notes</td><td>60 min</td></tr>
+      <tr><td>Saturday</td><td>Morning</td><td>Deep work: Case study development or whiteboard practice session</td><td>2-3 hrs</td></tr>
+      <tr><td>Sunday</td><td>—</td><td>Rest. Light review of week's notes if desired</td><td>Optional</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Recommended Podcasts & Channels</h3>
+  <ul>
+    <li><strong>Design Systems Podcast</strong> — Chris Strahl (episodes on governance, tokens, architecture)</li>
+    <li><strong>NN/g Video Series</strong> — YouTube (UX strategy and leadership topics)</li>
+    <li><strong>Clarity Conference</strong> — YouTube (design systems architecture talks)</li>
+    <li><strong>Into Design Systems</strong> — Podcast (enterprise systems deep dives)</li>
+    <li><strong>The Informed Life</strong> — Jorge Arango (information architecture focus)</li>
+  </ul>
+</section>
+
+<!-- FOOTER -->
+<footer style="padding:36px 56px;text-align:center;border-top:1px solid var(--border);color:var(--text-muted);font-size:12px">
+  Principal UX Architect — Interview Mastery Curriculum &nbsp;·&nbsp; Tailored for Anurag Challapalli &nbsp;·&nbsp; Built with Claude Opus 4.6 &nbsp;·&nbsp; May 2026
+</footer>
+
+</div>
+
+<script>
+// Nav active state on scroll
+const secs = document.querySelectorAll('.section, .hero');
+const navLinks = document.querySelectorAll('.nav-link');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting){
+      navLinks.forEach(l=>l.classList.remove('active'));
+      const t = document.querySelector(`.nav-link[href="#${e.target.id}"]`);
+      if(t) t.classList.add('active');
+    }
+  });
+},{rootMargin:'-20% 0px -70% 0px'});
+secs.forEach(s=>obs.observe(s));
+
+// Smooth scroll
+document.querySelectorAll('.nav-link').forEach(item=>{
+  item.addEventListener('click',e=>{
+    e.preventDefault();
+    const t=document.querySelector(item.getAttribute('href'));
+    if(t){t.scrollIntoView({behavior:'smooth',block:'start'});document.querySelector('.sidebar').classList.remove('open')}
+  });
+});
+</script>
+</body>
+</html>

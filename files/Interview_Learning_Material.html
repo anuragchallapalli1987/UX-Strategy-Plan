@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Principal UX Architect — Core Technical Study Guide</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #07090E;
+      --bg-card: #0F121C;
+      --bg-el: #161A26;
+      --border: #232B3D;
+      --border-accent: #C9A44C;
+      --text: #E6E9F0;
+      --text-sec: #9AA4B8;
+      --text-muted: #64708A;
+      --gold: #C9A44C;
+      --gold-soft: rgba(201,164,76,0.1);
+      --emerald: #34D399;
+      --emerald-soft: rgba(52,211,153,0.08);
+      --radius: 12px;
+      --font-serif: 'Cormorant Garamond', serif;
+      --font-sans: 'DM Sans', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --transition: all 0.25s ease;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.8;
+      overflow-x: hidden;
+    }
+    header {
+      padding: 80px 24px 60px;
+      background: radial-gradient(circle at 50% 30%, rgba(15, 18, 28, 0.9) 0%, rgba(7, 9, 14, 1) 100%);
+      border-bottom: 1px solid var(--border);
+      text-align: center;
+      position: relative;
+    }
+    .header-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--gold-soft);
+      border: 1px solid rgba(201, 164, 76, 0.25);
+      border-radius: 100px;
+      padding: 6px 16px;
+      font-size: 11px;
+      color: var(--gold);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 24px;
+    }
+    h1 {
+      font-family: var(--font-serif);
+      font-size: 48px;
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -1px;
+      margin-bottom: 16px;
+    }
+    h1 em { font-style: italic; color: var(--gold); }
+    .subtitle {
+      font-size: 16px;
+      color: var(--text-sec);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .container {
+      max-width: 900px;
+      margin: 50px auto;
+      padding: 0 24px;
+    }
+    .chapter {
+      margin-bottom: 80px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 60px;
+    }
+    .chapter:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+    .chapter-num {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      display: block;
+      margin-bottom: 8px;
+    }
+    h2 {
+      font-family: var(--font-serif);
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 24px;
+      letter-spacing: -0.5px;
+    }
+    h3 {
+      font-family: var(--font-serif);
+      font-size: 24px;
+      font-weight: 600;
+      margin: 32px 0 16px;
+      color: var(--gold);
+    }
+    p {
+      font-size: 15px;
+      color: var(--text-sec);
+      margin-bottom: 20px;
+    }
+    strong {
+      color: var(--text);
+    }
+    ul, ol {
+      margin-left: 24px;
+      margin-bottom: 24px;
+      color: var(--text-sec);
+      font-size: 14.5px;
+    }
+    li {
+      margin-bottom: 8px;
+    }
+    /* Info Box Callouts */
+    .callout {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--gold);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin: 28px 0;
+    }
+    .callout-title {
+      font-family: var(--font-serif);
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+    /* Code Snippets */
+    pre {
+      background-color: rgba(7, 9, 14, 0.6);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      overflow-x: auto;
+      margin: 20px 0;
+    }
+    code {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--emerald);
+    }
+    /* STAR-A visual cards */
+    .stara-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 30px;
+      margin-bottom: 28px;
+    }
+    .stara-card h4 {
+      font-family: var(--font-serif);
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--gold);
+      margin-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 10px;
+    }
+    .stara-item {
+      margin-bottom: 16px;
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 16px;
+    }
+    .stara-item:last-child {
+      margin-bottom: 0;
+    }
+    .stara-lbl {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--gold);
+      background-color: var(--gold-soft);
+      border: 1px solid rgba(201, 164, 76, 0.2);
+      border-radius: 100px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .stara-txt {
+      font-size: 13.5px;
+      color: var(--text-sec);
+    }
+    .stara-txt strong {
+      color: var(--text);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-container">
+      <div class="badge">Technical Study Guide &amp; Reference Manual</div>
+      <h1>Principal UX Architect <em>Study Handbook</em></h1>
+      <p class="subtitle">An exhaustive technical deep dive closing core strategy, technology, and governance gaps for Anurag Challapalli</p>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <!-- ============ CHAPTER 1 ============ -->
+    <article class="chapter" id="ch1">
+      <span class="chapter-num">CHAPTER 01</span>
+      <h2>Tech Architecture &amp; Micro-Frontends for UX</h2>
+      <p>
+        For a Principal UX Architect, understanding **platform architecture** is not about writing server-side logic; it is about knowing how architectural patterns dictate user experience constraints. The most prevalent pattern in enterprise environments is the **Micro-Frontend (MFE)** structure.
+      </p>
+      
+      <h3>1. Decoupling the Visual Layer</h3>
+      <p>
+        In modern enterprise setups, front-end layers are decoupled from heavy backend services via **API Gateways** and **BFFs (Backend For Frontends)**. A UX Architect leverages BFFs to shape and filter server payloads specifically for UI layout needs. This keeps the client responsive and ensures that single API calls supply all parameters required to populate a view—effectively preventing the "multiple loading spinners" anti-pattern.
+      </p>
+
+      <h3>2. Micro-Frontend (MFE) Patterns</h3>
+      <p>
+        MFEs split monolithic web applications into individual, independently deployable feature apps owned by separate engineering squads. For a UX Architect, this introduces a major risk of **experience fragmentation** (e.g., Team A uses a different button styling than Team B). The three main integration methods are:
+      </p>
+      <ul>
+        <li><strong>Runtime Integration via Module Federation (Webpack 5):</strong> Shares code dynamically at runtime. Extremely powerful because components can be imported on the fly from a shared Design System bundle. If a core token changes, all micro-frontends update instantly without requiring full rebuilds.</li>
+        <li><strong>Web Components (Custom Elements):</strong> Decouples components from specific frameworks (React, Angular, Vue). By wrapping design system items as standard Web Components, they operate safely across micro-frontends built on different technology stacks.</li>
+        <li><strong>Iframe Isolation:</strong> Secure but introduces severe layout constraints. Inter-app navigation is restricted, popups/modals cannot breach iframe boundaries, and focus traps for accessibility are hard to synchronize.</li>
+      </ul>
+
+      <div class="callout">
+        <div class="callout-title">Architectural Insight: Decoupling State</div>
+        <p style="margin-bottom:0">
+          UX Architects must define standard contracts for how MFEs communicate. Using native **Custom Events** dispatched on the global <code>window</code> object (rather than tight state containers like Redux) prevents teams from hard-coupling their features, maintaining independent deployability.
+        </p>
+      </div>
+
+      <h3>3. Component API Contracts</h3>
+      <p>
+        An architect drafts the component API—specifying properties, variants, and event triggers—before engineers write code. This ensures consistency between design tools (Figma properties) and production libraries.
+      </p>
+      
+      <pre><code>// Example component contract design for a unified accessible Modal
+interface ModalProps {
+  // Visual & State variables
+  isOpen: boolean;
+  size: 'sm' | 'md' | 'lg' | 'full';
+  
+  // Accessibility contracts
+  ariaLabelledBy: string; // Refers to heading ID
+  ariaDescribedBy: string; // Refers to body ID
+  initialFocusId?: string; // Element to target upon open
+  
+  // Custom slot placeholders for composability
+  headerSlot: HTMLElement;
+  bodySlot: HTMLElement;
+  footerActionsSlot: HTMLElement;
+  
+  // Standard event outputs
+  onClose: () => void;
+  onConfirm: () => void;
+}</code></pre>
+    </article>
+
+    <!-- ============ CHAPTER 2 ============ -->
+    <article class="chapter" id="ch2">
+      <span class="chapter-num">CHAPTER 02</span>
+      <h2>Design Token Systems (DTCG &amp; Multi-Brand)</h2>
+      <p>
+        A design system is not just a UI kit; at scale, it is a **database of architectural choices** distributed through tokens. To speak credibly, an architect must know how tokens flow through pipelines and multi-brand platforms.
+      </p>
+
+      <h3>1. Three-Tier Token Taxonomy</h3>
+      <p>
+        To support multi-brand system changes safely, organize your design tokens into three strict hierarchical tiers:
+      </p>
+      <ol>
+        <li><strong>Global / Tier 1 (Option Tokens):</strong> Core raw values. E.g., <code>color-blue-500: #5B8DEF</code>, <code>font-size-base: 16px</code>. These tokens carry no semantic meaning.</li>
+        <li><strong>Alias / Tier 2 (Semantic Tokens):</strong> Defines *how* raw options are applied. E.g., <code>color-text-primary: color-blue-500</code>, <code>color-border-active: color-blue-500</code>. This is where multiple brands apply their respective visual identity tokens to the same layout tokens.</li>
+        <li><strong>Component / Tier 3 (Override Tokens):</strong> Binds semantic values directly to individual components. E.g., <code>button-primary-bg: color-color-text-primary</code>. Prevents cross-component regressions when altering alias classes.</li>
+      </ol>
+
+      <h3>2. DTCG Format Specification</h3>
+      <p>
+        The Design Token Community Group (DTCG) formats token declarations in standard JSON. This lets tools like **Style Dictionary** compile one central repository into platform-specific outputs:
+      </p>
+      <pre><code>{
+  "color": {
+    "brand": {
+      "primary": {
+        "$value": "{color.blue.500}",
+        "$type": "color",
+        "$description": "Core primary brand indicator across Providence interfaces"
+      }
+    }
+  }
+}</code></pre>
+
+      <h3>3. The Automated Token Pipeline</h3>
+      <p>
+        A UX Architect establishes automated pipelines so that when visual designers update styles in Figma, the entire engineering ecosystem updates without manual code transfers:
+      </p>
+      <ol>
+        <li>Designers adjust token attributes in Figma using plugins (e.g., Tokens Studio).</li>
+        <li>Figma pushes token edits to a GitHub design-token repository.</li>
+        <li>GitHub Action triggers <strong>Style Dictionary</strong> to compile tokens into JS constants, Sass variables, CSS custom variables, iOS XML, and Android formats.</li>
+        <li>Production packages publish new versions instantly across NPM.</li>
+      </ol>
+    </article>
+
+    <!-- ============ CHAPTER 3 ============ -->
+    <article class="chapter" id="ch3">
+      <span class="chapter-num">CHAPTER 03</span>
+      <h2>Web Performance Architecture (Core Web Vitals)</h2>
+      <p>
+        UX layouts must load quickly. Performance is an architectural design constraint. An architect sets performance budgets and guides engineers on rendering pathways.
+      </p>
+
+      <h3>1. Core Web Vitals (CWV) &amp; Design Impacts</h3>
+      <ul>
+        <li><strong>LCP (Largest Contentful Paint):</strong> How fast the main content renders. Architects prevent LCP lag by ensuring page heroes do not rely on massive, uncompressed images or heavy, non-critical web fonts that block primary text paints.</li>
+        <li><strong>INP (Interaction to Next Paint):</strong> Replaced FID as a core metric. Assesses browser interface responsiveness upon user interaction. Architects prevent high INP scores by avoiding heavy DOM trees, eliminating complex layout re-calculations on scroll events, and utilizing progressive disclosure patterns.</li>
+        <li><strong>CLS (Cumulative Layout Shift):</strong> Measures layout stability. Architects eliminate CLS by specifying explicit aspect ratios for card images, setting height bounds for dynamic alerts, and reserving spaces for dynamically loading components.</li>
+      </ul>
+
+      <div class="callout">
+        <div class="callout-title">Architectural Constraint: Reserving Slots</div>
+        <p style="margin-bottom:0">
+          When lazily loading heavy data components, a UX Architect must define skeleton screens that match the final loaded layout size precisely. This avoids layout jarring and reduces cumulative shift scores to 0.
+        </p>
+      </div>
+    </article>
+
+    <!-- ============ CHAPTER 4 ============ -->
+    <article class="chapter" id="ch4">
+      <span class="chapter-num">CHAPTER 04</span>
+      <h2>Accessibility at Scale (WCAG 2.2 &amp; ARIA)</h2>
+      <p>
+        Accessibility is a core architectural requirement, not an audit checklist. Moving from reactive remediation to systematic accessibility requires deep systems integration.
+      </p>
+
+      <h3>1. Embedding WCAG 2.2 AA in Systems</h3>
+      <p>
+        Instead of auditing individual screens, a UX Architect guarantees compliance at the atomic component layer:
+      </p>
+      <ul>
+        <li><strong>Contrast Ratios:</strong> Standard color tokens must satisfy a minimum 4.5:1 ratio for normal text and 3:1 for large elements. Token structures must validate these bounds programmatically inside test suites.</li>
+        <li><strong>Keyboard Navigation:</strong> Establish logical tab orders, focus trap models for modal containers, and custom keyboard hooks (Esc key closes modals, arrow keys navigate menus).</li>
+        <li><strong>ARIA Specifications:</strong> Define clear ARIA attribute handoffs. Spec sheets must highlight <code>aria-live</code> areas, dynamic <code>aria-expanded</code> properties on drop-downs, and correct <code>role</code> assignments for non-standard elements.</li>
+      </ul>
+
+      <h3>2. Automated Accessibility Pipelines</h3>
+      <p>
+        Architects build safety nets:
+      </p>
+      <ol>
+        <li>Designers compile visual layouts using fully annotated, accessible Figma components.</li>
+        <li>Engineers implement layouts and run automated <strong>axe-core</strong> linting directly in local environments.</li>
+        <li>Continuous Integration (CI) run automated browser automation checks (e.g., Playwright testing) to scan markup for broken ARIA binds or invalid nesting before builds merge.</li>
+      </ol>
+    </article>
+
+    <!-- ============ CHAPTER 5 ============ -->
+    <article class="chapter" id="ch5">
+      <span class="chapter-num">CHAPTER 05</span>
+      <h2>AI-Native UX Architecture</h2>
+      <p>
+        The next frontier of UX architecture is designing for **non-deterministic AI models**. The paradigm shifts from absolute paths to probabilistic layouts.
+      </p>
+
+      <h3>1. Designing for Uncertainty</h3>
+      <p>
+        When interfaces rely on dynamic LLM responses, layouts must be designed to accommodate diverse data lengths and structures:
+      </p>
+      <ul>
+        <li><strong>Graceful Degradation:</strong> If a model response lacks confidence or takes too long, render clear alternative actions. Provide fallback options.</li>
+        <li><strong>Explanation Layers:</strong> Interfaces must explain *why* the system recommends an action. E.g., "Recommended because you have historically searched for Medicaid plans in Hyderabad."</li>
+        <li><strong>Confidence Intervals:</strong> Utilize subtle color-coded indicator blocks to convey a model's accuracy, letting users evaluate the safety of AI-generated answers.</li>
+        <li><strong>Human Override Patterns:</strong> Architects must include clear override triggers (e.g., "Edit this generated draft" or "Undo this action") to give users absolute control.</li>
+      </ul>
+    </article>
+
+    <!-- ============ CHAPTER 6 ============ -->
+    <article class="chapter" id="ch6">
+      <span class="chapter-num">CHAPTER 06</span>
+      <h2>Strategic STAR-A Board Prep Cheat Sheet</h2>
+      <p>
+        These 4 strategic interview responses are written in the strict **STAR-A** framework (Situation, Task, Action, Result, **Architecture Insight**).
+      </p>
+
+      <!-- STAR-A Question 1 -->
+      <div class="stara-card">
+        <h4>Q1: "How do you align enterprise design systems with engineering and business roadmaps?"</h4>
+        <div class="stara-item">
+          <div class="stara-lbl">Situation</div>
+          <div class="stara-txt">
+            At Providence, we had 10+ distinct product squads building components in isolated repositories, causing massive UI debt, brand fragmentation, and high development costs.
+          </div>
+        </div>
+        <div class="stara-item">
+          <div class="stara-lbl">Task</div>
+          <div class="stara-txt">
+            I needed to establish a unified design token database and shared component library to bridge the designer-engineer divide and accelerate development velocity.
+          </div>
+        </div>
+        <div class="stara-item">
+          <div class="stara-lbl">Action</div>
+          <div class="stara-txt">
+            I designed a 3-tier token taxonomy (Global -> Alias -> Component) and established an automated build pipeline via Webpack Module Federation and Style Dictionary. I also created a Federated Design System Guild where cross-functional team leads voted on component changes through a structured RFC process.
+          </div>
+        </div>
+        <div class="stara-item">
+          <div class="stara-lbl">Result</div>
+          <div class="stara-txt">
+            UI inconsistencies dropped by 60%, design-dev handoff friction was eliminated, and overall development cycles accelerated by 30%.
+          </div>
+        </div>
+        <div class="stara-item" style="border-left: 2px solid var(--gold); padding-left: 14px;">
+          <div class="stara-lbl" style="background-color: var(--gold-soft); border-color: var(--gold)">Arch Insight</div>
+          <div class="stara-txt" style="color: var(--text)">
+            <strong>The architectural takeaway:</strong> The success of a design system depends on its governance, not its visual assets. Decoupling design decisions from engineering frameworks via agnostic token schemas is the only way to future-proof an enterprise interface layer.
+          </div>
+        </div>
+      </div>
+
+      <!-- STAR-A Question 2 -->
+      <div class="stara-card">
+        <h4>Q2: "Describe how you architected the Trusana healthcare platform to drive 25% conversion."</h4>
+        <div class="stara-item">
+          <div class="stara-lbl">Situation</div>
+          <div class="stara-txt">
+            The Trusana mental health enrollment app had a complex 14-step onboarding form, high dropout rates among vulnerable Medicare/Medicaid demographics, and strict HIPAA compliance requirements.
+          </div>
+        </div>
+        <div class="stara-item">
+          <div class="stara-lbl">Task</div>
+          <div class="stara-txt">
+            I had to simplify the patient onboarding journey while maintaining regulatory compliance and strict accessibility standards.
+          </div>
+        </div>
+        <div class="stara-item">
+          <div class="stara-lbl">Action</div>
+          <div class="stara-txt">
+            I streamlined the information architecture down to a 4-step progressive wizard. I designed custom, accessible inputs with robust client-side validation, integrated keyboard focus traps, and implemented aria-live announcements for screen readers.
+          </div>
+        </div>
+        <div class="stara-item">
+          <div class="stara-lbl">Result</div>
+          <div class="stara-txt">
+            Enrollment conversion rose by 25%, and the product won "Best Product of the Year" at the 2023 ET Healthcare Awards.
+          </div>
+        </div>
+        <div class="stara-item" style="border-left: 2px solid var(--gold); padding-left: 14px;">
+          <div class="stara-lbl" style="background-color: var(--gold-soft); border-color: var(--gold)">Arch Insight</div>
+          <div class="stara-txt" style="color: var(--text)">
+            <strong>The architectural takeaway:</strong> In highly regulated environments like healthcare, accessibility and compliance are not post-development checklists—they are core design constraints that must be embedded at the structural layout level.
+          </div>
+        </div>
+      </div>
+
+      <!-- STAR-A Question 3 -->
+      <div class="stara-card">
+        <h4>Q3: "How do you defend design system investments to a skeptical CFO?"</h4>
+        <div class="stara-item">
+          <div class="stara-lbl">Situation</div>
+          <div class="stara-txt">
+            During a budget review at Providence, the leadership team questioned the headcount and resources allocated to maintaining the core design system team.
+          </div>
+        </div>
+        <div class="stara-item">
+          <div class="stara-lbl">Task</div>
+          <div class="stara-txt">
+            I had to justify the design system's business value without relying on aesthetic arguments.
+          </div>
+        </div>
+        <div class="stara-item">
+          <div class="stara-lbl">Action</div>
+          <div class="stara-txt">
+            I translated design metrics into business metrics. I presented an efficiency model showing that reusing tokenized components saved an average of 4 engineering hours per component build. I scaled this across 20 designers and 50 developers to demonstrate a $120k reduction in annual development costs.
+          </div>
+        </div>
+        <div class="stara-item">
+          <div class="stara-lbl">Result</div>
+          <div class="stara-txt">
+            The CFO approved the design system budget and funded two additional full-time UI developer roles for the platform team.
+          </div>
+        </div>
+        <div class="stara-item" style="border-left: 2px solid var(--gold); padding-left: 14px;">
+          <div class="stara-lbl" style="background-color: var(--gold-soft); border-color: var(--gold)">Arch Insight</div>
+          <div class="stara-txt" style="color: var(--text)">
+            <strong>The architectural takeaway:</strong> Executives don't buy consistency; they buy risk reduction and operational efficiency. Framing design systems as infrastructure that accelerates time-to-market is the only way to secure long-term funding.
+          </div>
+        </div>
+      </div>
+
+      <!-- STAR-A Question 4 -->
+      <div class="stara-card">
+        <h4>Q4: "How do you evaluate and implement AI-integrated workflows safely?"</h4>
+        <div class="stara-item">
+          <div class="stara-lbl">Situation</div>
+          <div class="stara-txt">
+            Our design team was spending too much manual effort on wireframing variations and redlining specs, slowing down overall sprint velocity.
+          </div>
+        </div>
+        <div class="stara-item">
+          <div class="stara-lbl">Task</div>
+          <div class="stara-txt">
+            I needed to design an AI-augmented design pipeline that increased velocity without risking proprietary data leaks.
+          </div>
+        </div>
+        <div class="stara-item">
+          <div class="stara-lbl">Action</div>
+          <div class="stara-txt">
+            I established security guidelines for AI tools (Figma Make, Claude). I trained LLM models on our design system schema, allowing them to output valid JSON representations of custom workflows. This let designers generate compliant wireframes from text prompts in seconds.
+          </div>
+        </div>
+        <div class="stara-item">
+          <div class="stara-lbl">Result</div>
+          <div class="stara-txt">
+            Prototyping iteration cycles accelerated by 3x, and overall design project delivery lead times dropped by 20%.
+          </div>
+        </div>
+        <div class="stara-item" style="border-left: 2px solid var(--gold); padding-left: 14px;">
+          <div class="stara-lbl" style="background-color: var(--gold-soft); border-color: var(--gold)">Arch Insight</div>
+          <div class="stara-txt" style="color: var(--text)">
+            <strong>The architectural takeaway:</strong> AI is not a replacement for design thinking; it is a leverage multiplier. An architect's role is to define the validation gates and structural systems that allow AI to output compliant, high-quality layouts safely.
+          </div>
+        </div>
+      </div>
+
+    </article>
+
+  </div>
+
+</body>
+</html>

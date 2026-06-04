@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio Transformation Plan — Anurag Challapalli</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#08090C;--bg-card:#0F1117;--bg-el:#161922;--bg-hov:#1C2030;--border:#252A38;--text:#E6E8EE;--text-sec:#9BA3B8;--text-muted:#636B82;--gold:#C9A44C;--gold-s:rgba(201,164,76,.1);--red:#EF4444;--red-s:rgba(239,68,68,.08);--green:#4ADE80;--green-s:rgba(74,222,128,.08);--blue:#5B8DEF;--blue-s:rgba(91,141,239,.08);--teal:#34D399;--teal-s:rgba(52,211,153,.08);--purple:#A78BFA;--purple-s:rgba(167,139,250,.08);--amber:#FBBF24;--amber-s:rgba(251,191,36,.08);--rose:#F472B6;--rose-s:rgba(244,114,182,.08);--r:14px;--rs:8px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);line-height:1.75;-webkit-font-smoothing:antialiased}
+::selection{background:var(--gold);color:#000}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+
+.container{max-width:900px;margin:0 auto;padding:0 24px}
+
+/* HERO */
+.hero{padding:72px 24px 56px;text-align:center;border-bottom:1px solid var(--border);background:linear-gradient(160deg,#08090C 0%,#111524 50%,#08090C 100%)}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:var(--red-s);border:1px solid rgba(239,68,68,.2);border-radius:100px;padding:5px 14px;font-size:11px;color:var(--red);font-weight:600;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:20px}
+.hero h1{font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:700;line-height:1.15;letter-spacing:-1px;margin-bottom:14px;max-width:700px;margin-left:auto;margin-right:auto}
+.hero h1 em{font-style:italic;color:var(--gold)}
+.hero p{font-size:15px;color:var(--text-sec);max-width:620px;margin:0 auto;line-height:1.8}
+
+/* SECTIONS */
+.section{padding:48px 0;border-bottom:1px solid var(--border)}
+.sec-head{display:flex;align-items:center;gap:12px;margin-bottom:24px}
+.sec-num{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--gold);background:var(--gold-s);padding:3px 10px;border-radius:100px;font-weight:500}
+.section h2{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700}
+.section h3{font-size:17px;font-weight:700;margin:28px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+.section h4{font-size:12px;font-weight:600;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin:18px 0 8px}
+.section p,.section li{font-size:14px;color:var(--text-sec);line-height:1.8}
+.section ul{list-style:none;padding:0}
+.section ul li{padding:5px 0 5px 20px;position:relative}
+.section ul li::before{content:'';position:absolute;left:6px;top:13px;width:4px;height:4px;border-radius:50%;background:var(--gold)}
+
+/* CARDS */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin:18px 0}
+.card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r);padding:20px;transition:all .25s}
+.card:hover{border-color:var(--border);background:var(--bg-hov);transform:translateY(-1px)}
+.card-icon{font-size:22px;margin-bottom:8px;display:block}
+.card-title{font-size:14px;font-weight:700;margin-bottom:5px}
+.card-sub{font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.card-body{font-size:13px;color:var(--text-sec);line-height:1.7}
+
+/* TABLES */
+.tbl{overflow-x:auto;margin:14px 0;border-radius:var(--r);border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+thead th{background:var(--bg-el);color:var(--text);font-weight:600;text-align:left;padding:10px 14px;border-bottom:2px solid var(--border);font-size:11px;text-transform:uppercase;letter-spacing:.5px}
+tbody td{padding:9px 14px;border-bottom:1px solid var(--border);color:var(--text-sec);vertical-align:top}
+tbody tr:hover{background:var(--bg-hov)}
+tbody td:first-child{font-weight:600;color:var(--text)}
+
+/* TAGS */
+.tag{display:inline-block;padding:2px 8px;border-radius:100px;font-size:10px;font-weight:600;white-space:nowrap}
+.tag-red{background:var(--red-s);color:var(--red)}
+.tag-green{background:var(--green-s);color:var(--green)}
+.tag-amber{background:var(--amber-s);color:var(--amber)}
+.tag-blue{background:var(--blue-s);color:var(--blue)}
+
+/* VERDICT */
+.verdict{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r);padding:24px;margin:20px 0}
+.verdict-head{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.verdict-icon{font-size:24px}
+.verdict-title{font-size:16px;font-weight:700}
+.verdict-body{font-size:14px;color:var(--text-sec);line-height:1.8}
+
+/* PROMPT */
+.prompt{background:var(--bg-el);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:var(--rs);padding:14px 18px;margin:10px 0;font-size:13px;font-family:'JetBrains Mono',monospace;color:var(--text-sec);line-height:1.7}
+.prompt-label{font-family:'DM Sans',sans-serif;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--gold);font-weight:700;margin-bottom:6px}
+
+/* TIMELINE */
+.tl-item{display:flex;gap:16px;padding:16px 0;border-bottom:1px solid var(--border)}
+.tl-week{flex-shrink:0;width:70px;font-family:'JetBrains Mono',monospace;font-size:11px;padding:4px 0;color:var(--gold);font-weight:500}
+.tl-content{flex:1}
+.tl-content strong{font-size:14px;color:var(--text)}
+.tl-content p{font-size:13px;color:var(--text-sec);margin-top:4px}
+
+@media(max-width:768px){.hero h1{font-size:30px}.grid{grid-template-columns:1fr}.container{padding:0 16px}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-badge">🚨 Critical Priority for Interview Success</div>
+  <h1>Your Behance Portfolio Needs a <em>Complete Transformation</em></h1>
+  <p>An honest audit of your current portfolio and a step-by-step plan to rebuild it for Principal UX Architect roles — in 4 weeks, alongside your day job.</p>
+</header>
+
+<div class="container">
+
+<!-- ============ AUDIT ============ -->
+<section class="section" id="audit">
+  <div class="sec-head"><span class="sec-num">01</span><h2>Current Portfolio Audit</h2></div>
+
+  <div class="verdict" style="border-left:3px solid var(--red)">
+    <div class="verdict-head"><span class="verdict-icon">🚨</span><div class="verdict-title">Honest Assessment: Your portfolio would cost you the interview</div></div>
+    <div class="verdict-body">A VP reviewing your Behance today would see a mid-level designer from 2016-2022, not the enterprise UX architecture leader your resume describes. The disconnect between your resume (99/100 ATS, enterprise transformation language) and your portfolio (7-year-old bio, visual design projects) would raise a red flag. This is the single highest-risk gap in your interview preparation.</div>
+  </div>
+
+  <h3>What's Wrong — Specific Issues</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Issue</th><th>Current State</th><th>Impact</th><th>Fix Priority</th></tr></thead>
+    <tbody>
+      <tr><td>Profile Bio</td><td>"UI/UX Designer with 7 years experience"</td><td>Immediately disqualifies — doesn't match resume</td><td><span class="tag tag-red">Day 1</span></td></tr>
+      <tr><td>Title</td><td>"Senior Technical Lead UI/UX"</td><td>3 promotions behind your actual title</td><td><span class="tag tag-red">Day 1</span></td></tr>
+      <tr><td>Work Experience</td><td>Shows only Gramener</td><td>Missing Providence (your strongest story)</td><td><span class="tag tag-red">Day 1</span></td></tr>
+      <tr><td>Tools Listed</td><td>Photoshop, XD, Illustrator</td><td>No Figma listed — the #1 industry standard. No AI tools</td><td><span class="tag tag-red">Day 1</span></td></tr>
+      <tr><td>No Architecture Projects</td><td>Zero design system, token, or governance case studies</td><td>Can't demonstrate architect-level thinking</td><td><span class="tag tag-red">Week 1-2</span></td></tr>
+      <tr><td>No Enterprise Work</td><td>All projects are small-medium scale</td><td>No proof of enterprise-scale impact</td><td><span class="tag tag-red">Week 1-2</span></td></tr>
+      <tr><td>No Metrics in Projects</td><td>Case studies show process, not outcomes</td><td>VPs hire for impact, not process</td><td><span class="tag tag-amber">Week 2-3</span></td></tr>
+      <tr><td>Old Projects Dominate</td><td>Syncrooms, Innfly, Booking Confirmation (2016)</td><td>Makes you look inactive; dilutes strongest work</td><td><span class="tag tag-amber">Week 1</span></td></tr>
+      <tr><td>No Healthcare Work</td><td>Zero Providence/Trusana projects shown</td><td>Your biggest competitive advantage is invisible</td><td><span class="tag tag-red">Week 1-2</span></td></tr>
+      <tr><td>Engagement Stats</td><td>3,281 views / 123 appreciations / 29 followers</td><td>Low for 16-year career — signals inactive profile</td><td><span class="tag tag-amber">Ongoing</span></td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>What to Keep, What to Archive, What to Add</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Project</th><th>Action</th><th>Reason</th></tr></thead>
+    <tbody>
+      <tr><td>IIT Bombay Design Thinking Case Study</td><td><span class="tag tag-green">KEEP — Update</span></td><td>Shows research rigor. Refresh with architecture framing and metrics</td></tr>
+      <tr><td>Marketing Leads Case Study</td><td><span class="tag tag-green">KEEP — Update</span></td><td>Shows end-to-end process. Add business impact and architecture decisions</td></tr>
+      <tr><td>IoT Dashboard Case Study</td><td><span class="tag tag-green">KEEP — Update</span></td><td>Shows data visualization. Add performance and scalability narrative</td></tr>
+      <tr><td>OCR for Austin Industries</td><td><span class="tag tag-amber">KEEP — Minor refresh</span></td><td>Shows AI/ML adjacent work. Add technical architecture context</td></tr>
+      <tr><td>Hotel Management App</td><td><span class="tag tag-amber">KEEP — Archive lower</span></td><td>Shows startup/entrepreneurial work. Move below new projects</td></tr>
+      <tr><td>Best Rooms Branding</td><td><span class="tag tag-red">ARCHIVE</span></td><td>Branding guidelines ≠ architecture. Dilutes architect positioning</td></tr>
+      <tr><td>Gramener Website</td><td><span class="tag tag-red">ARCHIVE</span></td><td>Simple website design. Doesn't demonstrate architecture thinking</td></tr>
+      <tr><td>Scheduler Tablet</td><td><span class="tag tag-red">ARCHIVE</span></td><td>Single-screen UI design. No depth for architect role</td></tr>
+      <tr><td>Booking Confirmation</td><td><span class="tag tag-red">ARCHIVE</span></td><td>Single-screen. No architectural value</td></tr>
+      <tr><td>Software Dev Company</td><td><span class="tag tag-red">ARCHIVE</span></td><td>Marketing website. Doesn't support positioning</td></tr>
+      <tr><td>Syncrooms Website</td><td><span class="tag tag-red">ARCHIVE</span></td><td>2016 website design. Outdated</td></tr>
+      <tr><td>Innfly Hotel Builder</td><td><span class="tag tag-red">ARCHIVE</span></td><td>Replaced by Hotel Management App case study</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ============ NEW PORTFOLIO STRUCTURE ============ -->
+<section class="section" id="structure">
+  <div class="sec-head"><span class="sec-num">02</span><h2>New Portfolio Architecture</h2></div>
+  <p>Your rebuilt portfolio should have 6-8 projects maximum — each framed as an architecture story. Quality over quantity. Here's the exact structure.</p>
+
+  <h3>Target Portfolio: 7 Projects in Priority Order</h3>
+
+  <div class="grid" style="grid-template-columns:1fr">
+
+    <div class="card" style="border-left:3px solid var(--gold)">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div><span class="card-icon">🏗️</span><div class="card-title">1. Enterprise Design System Architecture — Providence</div><div class="card-sub">NEW — The Hero Project · Estimated effort: 8-10 hours</div></div>
+        <span class="tag tag-red">Must Have</span>
+      </div>
+      <div class="card-body">
+        <strong>This is your #1 project. It should be the first thing anyone sees.</strong><br><br>
+        <strong>Architecture story to tell:</strong> How you assessed a fragmented design landscape across 10+ healthcare products, defined a token-based design system architecture, established federated governance, and standardized the enterprise UI layer — reducing design inconsistencies by 60% and accelerating development by 30%.<br><br>
+        <strong>Sections to include:</strong><br>
+        → The Problem (fragmented UI, inconsistent patterns, slow handoff)<br>
+        → Architecture Assessment (audit of existing state, maturity model)<br>
+        → Token Architecture (color, spacing, typography, elevation tokens with semantic naming)<br>
+        → Component Taxonomy (atomic design hierarchy — atoms → molecules → organisms)<br>
+        → Governance Model (contribution workflow, review process, deprecation policy)<br>
+        → Platform Strategy (web, mobile adaptations)<br>
+        → Accessibility Layer (how a11y is baked into tokens and component contracts)<br>
+        → Adoption Metrics (10+ surfaces, 60% fewer inconsistencies, 30% faster dev)<br>
+        → Lessons Learned & What's Next<br><br>
+        <strong>Visuals needed:</strong> Token architecture diagram, component hierarchy map, before/after UI comparisons, governance workflow, adoption dashboard, Figma component library screenshots
+      </div>
+    </div>
+
+    <div class="card" style="border-left:3px solid var(--teal)">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div><span class="card-icon">🏥</span><div class="card-title">2. Healthcare UX Transformation — Trusana</div><div class="card-sub">NEW — Enterprise Transformation Story · Estimated effort: 6-8 hours</div></div>
+        <span class="tag tag-red">Must Have</span>
+      </div>
+      <div class="card-body">
+        <strong>Architecture story to tell:</strong> How you architected the UX layer for a mental health platform serving Medicare/Medicaid populations — navigating HIPAA compliance, accessibility requirements, and conversion optimization in a regulated healthcare environment. Result: 25% conversion increase, ET Healthcare Award winner.<br><br>
+        <strong>Sections to include:</strong><br>
+        → Business Context (healthcare digital transformation, regulatory landscape)<br>
+        → User Architecture (persona mapping for Medicare/Medicaid populations, accessibility-first design)<br>
+        → Information Architecture (patient flows, progressive disclosure for complex medical forms)<br>
+        → Interaction Architecture (error prevention patterns, data validation, HIPAA-aware data display)<br>
+        → Research Integration (how usability testing informed architecture decisions)<br>
+        → Accessibility Architecture (WCAG 2.2 AA patterns embedded at system level)<br>
+        → Results (25% conversion, award recognition, reduced enrollment time)<br><br>
+        <strong>Visuals:</strong> User flow diagrams, IA sitemaps, wireframe progression (low → high fidelity), before/after screens, usability testing insights, metrics dashboard
+      </div>
+    </div>
+
+    <div class="card" style="border-left:3px solid var(--blue)">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div><span class="card-icon">💼</span><div class="card-title">3. Enterprise ATS & Job Portal Modernization — PS&D</div><div class="card-sub">NEW — Full-Stack UX Architecture · Estimated effort: 6-8 hours</div></div>
+        <span class="tag tag-red">Must Have</span>
+      </div>
+      <div class="card-body">
+        <strong>Architecture story to tell:</strong> How you approached modernizing a complex enterprise Applicant Tracking System — front-end AND back-end architecture — simplifying workflows that reduced task completion time by 35%.<br><br>
+        <strong>Sections to include:</strong><br>
+        → Legacy Assessment (old system pain points, heuristic evaluation findings)<br>
+        → Architecture Strategy (modular UI architecture, API-driven design, responsive patterns)<br>
+        → Workflow Simplification (before/after task flows with step-count reduction)<br>
+        → Component Architecture (reusable form patterns, table systems, filter architectures)<br>
+        → Design-Engineering Collaboration (handoff specs, component API contracts)<br>
+        → Performance Outcomes (35% faster task completion, improved processing efficiency)<br><br>
+        <strong>Visuals:</strong> Before/after workflow diagrams, system architecture overview, component specs, task flow comparisons, performance metrics
+      </div>
+    </div>
+
+    <div class="card" style="border-left:3px solid var(--purple)">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div><span class="card-icon">🤖</span><div class="card-title">4. AI-Integrated Design Workflows</div><div class="card-sub">NEW — Innovation & Thought Leadership · Estimated effort: 4-5 hours</div></div>
+        <span class="tag tag-amber">High Value</span>
+      </div>
+      <div class="card-body">
+        <strong>Architecture story to tell:</strong> How you evaluated, selected, and integrated AI tools (Figma Make, Claude AI, Google Stitch) into the enterprise design workflow — the decision framework, adoption strategy, quality gates, and impact on design velocity.<br><br>
+        <strong>Sections to include:</strong><br>
+        → The AI Tool Landscape Assessment (what tools were evaluated and why)<br>
+        → Integration Architecture (how AI tools fit into existing workflows)<br>
+        → Quality Gates (how to validate AI-generated outputs)<br>
+        → Team Adoption Strategy (training, guidelines, governance)<br>
+        → Workflow Before/After (traditional vs. AI-augmented design process)<br>
+        → Impact & Learnings (acceleration metrics, what worked, what didn't)<br><br>
+        <strong>This project is a massive differentiator</strong> — very few architects can speak to AI-integrated design workflows with real implementation experience.
+      </div>
+    </div>
+
+    <div class="card" style="border-left:3px solid var(--green)">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div><span class="card-icon">♿</span><div class="card-title">5. Accessibility Architecture at Enterprise Scale</div><div class="card-sub">NEW — Systems-Level A11y · Estimated effort: 4-5 hours</div></div>
+        <span class="tag tag-amber">High Value</span>
+      </div>
+      <div class="card-body">
+        <strong>Architecture story to tell:</strong> How you embedded accessibility as an architectural layer — not a testing checklist — across an enterprise healthcare product organization. From token-level contrast ratios to component-level ARIA contracts to team-level training.<br><br>
+        <strong>Sections to include:</strong><br>
+        → The Case for Accessibility Architecture (regulatory + ethical + business case)<br>
+        → Token-Level A11y (contrast ratios, focus styles, reduced-motion tokens)<br>
+        → Component-Level A11y (ARIA contracts per component, keyboard navigation specs)<br>
+        → Process-Level A11y (workshops, review cadences, automated audits)<br>
+        → WCAG 2.2 Compliance Results (before/after audit scores)<br>
+        → Organizational Impact (team capability uplift, culture shift)
+      </div>
+    </div>
+
+    <div class="card" style="border-left:3px solid var(--amber)">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div><span class="card-icon">📊</span><div class="card-title">6. IIT Bombay Design Thinking Case Study</div><div class="card-sub">EXISTING — Refresh with Architecture Lens · Estimated effort: 2-3 hours</div></div>
+        <span class="tag tag-blue">Refresh</span>
+      </div>
+      <div class="card-body">
+        Your most-viewed project (780 views, 25 appreciations). Refresh the narrative: add an architecture decision layer, quantify outcomes, and frame the design thinking process as an architecture methodology. Update the visual presentation to match your new portfolio aesthetic.
+      </div>
+    </div>
+
+    <div class="card" style="border-left:3px solid var(--amber)">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div><span class="card-icon">📈</span><div class="card-title">7. IoT Dashboard / Marketing Leads</div><div class="card-sub">EXISTING — Light Refresh · Estimated effort: 1-2 hours each</div></div>
+        <span class="tag tag-blue">Refresh</span>
+      </div>
+      <div class="card-body">
+        Keep these as supporting projects. Add a brief "Architecture Decisions" section to each — explain the technical constraints, scalability considerations, and design system integration. Add metrics if available.
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ BEHANCE PROFILE FIX ============ -->
+<section class="section" id="profile-fix">
+  <div class="sec-head"><span class="sec-num">03</span><h2>Behance Profile — Immediate Fixes (Day 1)</h2></div>
+  <p>These take 15 minutes and are the most important changes you'll make.</p>
+
+  <h3>Update These Fields Today</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Field</th><th>Current</th><th>Change To</th></tr></thead>
+    <tbody>
+      <tr><td>Display Title</td><td>Senior Technical Lead UI/UX</td><td><strong>Principal UX Designer | Enterprise UX Architecture & Design Systems</strong></td></tr>
+      <tr><td>Bio</td><td>"I am a UI/UX Designer and Developer with 7 years of experience..."</td><td><em>See new bio below</em></td></tr>
+      <tr><td>Work Experience</td><td>Only Gramener listed</td><td><strong>Add Providence Global Center (Nov 2022 – Present) as Primary</strong></td></tr>
+      <tr><td>Location</td><td>Hyderabad, India ✅</td><td>Keep</td></tr>
+      <tr><td>Social Links</td><td>Facebook, LinkedIn</td><td><strong>Add GitHub (if any), remove Facebook (not professional)</strong></td></tr>
+      <tr><td>Availability</td><td>"Available Fulltime"</td><td><strong>Change to "Available Freelance" or turn off</strong> — "Available Fulltime" signals you're actively being laid off</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>New Bio — Copy This Exactly</h3>
+  <div class="prompt">
+    <div class="prompt-label">New Behance Bio</div>
+    Enterprise UX and Product Design leader with 16+ years of experience architecting scalable design systems, driving digital transformation across healthcare enterprise platforms, and leading cross-functional teams of 15–20. Currently Principal UX Designer at Providence Global Center, where I architect the UX layer across 10+ healthcare products. Expertise in design systems architecture, accessibility (WCAG 2.2), AI-integrated design workflows, and user research. Executive PG in Product Management from Duke University (AI/ML, Digital Transformation). Published author. ET Healthcare Awards 2023 winner.
+  </div>
+
+  <h3>Profile Banner & Photo</h3>
+  <ul>
+    <li><strong>Banner:</strong> Your current banner is generic. Create a clean, dark-themed banner (3200×410px) with your name, title "Principal UX Designer | Enterprise UX Architecture", and a subtle design system visual (token swatches, component grid). Use Figma — takes 30 minutes</li>
+    <li><strong>Photo:</strong> Current photo is fine if it's recent and professional. If it's old, update it — a well-lit headshot with a neutral background</li>
+  </ul>
+</section>
+
+<!-- ============ CASE STUDY TEMPLATE ============ -->
+<section class="section" id="template">
+  <div class="sec-head"><span class="sec-num">04</span><h2>Architecture Case Study Template</h2></div>
+  <p>Use this exact structure for each of your 5 new case studies. It's designed to demonstrate architect-level thinking at every step.</p>
+
+  <h3>Behance Project Structure (Scroll-Based Storytelling)</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Section</th><th>Content</th><th>Visual</th><th>Length</th></tr></thead>
+    <tbody>
+      <tr><td style="color:var(--gold)">1. Hero Banner</td><td>Project title, your role, company, timeline, key metric</td><td>Dark themed hero image with project screens</td><td>1 screen</td></tr>
+      <tr><td style="color:var(--gold)">2. Context & Challenge</td><td>Business problem, scale (users, products, teams), constraints</td><td>Challenge statement in large typography</td><td>1-2 screens</td></tr>
+      <tr><td style="color:var(--blue)">3. My Role & Team</td><td>Your specific role, team size, stakeholders, your scope of authority</td><td>Team structure diagram</td><td>1 screen</td></tr>
+      <tr><td style="color:var(--blue)">4. Architecture Assessment</td><td>How you audited the current state — maturity, gaps, opportunities</td><td>Audit findings, heuristic scores, pain point map</td><td>2-3 screens</td></tr>
+      <tr><td style="color:var(--teal)">5. Architecture Strategy</td><td>Your proposed solution — why this approach, what trade-offs, what alternatives were rejected</td><td>Architecture diagram, decision matrix</td><td>2-3 screens</td></tr>
+      <tr><td style="color:var(--teal)">6. Design Process</td><td>Research → IA → wireframes → prototypes → testing — but framed as architecture decisions</td><td>Process artifacts, wireframes, prototypes</td><td>3-5 screens</td></tr>
+      <tr><td style="color:var(--purple)">7. System & Component Design</td><td>Design system components, token architecture, responsive patterns</td><td>Component library, token specs, responsive breakdowns</td><td>3-4 screens</td></tr>
+      <tr><td style="color:var(--purple)">8. Accessibility Architecture</td><td>How a11y was embedded at token, component, and process levels</td><td>ARIA specs, contrast matrices, keyboard flow</td><td>1-2 screens</td></tr>
+      <tr><td style="color:var(--green)">9. Outcomes & Metrics</td><td>Business impact, user impact, system impact — with real numbers</td><td>Metrics cards, before/after comparisons</td><td>1-2 screens</td></tr>
+      <tr><td style="color:var(--green)">10. Reflections</td><td>What you'd do differently, what you learned, what's next</td><td>Key learnings in quote format</td><td>1 screen</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Visual Design Standard for Case Studies</h3>
+  <ul>
+    <li><strong>Color palette:</strong> Dark background (#0C0E13 or #111827), gold/amber accents, clean white text. Matches enterprise/architect aesthetic — NOT a playful designer portfolio</li>
+    <li><strong>Typography:</strong> Use a serif for headings (Playfair Display or Cormorant Garamond) + DM Sans for body. Signals sophistication and strategic thinking</li>
+    <li><strong>Layout:</strong> Full-width sections with generous whitespace. Architecture diagrams should be custom-made, not screenshots of sticky notes</li>
+    <li><strong>Consistency:</strong> All 7 projects should share the same visual template. This itself demonstrates systems thinking</li>
+  </ul>
+</section>
+
+<!-- ============ 4-WEEK PLAN ============ -->
+<section class="section" id="timeline">
+  <div class="sec-head"><span class="sec-num">05</span><h2>4-Week Portfolio Rebuild Timeline</h2></div>
+  <p>Designed for 10-12 hours/week alongside your full-time job. By the end of Week 4, your portfolio will match your resume.</p>
+
+  <div class="tl-item">
+    <div class="tl-week" style="color:var(--red)">Day 1</div>
+    <div class="tl-content"><strong>Emergency Profile Fix (1 hour)</strong><p>Update bio, title, work experience, social links, availability status. This takes 15 minutes and eliminates the biggest red flag immediately.</p></div>
+  </div>
+  <div class="tl-item">
+    <div class="tl-week">Week 1</div>
+    <div class="tl-content"><strong>Design System Case Study + Archive Old Work (10-12 hrs)</strong><p>Build your #1 hero project: Enterprise Design System Architecture at Providence. Create all diagrams (token architecture, component hierarchy, governance model) in Figma. Archive the 6 projects flagged for removal. Create the new Behance project with the dark editorial template.</p></div>
+  </div>
+  <div class="tl-item">
+    <div class="tl-week">Week 2</div>
+    <div class="tl-content"><strong>Trusana + ATS Modernization Case Studies (10-12 hrs)</strong><p>Build projects #2 and #3. These share similar visual template — create #2 first, then adapt for #3. Focus on architecture diagrams, workflow before/afters, and metric callouts.</p></div>
+  </div>
+  <div class="tl-item">
+    <div class="tl-week">Week 3</div>
+    <div class="tl-content"><strong>AI Workflows + Accessibility Architecture (8-10 hrs)</strong><p>Build projects #4 and #5. These are shorter case studies (thought leadership format). #4 is unique and differentiating — spend extra time making the AI workflow diagrams compelling. #5 leverages your deep expertise.</p></div>
+  </div>
+  <div class="tl-item">
+    <div class="tl-week">Week 4</div>
+    <div class="tl-content"><strong>Refresh Existing + Profile Banner + Final Polish (6-8 hrs)</strong><p>Refresh IIT Bombay and IoT Dashboard case studies with architecture framing. Create the new profile banner in Figma. Reorder all projects (Design System first, then Trusana, ATS, AI, Accessibility, IIT Bombay, IoT). Final review of all projects for consistency.</p></div>
+  </div>
+
+  <div class="verdict" style="border-left:3px solid var(--green);margin-top:24px">
+    <div class="verdict-head"><span class="verdict-icon">✅</span><div class="verdict-title">End State: What a VP Sees When They Open Your Portfolio</div></div>
+    <div class="verdict-body">
+      A Principal UX Designer who architects enterprise design systems at healthcare scale, drives measurable business transformation (25% conversion, 35% efficiency, 30% velocity), embeds accessibility as an architectural pattern, integrates AI into design workflows, and communicates with the rigor and clarity of someone ready for a Principal UX Architect role. The portfolio MATCHES the resume. The narrative is consistent. The visual quality signals enterprise sophistication.<br><br>
+      <strong>That's the difference between "interesting candidate" and "schedule the final round."</strong>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BEYOND BEHANCE ============ -->
+<section class="section" id="beyond">
+  <div class="sec-head"><span class="sec-num">06</span><h2>Beyond Behance: Portfolio Platform Strategy</h2></div>
+  <p>Behance is fine for discovery, but for architect-level roles you should also consider these platforms.</p>
+
+  <div class="grid">
+    <div class="card" style="border-left:3px solid var(--gold)">
+      <span class="card-icon">🌐</span>
+      <div class="card-title">Personal Portfolio Site</div>
+      <div class="card-sub">Highest impact · 2-3 days to build</div>
+      <div class="card-body">Build a simple portfolio site (your GitHub Pages domain already exists: anuragchallapalli1987.github.io). Use it for long-form case studies with better typography and custom layouts than Behance allows. Link from resume and LinkedIn. A custom domain signals seniority.</div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--blue)">
+      <span class="card-icon">💼</span>
+      <div class="card-title">LinkedIn Featured Section</div>
+      <div class="card-sub">Quick win · 30 minutes</div>
+      <div class="card-body">Add your top 3 Behance case studies to LinkedIn's Featured section. Update your LinkedIn headline to match your resume. Most VP hiring managers check LinkedIn before Behance.</div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--teal)">
+      <span class="card-icon">✍️</span>
+      <div class="card-title">Medium / LinkedIn Articles</div>
+      <div class="card-sub">Thought leadership · Ongoing</div>
+      <div class="card-body">Write 2-3 articles on topics from your experience: "Building Enterprise Design Systems in Healthcare," "Embedding Accessibility as Architecture," "AI Tools in the Design Workflow." This builds public credibility architects need.</div>
+    </div>
+  </div>
+
+  <h3>Interview Portfolio Presentation (Separate from Behance)</h3>
+  <p>For the actual interview, don't just share your Behance link. Prepare a <strong>dedicated portfolio presentation deck</strong> (Google Slides or Figma) with 3-4 of your strongest case studies in the ARCH framework format from the interview curriculum. This gives you control over the narrative, pacing, and what you emphasize.</p>
+
+  <div class="prompt">
+    <div class="prompt-label">Portfolio Deck Structure</div>
+    Slide 1: Title + 90-second career narrative<br>
+    Slides 2-12: Case Study 1 — Design System Architecture (ARCH framework)<br>
+    Slides 13-22: Case Study 2 — Trusana Healthcare Transformation<br>
+    Slides 23-30: Case Study 3 — AI-Integrated Design Workflows<br>
+    Slide 31: Summary of Enterprise Impact (metrics grid)<br>
+    Slide 32: What I'm Looking For (alignment with role)<br>
+    Slide 33: Thank You + Questions for the Panel
+  </div>
+</section>
+
+<!-- ============ CHECKLIST ============ -->
+<section class="section" id="checklist">
+  <div class="sec-head"><span class="sec-num">07</span><h2>Portfolio Launch Checklist</h2></div>
+
+  <div class="tbl"><table>
+    <thead><tr><th>Task</th><th>Status</th><th>Deadline</th></tr></thead>
+    <tbody>
+      <tr><td>Update Behance bio, title, work experience, links</td><td>☐</td><td>Day 1</td></tr>
+      <tr><td>Remove Facebook link, add professional links only</td><td>☐</td><td>Day 1</td></tr>
+      <tr><td>Change availability from "Fulltime" to off/Freelance</td><td>☐</td><td>Day 1</td></tr>
+      <tr><td>Archive 6 old projects (Branding, Gramener, Scheduler, Booking, SoftDev, Syncrooms)</td><td>☐</td><td>Week 1</td></tr>
+      <tr><td>Create case study visual template in Figma (dark editorial)</td><td>☐</td><td>Week 1</td></tr>
+      <tr><td>Publish: Enterprise Design System Architecture case study</td><td>☐</td><td>Week 1</td></tr>
+      <tr><td>Publish: Trusana Healthcare UX Transformation case study</td><td>☐</td><td>Week 2</td></tr>
+      <tr><td>Publish: ATS & Job Portal Modernization case study</td><td>☐</td><td>Week 2</td></tr>
+      <tr><td>Publish: AI-Integrated Design Workflows case study</td><td>☐</td><td>Week 3</td></tr>
+      <tr><td>Publish: Accessibility Architecture at Scale case study</td><td>☐</td><td>Week 3</td></tr>
+      <tr><td>Refresh IIT Bombay case study with architecture framing</td><td>☐</td><td>Week 4</td></tr>
+      <tr><td>Refresh IoT Dashboard with architecture context</td><td>☐</td><td>Week 4</td></tr>
+      <tr><td>Create new Behance profile banner</td><td>☐</td><td>Week 4</td></tr>
+      <tr><td>Reorder projects (newest/strongest first)</td><td>☐</td><td>Week 4</td></tr>
+      <tr><td>Update LinkedIn Featured section with top 3 projects</td><td>☐</td><td>Week 4</td></tr>
+      <tr><td>Create interview portfolio deck (Google Slides/Figma)</td><td>☐</td><td>Week 4</td></tr>
+      <tr><td>Get feedback from 2 senior designers/architects</td><td>☐</td><td>Week 4</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+</div>
+
+<footer style="padding:36px 24px;text-align:center;border-top:1px solid var(--border);color:var(--text-muted);font-size:12px;max-width:900px;margin:0 auto">
+  Portfolio Transformation Plan — Anurag Challapalli &nbsp;·&nbsp; Built with Claude Opus 4.6 &nbsp;·&nbsp; May 2026
+</footer>
+
+</body>
+</html>

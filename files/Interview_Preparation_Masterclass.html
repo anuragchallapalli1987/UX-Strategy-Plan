@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Principal UX Architect — Interview Preparation Masterclass</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#06070A;--bg2:#0C0E14;--bg3:#12151E;--bg4:#1A1E2B;--bdr:#222840;--bdr2:#333A52;--tx:#E8EAEF;--tx2:#9CA4BA;--txm:#5E667E;--gold:#D4A84B;--gs:rgba(212,168,75,.09);--red:#EF5350;--rs:rgba(239,83,80,.08);--grn:#4ADE80;--gns:rgba(74,222,128,.08);--blu:#5B8DEF;--bls:rgba(91,141,239,.08);--tl:#34D399;--tls:rgba(52,211,153,.08);--pr:#A78BFA;--ps:rgba(167,139,250,.08);--am:#FBBF24;--as:rgba(251,191,36,.08);--ro:#F472B6;--ros:rgba(244,114,182,.08);--r:14px;--rs2:8px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);line-height:1.75;-webkit-font-smoothing:antialiased}
+::selection{background:var(--gold);color:#000}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--bdr);border-radius:3px}
+
+/* NAV */
+.side{position:fixed;top:0;left:0;width:260px;height:100vh;background:var(--bg2);border-right:1px solid var(--bdr);padding:18px 0;overflow-y:auto;z-index:100;transition:transform .3s}
+.side-brand{padding:0 18px 18px;border-bottom:1px solid var(--bdr);margin-bottom:10px}
+.side-brand .logo{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;color:var(--gold)}
+.side-brand .sub{font-size:9px;color:var(--txm);text-transform:uppercase;letter-spacing:2.5px;margin-top:2px}
+.ng{padding:5px 12px}
+.ng-t{font-size:9px;text-transform:uppercase;letter-spacing:2.5px;color:var(--txm);padding:7px 8px 3px;font-weight:600}
+.nl{display:flex;align-items:center;gap:7px;padding:6px 9px;border-radius:var(--rs2);color:var(--tx2);font-size:12px;font-weight:500;cursor:pointer;transition:all .2s;text-decoration:none}
+.nl:hover{background:var(--bg3);color:var(--tx)}
+.nl.ac{background:var(--gs);color:var(--gold)}
+.nl .ic{font-size:13px;width:16px;text-align:center;flex-shrink:0}
+.mob{display:none;position:fixed;top:12px;left:12px;z-index:200;background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--rs2);padding:7px 9px;color:var(--tx);font-size:16px;cursor:pointer}
+
+/* MAIN */
+.main{margin-left:260px;min-height:100vh}
+
+/* HERO */
+.hero{padding:72px 52px 56px;border-bottom:1px solid var(--bdr);background:linear-gradient(160deg,#06070A 0%,#0E1222 40%,#0A0D18 70%,#06070A 100%);position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-120px;right:-120px;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(212,168,75,.05) 0%,transparent 70%)}
+.hero-c{position:relative;z-index:1;max-width:680px}
+.hero-badge{display:inline-flex;align-items:center;gap:5px;background:var(--gs);border:1px solid rgba(212,168,75,.18);border-radius:100px;padding:4px 12px;font-size:10px;color:var(--gold);font-weight:600;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:18px}
+.hero h1{font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:700;line-height:1.12;letter-spacing:-.8px;margin-bottom:14px}
+.hero h1 em{font-style:italic;color:var(--gold)}
+.hero p{font-size:14.5px;color:var(--tx2);max-width:580px;line-height:1.8}
+
+/* SECTIONS */
+.sec{padding:48px 52px;border-bottom:1px solid var(--bdr)}
+.sh{display:flex;align-items:center;gap:12px;margin-bottom:24px}
+.sn{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--gold);background:var(--gs);padding:3px 9px;border-radius:100px;font-weight:500}
+.sec h2{font-family:'Cormorant Garamond',serif;font-size:27px;font-weight:700}
+.sec h3{font-size:17px;font-weight:700;margin:26px 0 12px;padding-bottom:5px;border-bottom:1px solid var(--bdr)}
+.sec h4{font-size:12px;font-weight:600;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin:18px 0 8px}
+.sec p,.sec li{font-size:13.5px;color:var(--tx2);line-height:1.8}
+.sec ul{list-style:none;padding:0}
+.sec ul li{padding:4px 0 4px 18px;position:relative}
+.sec ul li::before{content:'';position:absolute;left:5px;top:12px;width:4px;height:4px;border-radius:50%;background:var(--gold)}
+
+/* VOICE BOX */
+.voice{background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--r);padding:22px;margin:18px 0;position:relative}
+.voice::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;border-radius:var(--r) 0 0 var(--r)}
+.voice.vp::before{background:var(--gold)}
+.voice.sd::before{background:var(--blu)}
+.voice-who{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.voice-who .avatar{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px}
+.voice-who .name{font-size:12px;font-weight:700;color:var(--tx)}
+.voice-who .role{font-size:10px;color:var(--txm);margin-left:4px}
+.voice-body{font-size:13.5px;color:var(--tx2);line-height:1.8;font-style:italic}
+.voice-body strong{color:var(--tx);font-style:normal}
+
+/* CARDS */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin:16px 0}
+.card{background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--r);padding:18px;transition:all .2s}
+.card:hover{border-color:var(--bdr2);background:var(--bg4)}
+.card-icon{font-size:20px;margin-bottom:7px;display:block}
+.card-title{font-size:14px;font-weight:700;margin-bottom:4px}
+.card-sub{font-size:10px;color:var(--txm);text-transform:uppercase;letter-spacing:1px;margin-bottom:7px}
+.card-body{font-size:12.5px;color:var(--tx2);line-height:1.7}
+
+/* TABLES */
+.tw{overflow-x:auto;margin:14px 0;border-radius:var(--r);border:1px solid var(--bdr)}
+table{width:100%;border-collapse:collapse;font-size:12px}
+thead th{background:var(--bg3);color:var(--tx);font-weight:600;text-align:left;padding:9px 13px;border-bottom:2px solid var(--bdr);font-size:10px;text-transform:uppercase;letter-spacing:.5px}
+tbody td{padding:8px 13px;border-bottom:1px solid var(--bdr);color:var(--tx2);vertical-align:top}
+tbody tr:hover{background:var(--bg4)}
+tbody td:first-child{font-weight:600;color:var(--tx)}
+
+/* ANSWER BLOCK */
+.ans{background:var(--bg3);border:1px solid var(--bdr);border-radius:var(--rs2);padding:16px 18px;margin:10px 0}
+.ans-label{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;font-weight:700;margin-bottom:8px}
+.ans-label.good{color:var(--grn)}
+.ans-label.bad{color:var(--red)}
+.ans-label.q{color:var(--gold)}
+.ans-body{font-size:13px;color:var(--tx2);line-height:1.8}
+.ans-body strong{color:var(--tx)}
+
+/* PROMPT */
+.prompt{background:var(--bg3);border:1px solid var(--bdr);border-left:3px solid var(--gold);border-radius:var(--rs2);padding:14px 18px;margin:10px 0;font-size:12.5px;font-family:'JetBrains Mono',monospace;color:var(--tx2);line-height:1.7}
+.prompt-l{font-family:'DM Sans',sans-serif;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--gold);font-weight:700;margin-bottom:6px}
+
+/* SCORE */
+.score{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:100px;font-size:10px;font-weight:600}
+.s-pass{background:var(--gns);color:var(--grn)}
+.s-fail{background:var(--rs);color:var(--red)}
+.s-warn{background:var(--as);color:var(--am)}
+
+/* EXPAND */
+.exp{background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--r);margin:14px 0;overflow:hidden}
+.exp-head{padding:16px 20px;display:flex;align-items:center;gap:12px;cursor:pointer;user-select:none;transition:all .2s}
+.exp-head:hover{background:var(--bg4)}
+.exp-head h3{font-size:15px;font-weight:700;margin:0;border:none;padding:0;flex:1}
+.exp-tog{width:24px;height:24px;border-radius:50%;background:var(--bg3);display:flex;align-items:center;justify-content:center;color:var(--txm);font-size:14px;transition:all .3s}
+.exp.open .exp-tog{transform:rotate(180deg);color:var(--gold)}
+.exp-body{max-height:0;overflow:hidden;transition:max-height .5s cubic-bezier(.4,0,.2,1)}
+.exp.open .exp-body{max-height:20000px}
+.exp-inner{padding:0 20px 20px;border-top:1px solid var(--bdr)}
+
+@media(max-width:960px){.side{transform:translateX(-100%)}.side.open{transform:translateX(0)}.mob{display:block}.main{margin-left:0}.hero{padding:64px 20px 44px}.hero h1{font-size:30px}.sec{padding:36px 20px}.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<button class="mob" onclick="document.querySelector('.side').classList.toggle('open')">☰</button>
+
+<nav class="side">
+  <div class="side-brand">
+    <div class="logo">Interview Masterclass</div>
+    <div class="sub">Principal UX Architect</div>
+  </div>
+  <div class="ng">
+    <div class="ng-t">The Hiring Lens</div>
+    <a class="nl ac" href="#hero"><span class="ic">🏠</span> Home</a>
+    <a class="nl" href="#scorecard"><span class="ic">📋</span> Hidden Scorecard</a>
+    <a class="nl" href="#loop"><span class="ic">🔄</span> Interview Loop</a>
+    <a class="nl" href="#redflags"><span class="ic">🚩</span> Red Flags We Watch</a>
+  </div>
+  <div class="ng">
+    <div class="ng-t">Model Answers</div>
+    <a class="nl" href="#tmay"><span class="ic">🎤</span> Tell Me About Yourself</a>
+    <a class="nl" href="#arch-q"><span class="ic">🏗️</span> Architecture Questions</a>
+    <a class="nl" href="#strategy-q"><span class="ic">📐</span> Strategy Questions</a>
+    <a class="nl" href="#behavioral-q"><span class="ic">💬</span> Behavioral Questions</a>
+    <a class="nl" href="#ai-q"><span class="ic">🤖</span> AI & Emerging Tech</a>
+  </div>
+  <div class="ng">
+    <div class="ng-t">Advanced Prep</div>
+    <a class="nl" href="#whiteboard"><span class="ic">🖊️</span> Whiteboard Mastery</a>
+    <a class="nl" href="#case-pres"><span class="ic">📊</span> Case Presentation</a>
+    <a class="nl" href="#ask-us"><span class="ic">❓</span> Questions to Ask Us</a>
+    <a class="nl" href="#negotiation"><span class="ic">💰</span> Negotiation</a>
+    <a class="nl" href="#final-week"><span class="ic">🎯</span> Final Week Prep</a>
+  </div>
+</nav>
+
+<div class="main">
+
+<!-- HERO -->
+<header class="hero" id="hero">
+  <div class="hero-c">
+    <div class="hero-badge">🎯 Written by Your Future Interviewers</div>
+    <h1>What We <em>Actually</em> Look For When Hiring a Principal UX Architect</h1>
+    <p>This isn't a generic interview guide. This is the internal hiring rubric, scorecard, and evaluation framework that a VP of Product Experience and Senior Director of UX would use to evaluate you — tailored to your specific profile, strengths, and gaps.</p>
+  </div>
+</header>
+
+<!-- ============ SCORECARD ============ -->
+<section class="sec" id="scorecard">
+  <div class="sh"><span class="sn">01</span><h2>The Hidden Scorecard</h2></div>
+  <p>Every interviewer has a mental scorecard. Here's what's actually on ours — and how we weight it for Principal UX Architect. This isn't what the job posting says. This is what actually decides the hire.</p>
+
+  <div class="voice vp">
+    <div class="voice-who"><div class="avatar" style="background:var(--gs)">👤</div><div class="name">VP, Product Experience</div><div class="role">— What I'm thinking during your interview</div></div>
+    <div class="voice-body">"I'm not evaluating whether you can design a good screen. I've already assumed you can — your 16 years of experience tells me that. What I'm evaluating is whether <strong>I can put you in front of our CTO and engineering VPs and trust you to hold your ground on architecture decisions</strong>. Can you translate design thinking into technical architecture language? Can you justify a $2M design system investment in 5 minutes? Can you tell me what's wrong with our current product architecture in 30 minutes of looking at it? That's what separates an architect from a senior designer."</div>
+  </div>
+
+  <div class="voice sd">
+    <div class="voice-who"><div class="avatar" style="background:var(--bls)">👤</div><div class="name">Senior Director, UX</div><div class="role">— What I'm scoring you on</div></div>
+    <div class="voice-body">"I need someone who can own the architectural layer I don't have time to own myself. I'll be evaluating three things: <strong>(1) Do you think in systems, not screens?</strong> When I describe a problem, do you immediately zoom out to the system, or do you start sketching a solution? <strong>(2) Can you govern without micromanaging?</strong> I have 15 product teams — I need architectural standards that enable, not constrain. <strong>(3) Do you have the executive presence to present to our leadership team?</strong> You'll be in rooms with people who don't understand UX — can you make them care?"</div>
+  </div>
+
+  <h3>The Actual Scoring Matrix (What We Write After Your Interview)</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Dimension</th><th>Weight</th><th>Strong Hire Signal</th><th>No Hire Signal</th></tr></thead>
+    <tbody>
+      <tr><td>Systems Thinking</td><td><strong>25%</strong></td><td>Immediately zooms to system-level implications; considers ripple effects across products; thinks in patterns, not pages</td><td>Jumps to visual solutions; thinks project-by-project; can't articulate how decisions cascade</td></tr>
+      <tr><td>Technical Architecture Fluency</td><td><strong>20%</strong></td><td>Speaks credibly about APIs, tokens, component contracts, performance; engineers would respect them</td><td>Hand-waves technical topics; says "I partner with engineering" without substance; can't explain how a design system is built technically</td></tr>
+      <tr><td>Strategic Communication</td><td><strong>20%</strong></td><td>Frames everything in business outcomes; adapts language to the audience; concise and structured</td><td>Talks in design jargon; rambling answers; can't connect design to revenue/efficiency/risk</td></tr>
+      <tr><td>Enterprise Scale Experience</td><td><strong>15%</strong></td><td>Has governed design across 5+ product teams; understands federated models; has real metrics at scale</td><td>Only has experience on single products; no governance experience; metrics are vague</td></tr>
+      <tr><td>Accessibility & Compliance Depth</td><td><strong>10%</strong></td><td>Embeds a11y at architectural level; knows WCAG deeply; has implemented org-wide programs</td><td>Treats a11y as a testing phase; superficial knowledge; checkbox mentality</td></tr>
+      <tr><td>Leadership & Influence</td><td><strong>10%</strong></td><td>Has influenced without authority; mentored architects; built teams; handled conflict with engineering</td><td>Only managed direct reports; avoids conflict; needs authority to drive change</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="voice vp">
+    <div class="voice-who"><div class="avatar" style="background:var(--gs)">👤</div><div class="name">VP, Product Experience</div><div class="role">— Your profile strengths</div></div>
+    <div class="voice-body">"Looking at Anurag's resume, here's what excites me: <strong>Healthcare enterprise experience is extremely hard to find</strong> — regulated industry, HIPAA, accessibility, Medicare/Medicaid populations. The combination of CUA certification + design systems + front-end development + product management from Duke is genuinely rare. The AI tool integration is forward-thinking. Where I'll probe hard: <strong>Can he articulate architecture at the technical level?</strong> Can he present to a CTO? His resume says 'enterprise design governance' — I want to hear specific governance frameworks, not buzzwords."</div>
+  </div>
+</section>
+
+<!-- ============ INTERVIEW LOOP ============ -->
+<section class="sec" id="loop">
+  <div class="sh"><span class="sn">02</span><h2>The Interview Loop Structure</h2></div>
+  <p>Principal UX Architect roles typically run 5-6 rounds across 2-3 weeks. Here's what each round evaluates and how to prepare specifically.</p>
+
+  <div class="tw"><table>
+    <thead><tr><th>Round</th><th>Who</th><th>Duration</th><th>What They Evaluate</th><th>Your Strategy</th></tr></thead>
+    <tbody>
+      <tr><td style="color:var(--gold)">1. Recruiter Screen</td><td>Talent Acquisition</td><td>30 min</td><td>Role fit, salary expectations, availability, communication</td><td>Nail the 90-second narrative. Don't undersell. Ask about the interview process</td></tr>
+      <tr><td style="color:var(--blu)">2. Hiring Manager</td><td>Sr. Director UX</td><td>60 min</td><td>Architecture thinking, portfolio walkthrough, leadership depth, culture fit</td><td>Lead with your Design System case study. Show ARCH framework thinking. Ask about their current architecture challenges</td></tr>
+      <tr><td style="color:var(--tl)">3. Technical Round</td><td>Engineering Director / Staff Engineer</td><td>60 min</td><td>Technical credibility, API thinking, component architecture, cross-functional respect</td><td>This is your biggest risk area. Speak their language: tokens, contracts, performance budgets, CI/CD integration. Your front-end dev background is your secret weapon here</td></tr>
+      <tr><td style="color:var(--pr)">4. Case Study / Whiteboard</td><td>Design Panel (2-3 people)</td><td>90 min</td><td>Architecture methodology, real-time problem solving, communication under pressure</td><td>Use ARCH framework. Draw system diagrams first, not screens. Ask clarifying questions before starting. Narrate your thinking</td></tr>
+      <tr><td style="color:var(--am)">5. Leadership Round</td><td>VP Product / CTO</td><td>45 min</td><td>Strategic vision, executive presence, business alignment, organizational fit</td><td>Frame everything in business outcomes. Show you can operate at their altitude. This is where your Duke PM program and P&L thinking pays off</td></tr>
+      <tr><td style="color:var(--grn)">6. Culture / Team Fit</td><td>Cross-functional panel</td><td>45 min</td><td>Collaboration style, conflict resolution, mentoring, values alignment</td><td>Be authentic. Share real stories of conflict → resolution. Show humility about mistakes</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ============ RED FLAGS ============ -->
+<section class="sec" id="redflags">
+  <div class="sh"><span class="sn">03</span><h2>Red Flags We Watch For</h2></div>
+  <p>These are instant disqualifiers or strong negative signals. Study these carefully — many experienced designers make these mistakes.</p>
+
+  <div class="grid" style="grid-template-columns:1fr 1fr">
+    <div class="card" style="border-left:3px solid var(--red)">
+      <span class="card-icon">🚩</span>
+      <div class="card-title">Starts with visual solutions</div>
+      <div class="card-body">When given a problem, immediately starts talking about UI patterns or colors instead of asking about users, constraints, and system context. <strong>Architects diagnose before they prescribe.</strong></div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--red)">
+      <span class="card-icon">🚩</span>
+      <div class="card-title">"I partner with engineering"</div>
+      <div class="card-body">Says this without substance. We want to hear HOW you partner — specific API contract negotiations, component spec reviews, performance budget discussions. <strong>Vague collaboration claims are a strong negative signal.</strong></div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--red)">
+      <span class="card-icon">🚩</span>
+      <div class="card-title">Can't explain WHY</div>
+      <div class="card-body">Shows impressive work but can't articulate the reasoning behind architecture decisions. "We chose React" — why? What were alternatives? What were the trade-offs? <strong>Architects must justify decisions under scrutiny.</strong></div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--red)">
+      <span class="card-icon">🚩</span>
+      <div class="card-title">No metrics, only process</div>
+      <div class="card-body">"We did research, then wireframes, then testing" — that's a process description, not an architecture story. <strong>We want to hear: what was the measurable outcome of your architecture decisions?</strong></div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--red)">
+      <span class="card-icon">🚩</span>
+      <div class="card-title">Avoids technical questions</div>
+      <div class="card-body">Redirects every technical question to "my engineering partner handles that." An architect doesn't need to code, but they must understand the technical landscape deeply enough to make informed architectural decisions.</div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--red)">
+      <span class="card-icon">🚩</span>
+      <div class="card-title">Claims credit without specificity</div>
+      <div class="card-body">"I led the design system" — what specifically did YOU do vs. the team? We want individual contribution clarity, especially at the architecture decision level. <strong>Use "I" for your decisions, "we" for team efforts.</strong></div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--red)">
+      <span class="card-icon">🚩</span>
+      <div class="card-title">Can't handle pushback</div>
+      <div class="card-body">When we challenge an answer, the candidate gets defensive or caves immediately. <strong>We want constructive disagreement</strong> — acknowledge the challenge, reframe your position, or thoughtfully concede with reasoning.</div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--red)">
+      <span class="card-icon">🚩</span>
+      <div class="card-title">Portfolio doesn't match resume</div>
+      <div class="card-body">Resume says "enterprise architecture leader" but portfolio shows mid-level design work. <strong>This is the #1 reason we reject experienced candidates.</strong> Your portfolio must demonstrate the level your resume claims.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TELL ME ABOUT YOURSELF ============ -->
+<section class="sec" id="tmay">
+  <div class="sh"><span class="sn">04</span><h2>"Tell Me About Yourself" — The 90-Second Architecture Narrative</h2></div>
+
+  <div class="voice vp">
+    <div class="voice-who"><div class="avatar" style="background:var(--gs)">👤</div><div class="name">VP, Product Experience</div><div class="role">— What I need to hear in 90 seconds</div></div>
+    <div class="voice-body">"I'm evaluating three things: <strong>(1) Is this person an architect or a designer who wants to be one?</strong> (2) Do they have a coherent career progression story? (3) Can they communicate at executive level — structured, concise, confident? Most candidates fail here by either rambling for 5 minutes or giving a chronological resume walkthrough. Neither works."</div>
+  </div>
+
+  <h3>The Formula: Past → Present → Future (30-30-30 seconds)</h3>
+
+  <div class="ans">
+    <div class="ans-label bad">❌ BAD ANSWER — What most candidates say</div>
+    <div class="ans-body">"So I started my career in 2009 as a UI designer at Tangentest Technologies. Then I moved to Sparity Soft in 2013. Then in 2014 I cofounded Sync Apps where we built a hotel industry app. Then I joined Gramener in 2016 where I worked on Material Design. Then WinWire from 2016 to 2022 where I did healthcare UX. Now I'm at Providence as a Principal UX Designer. I have experience in Figma, Adobe, HTML, CSS..."</div>
+  </div>
+
+  <div class="ans">
+    <div class="ans-label good">✅ MODEL ANSWER — Tailored for Anurag</div>
+    <div class="ans-body">
+      <strong>[PAST — 30 sec]</strong> "I've spent the last 16 years progressively moving from designing interfaces to architecting enterprise UX systems. I started in front-end development — HTML, CSS, JavaScript — which gives me the technical fluency to have credible conversations with engineering about component APIs, performance budgets, and platform architecture. That foundation led me through roles at Gramener where I standardized Material Design across 25+ products, and WinWire where I built research-driven UX practices for healthcare and enterprise applications."<br><br>
+      <strong>[PRESENT — 30 sec]</strong> "For the past three years at Providence Global Center, I've been architecting the UX layer across 10+ healthcare products serving Medicare and Medicaid populations. As Principal UX Designer, I lead a team of 15-20, architected our enterprise design system with token architecture and governance frameworks, and recently modernized our Applicant Tracking System — reducing task completion time by 35%. I've also integrated AI tools like Figma Make and Claude into our design workflow, and led organization-wide accessibility compliance to WCAG 2.2 AA."<br><br>
+      <strong>[FUTURE — 30 sec]</strong> "I'm looking for a Principal UX Architect role where I can define the architectural vision for a product platform — not just the pixels, but the systems, patterns, governance, and standards that let an entire organization deliver consistent, accessible, high-quality experiences at scale. What drew me to this role specifically is [reference something specific about their company/product]."
+    </div>
+  </div>
+
+  <div class="voice sd">
+    <div class="voice-who"><div class="avatar" style="background:var(--bls)">👤</div><div class="name">Senior Director, UX</div><div class="role">— Why this answer works</div></div>
+    <div class="voice-body">"Notice what this answer does: <strong>(1) Establishes technical credibility immediately</strong> — front-end development background means engineers will respect him. <strong>(2) Uses architecture language</strong> — 'architecting the UX layer,' 'token architecture,' 'governance frameworks' — not 'I designed screens.' <strong>(3) Leads with scale</strong> — '10+ products,' '15-20 team,' 'Medicare/Medicaid populations.' <strong>(4) Shows progression</strong> — from implementation to systems to architecture. <strong>(5) Ends with intentionality</strong> — knows exactly what he wants and why. I'd immediately want to dig deeper."</div>
+  </div>
+
+  <h4>Practice Protocol</h4>
+  <ul>
+    <li>Record yourself delivering this 10 times. Watch each recording</li>
+    <li>Target: exactly 90 seconds (±10 sec). Time yourself</li>
+    <li>Eliminate filler words: "um," "so," "basically," "you know"</li>
+    <li>Maintain eye contact with the camera (practice for video calls)</li>
+    <li>Customize the final sentence for each company you interview with</li>
+  </ul>
+</section>
+
+<!-- ============ ARCHITECTURE QUESTIONS ============ -->
+<section class="sec" id="arch-q">
+  <div class="sh"><span class="sn">05</span><h2>Architecture Questions — Model Answers</h2></div>
+  <p>These are the highest-weight questions. Each model answer is tailored to your Providence experience.</p>
+
+  <div class="exp open">
+    <div class="exp-head" onclick="this.parentElement.classList.toggle('open')">
+      <span style="color:var(--gold);font-weight:700;flex-shrink:0">Q1.</span>
+      <h3>"How would you architect a design system for an organization with 15 product teams across 3 platforms?"</h3>
+      <div class="exp-tog">▼</div>
+    </div>
+    <div class="exp-body"><div class="exp-inner">
+      <div class="voice vp">
+        <div class="voice-who"><div class="avatar" style="background:var(--gs)">👤</div><div class="name">VP</div><div class="role">— What I'm really asking</div></div>
+        <div class="voice-body">"I want to know if you think in layers and governance, not just components. Do you understand federated models? Token architecture? How do you balance standardization with team autonomy? This question eliminates 80% of candidates."</div>
+      </div>
+      <div class="ans">
+        <div class="ans-label good">✅ MODEL ANSWER</div>
+        <div class="ans-body">
+          "I'd approach this in four layers, which mirrors what I built at Providence across 10+ product surfaces:<br><br>
+          <strong>Layer 1 — Token Foundation.</strong> Start with a platform-agnostic design token layer. I'd use the DTCG format specification to define semantic tokens — not raw values. So instead of 'blue-500,' we'd have 'color-interactive-primary' that resolves differently per platform and theme. This includes color, spacing, typography, elevation, motion, and border-radius tokens. The token layer is the single source of truth — everything above it inherits.<br><br>
+          <strong>Layer 2 — Core Component Library.</strong> Platform-specific implementations of shared components — Button, Input, Card, Modal, Navigation — each with a defined API contract: props, variants, states, events, ARIA requirements. At Providence, I defined these contracts so designers and engineers share the same language. The contract specifies what a Button can do, not how it's implemented on each platform.<br><br>
+          <strong>Layer 3 — Pattern Library.</strong> Composed patterns that combine core components into product-level solutions — forms, data tables, search experiences, onboarding flows. These are more opinionated but still governed by the system. This is where 15 teams get the most value — they don't rebuild common patterns, they configure them.<br><br>
+          <strong>Layer 4 — Governance Model.</strong> For 15 teams, I'd use a federated contribution model — a core architecture team owns the token and component layers, while product teams contribute patterns through a structured RFC (Request for Comment) process. At Providence, I established design review cadences, UX quality gates, and a deprecation policy. Each contribution goes through: proposal → architecture review → accessibility audit → documentation → release.<br><br>
+          <strong>The key architectural decision</strong> is what's centralized vs. federated. Tokens and core components: centralized, strict governance. Patterns and product-specific compositions: federated with review. This balance prevents both chaos and bottleneck.<br><br>
+          On measurement: I track adoption rate per team, design consistency scores (automated visual regression), time-to-build for new features using system components, and defect rates in system components vs. custom code. At Providence, this approach reduced design inconsistencies by 60% and accelerated development by 30%."
+        </div>
+      </div>
+      <div class="voice sd">
+        <div class="voice-who"><div class="avatar" style="background:var(--bls)">👤</div><div class="name">Senior Director</div><div class="role">— Why this is a strong hire signal</div></div>
+        <div class="voice-body">"This answer demonstrates <strong>layered thinking</strong> (tokens → components → patterns → governance), <strong>real implementation experience</strong> (Providence specifics), <strong>technical depth</strong> (DTCG spec, API contracts, visual regression), and <strong>governance maturity</strong> (federated model, RFC process). The metrics at the end seal it. This person has done this, not just read about it."</div>
+      </div>
+    </div></div>
+  </div>
+
+  <div class="exp">
+    <div class="exp-head" onclick="this.parentElement.classList.toggle('open')">
+      <span style="color:var(--gold);font-weight:700;flex-shrink:0">Q2.</span>
+      <h3>"How do you architect for accessibility at the systems level?"</h3>
+      <div class="exp-tog">▼</div>
+    </div>
+    <div class="exp-body"><div class="exp-inner">
+      <div class="ans">
+        <div class="ans-label good">✅ MODEL ANSWER — Your strongest topic. Own it.</div>
+        <div class="ans-body">
+          "Accessibility at the architecture level means it's baked in, not bolted on. I think of it in three layers:<br><br>
+          <strong>Token-level accessibility.</strong> Color tokens include contrast ratio metadata. Every interactive color pair meets 4.5:1 minimum. Focus styles are system defaults, not optional additions. Reduced-motion preferences cascade through the token layer so every animation in the system respects prefers-reduced-motion automatically. At Providence, I defined semantic color tokens that guarantee contrast compliance in both light and dark themes by construction — you literally can't pick a non-compliant combination from the system.<br><br>
+          <strong>Component-level accessibility.</strong> Every component in the system has an ARIA contract — what role it announces, what keyboard interactions it supports, what screen reader experience it provides. This is part of the component API spec, not a separate document. When a developer uses our Button component, it's accessible by default — focus management, keyboard activation, screen reader announcement are all built in. At Providence, I defined these contracts so QA can test against them, not just against visual specs.<br><br>
+          <strong>Process-level accessibility.</strong> I facilitated accessibility workshops across the design and engineering teams, embedded a11y checkpoints into our design review cadence, and advocated for automated testing in CI/CD. The goal is to catch 80% of accessibility issues before they reach manual testing. At Providence, this shifted us from finding a11y bugs in QA to preventing them in design.<br><br>
+          The architectural insight is that <strong>accessibility is a system property, not a component property.</strong> If your tokens, components, and processes are all accessible by default, then every product built on the system inherits that accessibility. That's the scalable approach for 10+ products — you can't manually audit every screen, but you can architect a system where compliance is the default state."
+        </div>
+      </div>
+    </div></div>
+  </div>
+
+  <div class="exp">
+    <div class="exp-head" onclick="this.parentElement.classList.toggle('open')">
+      <span style="color:var(--gold);font-weight:700;flex-shrink:0">Q3.</span>
+      <h3>"What's the difference between a design system and a UX architecture?"</h3>
+      <div class="exp-tog">▼</div>
+    </div>
+    <div class="exp-body"><div class="exp-inner">
+      <div class="voice vp">
+        <div class="voice-who"><div class="avatar" style="background:var(--gs)">👤</div><div class="name">VP</div><div class="role">— This is a trap question. Most candidates conflate them.</div></div>
+        <div class="voice-body">"If a candidate says they're the same thing, they're a design system lead, not an architect. I need them to articulate the broader vision."</div>
+      </div>
+      <div class="ans">
+        <div class="ans-label good">✅ MODEL ANSWER</div>
+        <div class="ans-body">
+          "A design system is a component of UX architecture — an important one, but just one layer.<br><br>
+          <strong>A design system</strong> is the toolkit: tokens, components, patterns, documentation, and the governance around them. It answers 'what building blocks do we use and how?'<br><br>
+          <strong>UX architecture</strong> is the broader structural framework. It encompasses the design system but also includes: information architecture across the product portfolio, interaction architecture patterns (how users navigate between products and surfaces), experience principles that guide decision-making, platform strategy (how experiences adapt across web, mobile, voice, spatial), performance architecture (how design decisions impact load times and responsiveness), accessibility architecture (how a11y is embedded at every layer), research architecture (how insights inform system-level decisions), and the organizational model that sustains all of this.<br><br>
+          Think of it this way: a design system is the building code. UX architecture is the city plan — it includes the building code, but also the street layout, the zoning, the infrastructure, and the long-term vision for how the city grows.<br><br>
+          At Providence, my design system work was a critical piece, but my architecture work also included defining the information architecture patterns for patient portal navigation, the interaction patterns for regulatory enrollment workflows, and the accessibility architecture that spans the entire product ecosystem."
+        </div>
+      </div>
+    </div></div>
+  </div>
+
+  <div class="exp">
+    <div class="exp-head" onclick="this.parentElement.classList.toggle('open')">
+      <span style="color:var(--gold);font-weight:700;flex-shrink:0">Q4.</span>
+      <h3>"Walk me through how you'd approach your first 90 days as our Principal UX Architect."</h3>
+      <div class="exp-tog">▼</div>
+    </div>
+    <div class="exp-body"><div class="exp-inner">
+      <div class="ans">
+        <div class="ans-label good">✅ MODEL ANSWER</div>
+        <div class="ans-body">
+          "<strong>Days 1-30: Listen and Assess.</strong> I'd spend the first month in diagnostic mode. I'd audit the current UX architecture maturity — map the existing design system (if any), review the component landscape across products, understand the tech stack, interview stakeholders (product, engineering, design leads), and assess accessibility compliance. I'd run heuristic evaluations on 3-5 key product surfaces. I'd map the organizational structure — who makes UX decisions today, where are the gaps, what are the pain points. My deliverable at Day 30 would be a 'UX Architecture Assessment' — a clear picture of the current state, scored against a maturity model.<br><br>
+          <strong>Days 31-60: Define and Align.</strong> Based on the assessment, I'd draft a UX Architecture Vision document — our architectural principles, the target-state token and component architecture, the governance model I'd recommend, the accessibility strategy, and a phased roadmap. Critically, I'd validate this with engineering leadership — the architecture only works if engineering buys in. I'd present to leadership, incorporate feedback, and get alignment on the first phase.<br><br>
+          <strong>Days 61-90: First Wins.</strong> Start executing the first phase — likely the token foundation or a high-impact component migration. I'd aim for a visible quick win: one product surface migrated to the new system, with measurable improvement in consistency or development speed. Simultaneously, I'd establish the governance rituals — design architecture reviews, contribution workflow, documentation standards. At Day 90, I'd present results and the updated roadmap to leadership."
+        </div>
+      </div>
+      <div class="voice sd">
+        <div class="voice-who"><div class="avatar" style="background:var(--bls)">👤</div><div class="name">Senior Director</div><div class="role">— What makes this excellent</div></div>
+        <div class="voice-body">"He leads with listening, not solutioning. He has a structured framework. He recognizes engineering buy-in is essential. He aims for quick wins to build credibility. And he delivers tangible artifacts at each milestone. <strong>This is someone who's done organizational entry before</strong> — he knows the political landscape matters as much as the technical one."</div>
+      </div>
+    </div></div>
+  </div>
+</section>
+
+<!-- ============ STRATEGY QUESTIONS ============ -->
+<section class="sec" id="strategy-q">
+  <div class="sh"><span class="sn">06</span><h2>Strategy & Leadership Questions</h2></div>
+
+  <div class="exp">
+    <div class="exp-head" onclick="this.parentElement.classList.toggle('open')">
+      <span style="color:var(--gold);font-weight:700;flex-shrink:0">Q5.</span>
+      <h3>"How do you justify the ROI of a design system investment to a CFO?"</h3>
+      <div class="exp-tog">▼</div>
+    </div>
+    <div class="exp-body"><div class="exp-inner">
+      <div class="ans">
+        <div class="ans-label good">✅ MODEL ANSWER — Use your Duke PM training here</div>
+        <div class="ans-body">
+          "I'd frame it around four measurable business outcomes, not design benefits:<br><br>
+          <strong>1. Development Velocity.</strong> At Providence, our component library reduced front-end development time by 30%. If you have 50 engineers at ₹25L average cost, a 30% efficiency gain on front-end work (roughly 40% of total effort) translates to approximately ₹3.75Cr annually in recovered engineering capacity. That's capacity that ships features instead of rebuilding buttons.<br><br>
+          <strong>2. Quality & Rework Reduction.</strong> Before the system, we had design-engineering alignment issues causing 15-20% rework. Post-system, design specs are the component specs — the handoff friction disappeared. That's a direct reduction in rework cost and sprint velocity waste.<br><br>
+          <strong>3. Brand & Compliance Risk.</strong> Inconsistent UI creates regulatory risk in healthcare (HIPAA, WCAG). Every accessibility lawsuit or compliance failure has a real cost. The design system reduces this risk to near-zero for compliant products, because compliance is built into the tokens and components.<br><br>
+          <strong>4. Time-to-Market.</strong> With reusable patterns, new product surfaces launch faster. At Providence, our design system meant new product teams could ship their first interface in weeks rather than months because they composed from existing patterns rather than designing from scratch.<br><br>
+          I'd present this as a simple model: Investment (team + tooling + initial build) vs. Annual Returns (velocity gain + rework reduction + risk reduction + speed-to-market). In my experience, enterprise design systems typically show 3-5x ROI within the first 18 months."
+        </div>
+      </div>
+    </div></div>
+  </div>
+
+  <div class="exp">
+    <div class="exp-head" onclick="this.parentElement.classList.toggle('open')">
+      <span style="color:var(--gold);font-weight:700;flex-shrink:0">Q6.</span>
+      <h3>"Tell me about a time your architecture decision was wrong."</h3>
+      <div class="exp-tog">▼</div>
+    </div>
+    <div class="exp-body"><div class="exp-inner">
+      <div class="voice vp">
+        <div class="voice-who"><div class="avatar" style="background:var(--gs)">👤</div><div class="name">VP</div><div class="role">— This is a character question disguised as a technical one</div></div>
+        <div class="voice-body">"I'm testing self-awareness, intellectual honesty, and learning agility. Candidates who say 'I can't think of one' are immediately flagged. Everyone has made mistakes. The best architects learn from them openly."</div>
+      </div>
+      <h4>STAR-A Framework for Answering Behavioral Questions</h4>
+      <ul>
+        <li><strong>S</strong>ituation — Set the context (company, team, product, constraint)</li>
+        <li><strong>T</strong>ask — What was your specific role and responsibility</li>
+        <li><strong>A</strong>ction — What did you decide/do (use "I" not "we")</li>
+        <li><strong>R</strong>esult — What happened, including the failure</li>
+        <li><strong>A</strong>rchitecture Insight — What did you learn that changed your architectural thinking going forward</li>
+      </ul>
+      <p style="margin-top:12px"><strong>Prepare 8-10 STAR-A stories from your career.</strong> You'll reuse them across multiple questions. Map them to themes: failure, conflict, leadership, innovation, trade-offs, scale, research, accessibility.</p>
+    </div></div>
+  </div>
+</section>
+
+<!-- ============ BEHAVIORAL ============ -->
+<section class="sec" id="behavioral-q">
+  <div class="sh"><span class="sn">07</span><h2>Behavioral Questions — STAR-A Story Bank</h2></div>
+  <p>Prepare these 8 stories. They'll cover 90% of behavioral questions through recombination.</p>
+
+  <div class="tw"><table>
+    <thead><tr><th>#</th><th>Story</th><th>Source</th><th>Covers These Questions</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>Building the enterprise design system and getting 10+ teams to adopt it</td><td>Providence — Principal</td><td>Leadership, influence without authority, scaling, governance</td></tr>
+      <tr><td>2</td><td>Trusana 25% conversion improvement through UX redesign</td><td>Providence — Lead</td><td>Business impact, research-driven decisions, metrics orientation</td></tr>
+      <tr><td>3</td><td>ATS modernization reducing task time by 35%</td><td>Providence — Principal</td><td>Enterprise transformation, simplification, full-stack thinking</td></tr>
+      <tr><td>4</td><td>Integrating AI tools into the design workflow (Figma Make, Claude, Google Stitch)</td><td>Providence — Principal</td><td>Innovation, change management, tool evaluation, team adoption</td></tr>
+      <tr><td>5</td><td>WCAG 2.2 AA organization-wide accessibility initiative</td><td>Providence + WinWire</td><td>Compliance, systems thinking, culture change, training</td></tr>
+      <tr><td>6</td><td>Winning Executive Excellence Awards while handling conflict with engineering on UX standards</td><td>WinWire</td><td>Conflict resolution, cross-functional, recognition through impact</td></tr>
+      <tr><td>7</td><td>Material Design standardization across 25+ products at Gramener</td><td>Gramener</td><td>Scale, standardization, component library, visual consistency</td></tr>
+      <tr><td>8</td><td>Startup experience — building hotel platform selected for T-Hub and Startup India</td><td>Sync Apps</td><td>Entrepreneurship, full-stack ownership, 0-to-1, resourcefulness</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ============ AI QUESTIONS ============ -->
+<section class="sec" id="ai-q">
+  <div class="sh"><span class="sn">08</span><h2>AI & Emerging Tech Questions</h2></div>
+  <p>This is your secret weapon — you have real AI integration experience, not just theoretical knowledge.</p>
+
+  <div class="exp">
+    <div class="exp-head" onclick="this.parentElement.classList.toggle('open')">
+      <span style="color:var(--gold);font-weight:700;flex-shrink:0">Q7.</span>
+      <h3>"How do you architect UX for AI-powered features where outputs are non-deterministic?"</h3>
+      <div class="exp-tog">▼</div>
+    </div>
+    <div class="exp-body"><div class="exp-inner">
+      <div class="ans">
+        <div class="ans-label good">✅ MODEL ANSWER</div>
+        <div class="ans-body">
+          "Non-deterministic AI outputs require a fundamentally different UX architecture than traditional CRUD interfaces. I'd architect around five patterns:<br><br>
+          <strong>1. Confidence Architecture.</strong> Every AI output needs a confidence indicator — not necessarily shown to the user, but available in the component API. The interface adapts based on confidence: high-confidence outputs can be presented directly, low-confidence outputs trigger human review or present alternatives. This is an architectural decision, not a UI decision.<br><br>
+          <strong>2. Explanation Layer.</strong> An architectural layer that connects AI outputs to their reasoning. In healthcare at Providence, this is critical — a clinician needs to understand WHY the system recommends something. I'd architect an explanation component that's reusable across every AI-powered feature, with progressive disclosure: summary → detail → evidence.<br><br>
+          <strong>3. Human Override Architecture.</strong> Every AI decision point needs a clear override mechanism. The architecture must ensure that human overrides are: easy to execute, logged for audit, and fed back into model improvement. This is especially critical in regulated industries.<br><br>
+          <strong>4. Graceful Degradation.</strong> When the AI service is unavailable or slow, the interface must degrade gracefully — not show an error, but fall back to manual workflows. This needs to be architected at the system level so every AI-powered feature has a pre-defined fallback state.<br><br>
+          <strong>5. Feedback Loop Architecture.</strong> A systematic way for users to correct AI outputs, which feeds back into model training. This is an architectural pattern that spans the design system (feedback components), the data pipeline, and the model training cycle.<br><br>
+          From my experience integrating AI at Providence — even at the design tool level with Figma Make and Claude — the key insight is that <strong>AI features require more UX architecture, not less</strong>, because you're designing for uncertainty rather than predetermined states."
+        </div>
+      </div>
+    </div></div>
+  </div>
+</section>
+
+<!-- ============ WHITEBOARD ============ -->
+<section class="sec" id="whiteboard">
+  <div class="sh"><span class="sn">09</span><h2>Whiteboard Exercise Mastery</h2></div>
+
+  <div class="voice sd">
+    <div class="voice-who"><div class="avatar" style="background:var(--bls)">👤</div><div class="name">Senior Director, UX</div><div class="role">— How we evaluate whiteboard exercises</div></div>
+    <div class="voice-body">"I'm not looking at the final diagram. I'm watching <strong>how you think</strong>. Do you ask clarifying questions before drawing? Do you structure the problem before solving it? Do you think about edge cases and constraints? Do you narrate your reasoning? The candidates who impress me most are the ones who <strong>draw a system diagram before they draw a screen.</strong>"</div>
+  </div>
+
+  <h3>The 6-Step Whiteboard Protocol</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Step</th><th>Time</th><th>What to Do</th><th>What to Say</th></tr></thead>
+    <tbody>
+      <tr><td style="color:var(--gold)">1. Clarify</td><td>3-5 min</td><td>Ask questions about users, constraints, scale, platforms, success metrics</td><td>"Before I start, let me make sure I understand the constraints..."</td></tr>
+      <tr><td style="color:var(--blu)">2. Frame</td><td>2-3 min</td><td>Restate the problem in your own words. Define scope boundaries</td><td>"So the core challenge is [X]. I'm going to scope this to [Y] and set aside [Z] for now. Does that align?"</td></tr>
+      <tr><td style="color:var(--tl)">3. Structure</td><td>5-7 min</td><td>Draw the system-level architecture first — layers, relationships, data flow</td><td>"Let me start at the architecture level before going into any specific screens..."</td></tr>
+      <tr><td style="color:var(--pr)">4. Detail</td><td>10-15 min</td><td>Drill into 2-3 key areas — component architecture, interaction patterns, user flows</td><td>"The most architecturally interesting part is [X], so let me go deeper there..."</td></tr>
+      <tr><td style="color:var(--am)">5. Edge Cases</td><td>3-5 min</td><td>Proactively address accessibility, error states, performance, mobile</td><td>"A few architectural considerations I'd want to address: accessibility, performance budget, and the error state architecture..."</td></tr>
+      <tr><td style="color:var(--grn)">6. Summarize</td><td>2-3 min</td><td>Recap your architecture decisions and trade-offs. State what you'd validate with research</td><td>"To summarize my architectural approach: [X]. The key trade-off was [Y]. I'd validate [Z] through usability testing."</td></tr>
+    </tbody>
+  </table></div>
+
+  <h4>Critical Rule: Draw Systems, Not Screens</h4>
+  <p>Your first marks on the whiteboard should be boxes and arrows showing architectural relationships — NOT wireframes. Start with: Users → Platform → Architecture Layers → Component Model → Data Flow. Only draw UI when specifically asked or when illustrating an interaction pattern.</p>
+</section>
+
+<!-- ============ CASE PRESENTATION ============ -->
+<section class="sec" id="case-pres">
+  <div class="sh"><span class="sn">10</span><h2>Case Study Presentation Guide</h2></div>
+
+  <div class="voice vp">
+    <div class="voice-who"><div class="avatar" style="background:var(--gs)">👤</div><div class="name">VP, Product Experience</div><div class="role">— How I evaluate case presentations</div></div>
+    <div class="voice-body">"I give you 45 minutes to present, then 15 minutes Q&A. Here's what earns a strong hire: <strong>(1) You start with the business problem, not the design solution.</strong> (2) You show me architecture diagrams, not just pretty screens. (3) You acknowledge what didn't work. (4) You end with metrics. <strong>What gets you rejected:</strong> A 45-minute tour of Figma screens with no architecture, no metrics, and no self-reflection."</div>
+  </div>
+
+  <h3>Recommended Case Study: Enterprise Design System at Providence</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Slide</th><th>Content</th><th>Time</th><th>What VP Is Thinking</th></tr></thead>
+    <tbody>
+      <tr><td>1-2</td><td>Title + Context: Providence, healthcare, 10+ products, the problem of fragmentation</td><td>3 min</td><td>"Does this person understand business context?"</td></tr>
+      <tr><td>3-4</td><td>Architecture Assessment: How you audited the current state, maturity scoring, gap analysis</td><td>5 min</td><td>"Can they diagnose before prescribing?"</td></tr>
+      <tr><td>5-7</td><td>Architecture Strategy: Token architecture, component model, governance framework, platform strategy</td><td>10 min</td><td>"Is this actual architecture or just a component library?"</td></tr>
+      <tr><td>8-10</td><td>Implementation: Phased rollout, team adoption, engineering collaboration, challenges faced</td><td>8 min</td><td>"Can they execute, not just plan?"</td></tr>
+      <tr><td>11-12</td><td>Accessibility Architecture: How a11y was embedded at token, component, and process levels</td><td>5 min</td><td>"Does this person embed quality or bolt it on?"</td></tr>
+      <tr><td>13-14</td><td>AI Integration: How AI tools were integrated into the design workflow</td><td>4 min</td><td>"Forward-thinking or stuck in the past?"</td></tr>
+      <tr><td>15-16</td><td>Results: 60% fewer inconsistencies, 30% faster dev, 10+ surfaces, WCAG compliance, team adoption</td><td>5 min</td><td>"Does the impact justify the investment?"</td></tr>
+      <tr><td>17</td><td>Reflections: What you'd do differently, what you learned</td><td>3 min</td><td>"Is this person self-aware and still growing?"</td></tr>
+      <tr><td>18</td><td>Q&A: "What questions do you have for me?"</td><td>15 min</td><td>"How do they handle pressure and pushback?"</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ============ QUESTIONS TO ASK ============ -->
+<section class="sec" id="ask-us">
+  <div class="sh"><span class="sn">11</span><h2>Questions to Ask Your Interviewers</h2></div>
+  <p>The questions you ask reveal your architectural thinking more than the answers you give. Here are questions that signal architect-level thinking.</p>
+
+  <div class="voice sd">
+    <div class="voice-who"><div class="avatar" style="background:var(--bls)">👤</div><div class="name">Senior Director</div><div class="role">— These questions would impress me</div></div>
+    <div class="voice-body">"When a candidate asks me about governance models, token architecture decisions, or how the design system relates to the engineering platform strategy — <strong>that's when I know they're an architect.</strong> When they ask about team size and WFH policy, I know they're not."</div>
+  </div>
+
+  <h3>Top 12 Questions (Use 3-4 Per Round)</h3>
+  <div class="tw"><table>
+    <thead><tr><th>#</th><th>Question</th><th>Why It Signals Architect Thinking</th><th>Best Round</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>"What's the current state of your design system, and what's the biggest architectural gap?"</td><td>Shows you think in systems and want to understand the real problem</td><td>Hiring Manager</td></tr>
+      <tr><td>2</td><td>"How does the UX architecture team currently relate to the engineering platform team?"</td><td>Shows you understand org dynamics are as important as technical decisions</td><td>Hiring Manager</td></tr>
+      <tr><td>3</td><td>"What's the tech stack, and how are design decisions rendered across platforms today?"</td><td>Shows technical curiosity and platform awareness</td><td>Technical Round</td></tr>
+      <tr><td>4</td><td>"How are design-engineering contracts currently defined? Is there a formal handoff spec?"</td><td>Shows you care about the seam between design and engineering</td><td>Technical Round</td></tr>
+      <tr><td>5</td><td>"What's the current accessibility maturity? Is there automated testing in CI/CD?"</td><td>Shows depth beyond surface-level a11y knowledge</td><td>Any Round</td></tr>
+      <tr><td>6</td><td>"Where does this role sit in the org? Who does the UX Architect influence vs. have authority over?"</td><td>Shows you understand the difference between influence and authority</td><td>VP Round</td></tr>
+      <tr><td>7</td><td>"What would success look like for this role in 12 months?"</td><td>Shows outcome orientation and desire for clarity</td><td>VP Round</td></tr>
+      <tr><td>8</td><td>"How do product teams currently balance innovation with system consistency?"</td><td>Shows understanding of the governance tension</td><td>Hiring Manager</td></tr>
+      <tr><td>9</td><td>"What's the biggest UX architecture decision facing the organization right now?"</td><td>Shows you want to understand the real challenge, not the job posting version</td><td>VP Round</td></tr>
+      <tr><td>10</td><td>"How is design quality currently measured across the product portfolio?"</td><td>Shows metrics orientation and systems thinking</td><td>Any Round</td></tr>
+      <tr><td>11</td><td>"Is there an AI/ML integration roadmap, and how does UX architecture factor into it?"</td><td>Shows forward-thinking and strategic alignment</td><td>VP Round</td></tr>
+      <tr><td>12</td><td>"What's the engineering team's appetite for investing in design system infrastructure?"</td><td>Shows political awareness — the #1 risk for any design system initiative</td><td>Hiring Manager</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ============ NEGOTIATION ============ -->
+<section class="sec" id="negotiation">
+  <div class="sh"><span class="sn">12</span><h2>Compensation & Negotiation</h2></div>
+
+  <h3>Principal UX Architect — Market Benchmarks (India, 2026)</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Company Type</th><th>Base (₹ LPA)</th><th>Total Comp (₹ LPA)</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>FAANG / Big Tech (India)</td><td>55-85L</td><td>80-1.2Cr</td><td>Google, Microsoft, Amazon, Meta — includes RSUs</td></tr>
+      <tr><td>Enterprise Tech (India)</td><td>45-65L</td><td>55-80L</td><td>Salesforce, Adobe, SAP, ServiceNow — strong benefits</td></tr>
+      <tr><td>Healthcare Tech</td><td>40-60L</td><td>50-70L</td><td>Providence-tier companies, Philips, GE Healthcare</td></tr>
+      <tr><td>Product Startups (Series C+)</td><td>50-75L</td><td>65-1Cr</td><td>Includes significant ESOPs</td></tr>
+      <tr><td>Global Remote (US Company)</td><td>$120-180K USD</td><td>$150-220K USD</td><td>Remote roles for US companies — highest total comp</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Negotiation Principles</h3>
+  <ul>
+    <li><strong>Never share your current salary.</strong> Instead: "I'm targeting [X] based on market data for Principal UX Architect roles in [location/company type]"</li>
+    <li><strong>Negotiate total compensation, not just base.</strong> RSUs, ESOPs, signing bonus, annual bonus, learning budget, conference budget</li>
+    <li><strong>Use your healthcare + AI + accessibility combination as leverage.</strong> This skill combination is genuinely rare — price accordingly</li>
+    <li><strong>Always negotiate.</strong> The first offer is never the best offer. A respectful counter-offer is expected at this level</li>
+    <li><strong>Get multiple offers if possible.</strong> Nothing creates leverage like a competing offer</li>
+  </ul>
+</section>
+
+<!-- ============ FINAL WEEK ============ -->
+<section class="sec" id="final-week">
+  <div class="sh"><span class="sn">13</span><h2>Final Week Before the Interview</h2></div>
+
+  <h3>7-Day Countdown Checklist</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Day</th><th>Activity</th><th>Duration</th></tr></thead>
+    <tbody>
+      <tr><td style="color:var(--gold)">Day 7</td><td>Research the company deeply — their products, design system (if public), recent news, leadership team, tech stack. Write down 5 specific observations about their UX architecture</td><td>2 hrs</td></tr>
+      <tr><td style="color:var(--gold)">Day 6</td><td>Practice "Tell Me About Yourself" 5 times. Record and review. Get under 90 seconds</td><td>1 hr</td></tr>
+      <tr><td style="color:var(--gold)">Day 5</td><td>Full case study rehearsal — present your Design System case study to someone (friend, colleague, or mirror). Time it to 45 minutes</td><td>2 hrs</td></tr>
+      <tr><td style="color:var(--blu)">Day 4</td><td>Practice top 10 architecture questions from the question bank. Record answers, review for clarity and conciseness</td><td>2 hrs</td></tr>
+      <tr><td style="color:var(--blu)">Day 3</td><td>Do one whiteboard practice session — pick any challenge, set a 30-minute timer, diagram on paper or whiteboard. Narrate out loud</td><td>1.5 hrs</td></tr>
+      <tr><td style="color:var(--tl)">Day 2</td><td>Review your 8 STAR-A stories. Practice 3 out loud. Prepare your questions for interviewers (pick 3-4 per round)</td><td>1.5 hrs</td></tr>
+      <tr><td style="color:var(--grn)">Day 1</td><td>Light review only. Re-read the 90-second narrative once. Prepare your setup (camera, lighting, quiet room if virtual). Get good sleep. You're ready</td><td>30 min</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="voice vp" style="margin-top:24px">
+    <div class="voice-who"><div class="avatar" style="background:var(--gs)">👤</div><div class="name">VP, Product Experience</div><div class="role">— Final advice</div></div>
+    <div class="voice-body">"Anurag, here's the truth: <strong>you already have the experience.</strong> 16 years, enterprise healthcare, design systems at scale, accessibility leadership, AI integration, product management education, published author, award winner. The gap isn't experience — it's framing. <strong>You need to tell your story as an architect, not a designer.</strong> Every answer should start with the system, not the screen. Every metric should connect to business impact, not design craft. Every example should demonstrate governance, not just execution. Do that, and you'll be the strongest candidate in the room."</div>
+  </div>
+</section>
+
+</div>
+
+<footer style="padding:32px 52px;text-align:center;border-top:1px solid var(--bdr);color:var(--txm);font-size:11px">
+  Principal UX Architect — Interview Masterclass &nbsp;·&nbsp; Tailored for Anurag Challapalli &nbsp;·&nbsp; Built with Claude Opus 4.6 &nbsp;·&nbsp; May 2026
+</footer>
+
+<script>
+const secs=document.querySelectorAll('.sec,.hero');
+const nls=document.querySelectorAll('.nl');
+const obs=new IntersectionObserver(e=>{e.forEach(en=>{if(en.isIntersecting){nls.forEach(l=>l.classList.remove('ac'));const t=document.querySelector(`.nl[href="#${en.target.id}"]`);if(t)t.classList.add('ac')}})},{rootMargin:'-20% 0px -70% 0px'});
+secs.forEach(s=>obs.observe(s));
+document.querySelectorAll('.nl').forEach(i=>{i.addEventListener('click',e=>{e.preventDefault();const t=document.querySelector(i.getAttribute('href'));if(t){t.scrollIntoView({behavior:'smooth',block:'start'});document.querySelector('.side').classList.remove('open')}})});
+</script>
+</body>
+</html>
