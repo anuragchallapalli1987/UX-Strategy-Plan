@@ -246,6 +246,7 @@ a:hover {
 .nav-item:hover {
   background-color: var(--bg-hover);
   color: var(--ink);
+  text-decoration: none;
 }
 
 .nav-item.active {
